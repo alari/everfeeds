@@ -1,0 +1,8 @@
+target/*
+target/stacktrace.log
+*.iml
+.idea
+.idea/*
+.settings
+.project
+.classpath
