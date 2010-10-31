@@ -8,7 +8,6 @@
 --%>
 <%@ page import='java.util.*' %>
 <%@ page import='java.net.*' %>
-<%@ page import='org.apache.thrift.*' %>
 <%@ page import='org.apache.thrift.protocol.TBinaryProtocol' %>
 <%@ page import='org.apache.thrift.transport.THttpClient' %>
 <%@ page import='com.evernote.edam.type.*' %>
@@ -26,6 +25,7 @@
   static final String requestTokenUrl = urlBase + "/oauth";
   static final String accessTokenUrl = urlBase + "/oauth";
   static final String authorizationUrlBase = urlBase + "/OAuth.action";
+
   static final String noteStoreUrlBase = urlBase + "/edam/note/"; 
   static final String callbackUrl = "index.jsp";
   static final String callbackEmbedUrl = "callback.jsp";
