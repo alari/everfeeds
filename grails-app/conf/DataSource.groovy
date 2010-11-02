@@ -1,3 +1,5 @@
+import org.codehaus.groovy.grails.orm.hibernate.cfg.GrailsAnnotationConfiguration
+
 dataSource {
     pooled = true
     driverClassName = "org.hsqldb.jdbcDriver"
@@ -23,10 +25,13 @@ environments {
             url = "jdbc:hsqldb:mem:testDb"
         }
     }
-    production {
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
-        }
+  production {
+    dataSource {
+      configClass = GrailsAnnotationConfiguration.class
+      dbCreate = "create"
+      username = "postgres"
+      url = "jdbc:postgresql://localhost/everfeeds" //:file:prodDb;shutdown=true"
+      driverClassName = "org.postgresql.Driver"
     }
+  }
 }
