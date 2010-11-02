@@ -13,7 +13,9 @@ class EvernoteService {
 
     def grailsApplication
 
-    def session = RequestContextHolder.currentRequestAttributes().getSession()
+    def getSession(){
+        return RequestContextHolder.currentRequestAttributes().getSession()
+    } 
     def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 
     List ignoreTags = ["APPLET", "BASE", "BASEFONT", "BGSOUND", "BLINK", "BUTTON", "EMBED", "FIELDSET", "FORM",
@@ -33,10 +35,7 @@ class EvernoteService {
 
     HtmlCleaner getCleaner() {
         HtmlCleaner cleaner = new HtmlCleaner()
-
         CleanerTransformations transformations = new CleanerTransformations();
-
-
 
         ignoreTags.each {transformations.addTransformation(new TagTransformation(it.toLowerCase()))}
         blockTags.each {transformations.addTransformation(new TagTransformation(it.toLowerCase(), "div", false))}
@@ -45,9 +44,8 @@ class EvernoteService {
         cleaner
     }
 
-    String adoptHtmlToEdam(String html) {
+    String adaptHtmlToEdam(String html) {
         HtmlCleaner cleaner = getCleaner()
-
 
         TagNode node = cleaner.clean(html)
         TagNode[] allNodes = node.getAllElements(true)
@@ -56,7 +54,7 @@ class EvernoteService {
                 n.removeAttribute(a)
             }
         }
-
+        // TODO: validate via DTD
         // TODO: 5.Validate href and src values to be valid URLs and protocols
 
         String xml = new BrowserCompactXmlSerializer(cleaner.getProperties()).getXmlAsString(node.children[1])
@@ -65,7 +63,7 @@ class EvernoteService {
     }
 
     String getRequestToken() {
-        if (session?.evernote?.requestToken) {
+        if (session?.evernote?.requestToken != null) {
             return session.evernote.requestToken
         }
         if (session?.evernote?.accessToken) {

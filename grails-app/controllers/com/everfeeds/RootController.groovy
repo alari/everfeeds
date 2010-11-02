@@ -9,7 +9,10 @@ class RootController {
     def evernoteService
 
     def index = {
-        if (session.evernote == null) session.evernote = [:]
+        if (session.evernote == null) {
+            session.evernote = [:]
+            log.error "session nullified"
+        } else log.error session.evernote.accessKey
 
         [oauth_url: evernoteService.getOauthUrl(action: "callback", controller: "root")]
     }
@@ -63,7 +66,7 @@ class RootController {
 
     <!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">
 
-    <en-note>""" + evernoteService.adoptHtmlToEdam(it.description.text()) + "</en-note>"
+    <en-note>""" + evernoteService.adaptHtmlToEdam(it.description.text()) + "</en-note>"
 
             render note.title
 
