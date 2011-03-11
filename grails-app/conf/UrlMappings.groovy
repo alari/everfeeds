@@ -3,7 +3,10 @@ class UrlMappings {
 	static mappings = {
 		"/$action?"(controller:"root")
         "/"(controller:"root", action:"index")
-        "/oauth/$action"(controller:"oauth")
+
+        "/$controller/$action?/$id?"{
+
+        }
 
 		"500"(view:'/error')
 	}

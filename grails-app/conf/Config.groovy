@@ -93,14 +93,5 @@ evernote {
     authUrl = 'https://sandbox.evernote.com/OAuth.action'
     consumer.key = "name_alari"
     consumer.secret = "f3ea2d71d1647525"
-}
-
-oauth {
-	evernote {
-		requestTokenUrl = 'https://sandbox.evernote.com/oauth'
-        accessTokenUrl = 'https://sandbox.evernote.com/oauth'
-        authUrl = 'https://sandbox.evernote.com/OAuth.action'
-        consumer.key = "name_alari"
-        consumer.secret = "f3ea2d71d1647525"
-	}
+    userAgent = "everfeeds.com"
 }

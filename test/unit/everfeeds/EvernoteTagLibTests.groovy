@@ -1,8 +1,8 @@
-package com.everfeeds
+package everfeeds
 
 import grails.test.*
 
-class EvernoteServiceTests extends GrailsUnitTestCase {
+class EvernoteTagLibTests extends TagLibUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

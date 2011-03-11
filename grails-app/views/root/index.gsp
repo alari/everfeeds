@@ -4,10 +4,13 @@
         <meta name="layout" content="main" />
     </head>
     <body>
-        <a href="${oauth_url}">Auth With Evernote</a>
+        <sec:ifNotLoggedIn>
+            <g:enLogin>Auth With Evernote</g:enLogin>
+        </sec:ifNotLoggedIn>
+        <sec:ifLoggedIn>
+            You are logged in as <sec:username />
+        </sec:ifLoggedIn>
     <hr/>
-    ${g.createLink(action: "callback", absolute: true)}
-    <hr/>
-    Evernote object: ${session.evernote}
+
     </body>
 </html>

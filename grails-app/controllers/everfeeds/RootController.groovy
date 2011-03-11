@@ -1,41 +1,12 @@
-package com.everfeeds
-
-import com.evernote.edam.notestore.NoteStore
-import com.evernote.edam.type.Note
-import com.evernote.edam.type.Notebook
+package everfeeds
 
 class RootController {
 
-    def evernoteService
 
     def index = {
 
-        if (session?.evernote == null) {
-            session.evernote = [:]
-            log.error "session nullified"
-        } else log.error session.evernote.accessKey
-
-        [oauth_url: evernoteService.getOauthUrl(action: "callback", controller: "root")]
     }
-
-    def callback = {
-        if (session?.evernote?.requestToken == null) {
-            redirect action: "index"
-            return
-        }
-        evernoteService.processOauthCallback(params.oauth_verifier)
-        //session.evernote.accessKey = session.oauthToken.key
-        //session.evernote.accessSecret = session.oauthToken.secret
-        log.error session.evernote
-
-        redirect action: "list"
-    }
-
-    def reset = {
-        session.evernote = [:]
-        redirect action: "index"
-    }
-
+/*
     def list = {
         if (session?.evernote?.accessToken == null) {
             redirect action: "index"
@@ -50,6 +21,11 @@ class RootController {
             resp += "+Notebook: " + ((Notebook) notebook).getName();
         }
         render resp
+
+        UserStore.Client userStore = evernoteService.getUserStore()
+        def user = userStore.getUser(session.evernote.accessToken)
+        render "<br/><br/>"
+        render user.username
     }
 
 
@@ -76,5 +52,5 @@ class RootController {
 
             evernoteService.getNoteStore().createNote(session.evernote.accessToken, note)
         }
-    }
+    }    */
 }
