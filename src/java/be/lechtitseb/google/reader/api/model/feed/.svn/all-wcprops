@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/44/trunk/src/main/java/be/lechtitseb/google/reader/api/model/feed
+END
+Label.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/2/trunk/src/main/java/be/lechtitseb/google/reader/api/model/feed/Label.java
+END
+FeedDescriptor.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/2/trunk/src/main/java/be/lechtitseb/google/reader/api/model/feed/FeedDescriptor.java
+END
+ItemDescriptor.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/44/trunk/src/main/java/be/lechtitseb/google/reader/api/model/feed/ItemDescriptor.java
+END

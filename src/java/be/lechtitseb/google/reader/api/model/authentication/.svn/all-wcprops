@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/41/trunk/src/main/java/be/lechtitseb/google/reader/api/model/authentication
+END
+ProxyCredentials.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/41/trunk/src/main/java/be/lechtitseb/google/reader/api/model/authentication/ProxyCredentials.java
+END
+BasicCredentials.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/2/trunk/src/main/java/be/lechtitseb/google/reader/api/model/authentication/BasicCredentials.java
+END
+AuthenticationManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/2/trunk/src/main/java/be/lechtitseb/google/reader/api/model/authentication/AuthenticationManager.java
+END
+GoogleCredentials.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/27/trunk/src/main/java/be/lechtitseb/google/reader/api/model/authentication/GoogleCredentials.java
+END

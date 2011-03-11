@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/2/trunk/src/main/java/be/lechtitseb/google/reader/api/model/exception
+END
+GoogleReaderException.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/2/trunk/src/main/java/be/lechtitseb/google/reader/api/model/exception/GoogleReaderException.java
+END
+AuthenticationException.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/2/trunk/src/main/java/be/lechtitseb/google/reader/api/model/exception/AuthenticationException.java
+END
