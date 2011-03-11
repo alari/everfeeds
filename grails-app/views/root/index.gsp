@@ -4,9 +4,7 @@
         <meta name="layout" content="main" />
     </head>
     <body>
-        <a href="${oauth_url}">
-          Go to EverNote auth
-        </a>
+        <a href="${oauth_url}">Auth With Evernote</a>
     <hr/>
     ${g.createLink(action: "callback", absolute: true)}
     <hr/>

@@ -9,7 +9,8 @@ class RootController {
     def evernoteService
 
     def index = {
-        if (session.evernote == null) {
+
+        if (session?.evernote == null) {
             session.evernote = [:]
             log.error "session nullified"
         } else log.error session.evernote.accessKey
@@ -22,7 +23,10 @@ class RootController {
             redirect action: "index"
             return
         }
-        evernoteService.processOauthCallback()
+        evernoteService.processOauthCallback(params.oauth_verifier)
+        //session.evernote.accessKey = session.oauthToken.key
+        //session.evernote.accessSecret = session.oauthToken.secret
+        log.error session.evernote
 
         redirect action: "list"
     }

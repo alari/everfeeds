@@ -77,13 +77,15 @@ class EvernoteService {
                 grailsApplication.config.evernote.consumer.key,
                 grailsApplication.config.evernote.consumer.secret, null);
 
+        oauthRequestor.setParameter("oauth_callback", "http://localhost:8080/everfeeds/callback")
+
         Map<String, String> reply = oauthRequestor.sendRequest();
 
         session.evernote.requestToken = reply.get("oauth_token");
         return session.evernote.requestToken
     }
 
-    void processOauthCallback() {
+    void processOauthCallback(verifier) {
         // Send an OAuth message to the Provider asking to exchange the
         // existing Request Token for an Access Token
         SimpleOAuthRequest oauthRequestor =
@@ -92,6 +94,7 @@ class EvernoteService {
                 grailsApplication.config.evernote.consumer.secret, null);
 
         oauthRequestor.setParameter("oauth_token", getRequestToken());
+        oauthRequestor.setParameter("oauth_verifier", verifier);
 
         Map<String, String> reply = oauthRequestor.sendRequest();
 

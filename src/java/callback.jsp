@@ -1,3 +1,9 @@
+<%
+	String verifier = request.getParameter("oauth_verifier");
+	if (verifier != null) {
+		session.setAttribute("verifier", verifier);
+	}
+%>
 <html>
   <head>
     <title>EDAM Web Test OAuth Callback</title>
