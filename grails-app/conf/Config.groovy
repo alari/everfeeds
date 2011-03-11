@@ -95,3 +95,9 @@ evernote {
     consumer.secret = "f3ea2d71d1647525"
     userAgent = "everfeeds.com"
 }
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.everfeeds.Account'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.everfeeds.AccountRole'
+grails.plugins.springsecurity.authority.className = 'com.everfeeds.Role'
+grails.plugins.springsecurity.requestMap.className = 'com.everfeeds.AccountRole'
+grails.plugins.springsecurity.securityConfigType = 'Requestmap'

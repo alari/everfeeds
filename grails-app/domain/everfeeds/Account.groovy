@@ -25,4 +25,8 @@ class Account {
 	Set<Role> getAuthorities() {
 		AccountRole.findAllByAccount(this).collect { it.role } as Set
 	}
+
+    String toString(){
+        username
+    }
 }
