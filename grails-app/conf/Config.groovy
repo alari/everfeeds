@@ -86,6 +86,13 @@ log4j = {
     warn 'org.mortbay.log'
 }
 
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'everfeeds.Account'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'everfeeds.AccountRole'
+grails.plugins.springsecurity.authority.className = 'everfeeds.Role'
+grails.plugins.springsecurity.requestMap.className = 'everfeeds.AccountRole'
+grails.plugins.springsecurity.securityConfigType = 'Requestmap'
+
 evernote {
     host = "sandbox.evernote.com"
     requestTokenUrl = 'https://sandbox.evernote.com/oauth'
@@ -95,9 +102,11 @@ evernote {
     consumer.secret = "f3ea2d71d1647525"
     userAgent = "everfeeds.com"
 }
-// Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.everfeeds.Account'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.everfeeds.AccountRole'
-grails.plugins.springsecurity.authority.className = 'com.everfeeds.Role'
-grails.plugins.springsecurity.requestMap.className = 'com.everfeeds.AccountRole'
-grails.plugins.springsecurity.securityConfigType = 'Requestmap'
+google {
+    requestTokenUrl = "https://www.google.com/accounts/OAuthGetRequestToken"
+    accessTokenUrl = "https://www.google.com/accounts/OAuthGetAccessToken"
+    authUrl = "https://www.google.com/accounts/OAuthAuthorizeToken"
+    scope = "http://www.google.com/reader/api/*%20http://www.google.com/reader/atom/*"
+    consumer.key = "everfeeds.com"
+    consumer.secret = "mucd4gqA1yLtrY6eMzZo3IYe"
+}
