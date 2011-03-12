@@ -1,14 +1,20 @@
 package everfeeds
 
-import com.evernote.oauth.consumer.SimpleOAuthRequest
 import org.springframework.web.context.request.RequestContextHolder
+
+import com.evernote.edam.userstore.UserStore
+import org.apache.thrift.protocol.TBinaryProtocol
+import org.apache.thrift.transport.THttpClient
+import com.evernote.edam.type.User
 
 class EvernoteAuthService {
 
     static transactional = true
 
     def grailsApplication
+
     def springSecurityService
+    def evernoteService
 
     def getSession() {
         return RequestContextHolder.currentRequestAttributes().getSession()
@@ -16,64 +22,32 @@ class EvernoteAuthService {
 
     def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 
-    String getRequestToken() {
-        if (session?.evernoteRequest) {
-            return session.evernoteRequest
-        }
-
-        // Send an OAuth message to the Provider asking for a new Request
-        // Token because we don't have access to the current user's account.
-        SimpleOAuthRequest oauthRequestor =
-        new SimpleOAuthRequest(grailsApplication.config.evernote.requestTokenUrl,
-                grailsApplication.config.evernote.consumer.key,
-                grailsApplication.config.evernote.consumer.secret, null);
-
-        oauthRequestor.setParameter("oauth_callback",
-                g.createLink(controller:"evernoteAuth", action: "callback", absolute: true) as String)
-
-        Map<String, String> reply = oauthRequestor.sendRequest();
-
-        session.evernoteRequest = reply.get("oauth_token");
-        return session.evernoteRequest
+    String getAuthUrl() {
+        session.evernote = new OAuthSession(grailsApplication.config.evernote)
+        session.evernote.provider.setRequestHeader("User-Agent", grailsApplication.config.evernote.userAgent)
+        session.evernote.getAuthUrl(controller:"access", action: "evernoteCallback")
     }
 
-    Evernote processOauthCallback(verifier) {
-        // Send an OAuth message to the Provider asking to exchange the
-        // existing Request Token for an Access Token
-        SimpleOAuthRequest oauthRequestor =
-        new SimpleOAuthRequest(grailsApplication.config.evernote.requestTokenUrl,
-                grailsApplication.config.evernote.consumer.key,
-                grailsApplication.config.evernote.consumer.secret, null);
+    Access processCallback(String verifier) {
+        if (!session.evernote) return null
 
-        oauthRequestor.setParameter("oauth_token", getRequestToken());
-        oauthRequestor.setParameter("oauth_verifier", verifier);
+        session.evernote.verify(verifier)
+        String accessToken = session.evernote.token;
+        session.evernote = null
 
-        Map<String, String> reply = oauthRequestor.sendRequest();
+        // Getting UserStore
+        THttpClient userStoreTrans = new THttpClient("https://" + grailsApplication.config.evernote.host + "/edam/user");
+        userStoreTrans.setCustomHeader("User-Agent", grailsApplication.config.evernote.userAgent);
+        TBinaryProtocol userStoreProt = new TBinaryProtocol(userStoreTrans);
+        UserStore.Client userStore = new UserStore.Client(userStoreProt, userStoreProt);
 
-        session.evernoteRequest = null
+        // Finding access by username
+        User user = userStore.getUser(accessToken)
 
-        new Evernote(reply.get("oauth_token"), reply.get("edam_shard"))
-    }
-
-    Account createAccount(Evernote evernote) {
-
-        Account account = new Account(
-                username: "en:" + evernote.user.username,
-                password: springSecurityService.encodePassword(evernote.user.username + new Random().nextInt().toString()),
-
-                evernoteUser: evernote.user.username,
-                evernoteToken: evernote.token,
-                evernoteShard: evernote.shard,
-
-                enabled: true,
-                passwordExpired: false,
-                accountExpired: false,
-                accountLocked: false
-        ).save()
-
-        Role role = Role.findByAuthority("EVERNOTE") ?: new Role(authority: "EVERNOTE").save()
-        AccountRole.create account, role
-
-        account.save(flush: true)
+        Access.findByIdentity( Access.TYPE_EVERNOTE + ":" + user.username ) ?: new Access(
+                identity: Access.TYPE_EVERNOTE + ":" + user.username,
+                type: Access.TYPE_EVERNOTE,
+                token: accessToken,
+                shard: user.shardId).save(flush: true)
     }
 }

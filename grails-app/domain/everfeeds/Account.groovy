@@ -9,9 +9,7 @@ class Account {
 	boolean accountLocked
 	boolean passwordExpired
 
-    String evernoteUser
-    String evernoteToken
-    String evernoteShard
+    static hasMany = [accesses:Access]
 
 	static constraints = {
 		username blank: false, unique: true

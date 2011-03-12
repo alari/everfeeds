@@ -2,7 +2,7 @@ package everfeeds
 
 import grails.test.*
 
-class GoogleAuthServiceTests extends GrailsUnitTestCase {
+class AccessTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

@@ -10,6 +10,8 @@
         <sec:ifLoggedIn>
             You are logged in as <sec:username />
         </sec:ifLoggedIn>
+
+        <br/><br/>
     <g:gLogin>Auth With Google</g:gLogin>
     <hr/>
 
