@@ -14,6 +14,7 @@ class Access {
     Account account
 
     static belongsTo = Account
+    static hasMany = [feeds:Feed]
 
     static constraints = {
         identity unique: true
