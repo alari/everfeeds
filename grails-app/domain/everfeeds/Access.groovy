@@ -11,6 +11,8 @@ class Access {
     String secret
     String shard
 
+    boolean expired = false
+
     Account account
 
     static belongsTo = Account

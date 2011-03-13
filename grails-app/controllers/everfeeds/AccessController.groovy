@@ -36,6 +36,8 @@ class AccessController {
 
         setLoggedAccountAccess(access)
         service.setAccountRole access.account
+        access.expired = false
+        access.save()
 
         flash.message = "You're logged in"
         redirect controller: "root"
