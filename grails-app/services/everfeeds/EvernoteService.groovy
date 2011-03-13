@@ -1,12 +1,7 @@
 package everfeeds
 
-import com.evernote.edam.notestore.NoteStore
-import com.evernote.oauth.consumer.SimpleOAuthRequest
-import org.apache.thrift.protocol.TBinaryProtocol
-import org.apache.thrift.transport.THttpClient
 import org.springframework.web.context.request.RequestContextHolder
 import org.htmlcleaner.*
-import com.evernote.edam.userstore.UserStore
 
 class EvernoteService {
 
@@ -14,9 +9,10 @@ class EvernoteService {
 
     def grailsApplication
 
-    def getSession(){
+    def getSession() {
         return RequestContextHolder.currentRequestAttributes().getSession()
-    } 
+    }
+
     def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 
     List ignoreTags = ["APPLET", "BASE", "BASEFONT", "BGSOUND", "BLINK", "BUTTON", "EMBED", "FIELDSET", "FORM",

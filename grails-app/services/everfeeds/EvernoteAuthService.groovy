@@ -1,11 +1,10 @@
 package everfeeds
 
-import org.springframework.web.context.request.RequestContextHolder
-
+import com.evernote.edam.type.User
 import com.evernote.edam.userstore.UserStore
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
-import com.evernote.edam.type.User
+import org.springframework.web.context.request.RequestContextHolder
 
 class EvernoteAuthService {
 
@@ -25,7 +24,7 @@ class EvernoteAuthService {
     String getAuthUrl() {
         session.evernote = new OAuthSession(grailsApplication.config.evernote)
         session.evernote.provider.setRequestHeader("User-Agent", grailsApplication.config.evernote.userAgent)
-        session.evernote.getAuthUrl(controller:"access", action: "evernoteCallback")
+        session.evernote.getAuthUrl(controller: "access", action: "evernoteCallback")
     }
 
     Access processCallback(String verifier) {
@@ -44,10 +43,14 @@ class EvernoteAuthService {
         // Finding access by username
         User user = userStore.getUser(accessToken)
 
-        Access.findByIdentity( Access.TYPE_EVERNOTE + ":" + user.username ) ?: new Access(
+        Access.findByIdentity(Access.TYPE_EVERNOTE + ":" + user.username) ?: new Access(
                 identity: Access.TYPE_EVERNOTE + ":" + user.username,
                 type: Access.TYPE_EVERNOTE,
                 token: accessToken,
                 shard: user.shardId).save(flush: true)
+    }
+
+    def setAccountRole(Account account) {
+        AccountRole.create account, Role.findByAuthority("EVERNOTE") ?: new Role(authority: "EVERNOTE").save()
     }
 }

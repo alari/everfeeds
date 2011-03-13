@@ -4,12 +4,15 @@
         <meta name="layout" content="main" />
     </head>
     <body>
-        <sec:ifNotLoggedIn>
-            <g:enLogin>Auth With Evernote</g:enLogin>
-        </sec:ifNotLoggedIn>
-        <sec:ifLoggedIn>
-            You are logged in as <sec:username />
+
+    <sec:ifLoggedIn>
+            <h1>You are logged in as <sec:username /></h1>
         </sec:ifLoggedIn>
+    <g:if test="${flash.message}">
+        <h2>${flash.message}</h2>
+    </g:if>
+
+            <g:enLogin>Auth With Evernote</g:enLogin>
 
         <br/><br/>
     <g:gLogin>Auth With Google</g:gLogin>
