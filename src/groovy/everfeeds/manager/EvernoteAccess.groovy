@@ -8,6 +8,7 @@ import com.evernote.edam.userstore.UserStore
 import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 import com.evernote.edam.type.User
+import com.evernote.edam.type.Notebook
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -31,9 +32,13 @@ class EvernoteAccess extends AAccess {
     List<CategoryEnvelop> getCategories(){
         List<CategoryEnvelop> categories = []
 
-        // TODO: listNotebooks will return nothing when access token is expired
-        noteStore.listNotebooks(access.token).each{
-            categories.add new CategoryEnvelop(identity: it.guid, title: it.name, original: it)
+        try {
+            noteStore.listNotebooks(access.token).each{
+                categories.add new CategoryEnvelop(identity: it.guid, title: it.name, original: it)
+            }
+        } catch(e){
+            access.expired = true
+            access.save(flush: true)
         }
         categories
     }
@@ -41,9 +46,13 @@ class EvernoteAccess extends AAccess {
     List<TagEnvelop> getTags(){
         List<TagEnvelop> tags = []
 
-        // TODO: expire access when listTags returns nothing
-        noteStore.listTags(access.token).each{
-            tags.add new TagEnvelop(identity: it.guid, title: it.name, original: it)
+        try {
+            noteStore.listTags(access.token).each{
+                tags.add new TagEnvelop(identity: it.guid, title: it.name, original: it)
+            }
+        } catch(e){
+            access.expired = true
+            access.save(flush: true)
         }
 
         tags

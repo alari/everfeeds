@@ -36,12 +36,14 @@ class GreaderAuthService {
             return null
         }
 
-        Access.findByIdentity(Access.TYPE_GREADER + ":" + email) ?: new Access(
-                identity: Access.TYPE_GREADER + ":" + email,
-                type: Access.TYPE_GREADER,
-                token: accessToken,
-                secret: tokenSecret
-        ).save()
+        Access access = Access.findByIdentity(Access.TYPE_GREADER + ":" + email)
+        if(!access) {
+            access = new Access(identity: Access.TYPE_GREADER + ":" + email, type: Access.TYPE_GREADER)
+        }
+
+        access.token = accessToken
+        access.secret = tokenSecret
+        access.save()
     }
 
     def setAccountRole(Account account) {

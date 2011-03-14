@@ -43,7 +43,7 @@ class GreaderAccess extends AAccess {
         List<TagEnvelop> tags = []
 
         apiGet(_TAG_LIST_URL)?.tags?.each{
-            tags.add new TagEnvelop(identity: it.id, title: it.id, original: it)
+            tags.add new TagEnvelop(identity: it.id, title: it.id.substring(it.id.lastIndexOf("/")+1), original: it)
         }
 
         tags
