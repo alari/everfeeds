@@ -3,6 +3,7 @@ package everfeeds.manager
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 import everfeeds.Access
 import everfeeds.OAuthSession
+import grails.converters.deep.JSON
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -32,9 +33,9 @@ class GreaderAccess extends AAccess {
         OAuthSession s = new OAuthSession(config);
         s.consumer.setTokenWithSecret(access.token, access.secret)
         [
-                s.apiGet(_SUBSCRIPTION_LIST_URL+"?"),
+               JSON.parse( s.apiGet(_SUBSCRIPTION_LIST_URL+"?output=json") ),
                 s.apiGet(config.emailUrl),
-                s.apiGet(_TAG_LIST_URL)
+                s.apiGet(_TAG_LIST_URL+"?output=json")
         ]
     }
 
