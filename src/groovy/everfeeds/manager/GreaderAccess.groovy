@@ -29,17 +29,24 @@ class GreaderAccess extends AAccess {
         this.access = access
     }
 
-    def getCategories(){
-        OAuthSession s = new OAuthSession(config);
-        s.consumer.setTokenWithSecret(access.token, access.secret)
-        [
-               JSON.parse( s.apiGet(_SUBSCRIPTION_LIST_URL+"?output=json") ),
-                s.apiGet(config.emailUrl),
-                s.apiGet(_TAG_LIST_URL+"?output=json")
-        ]
+    List<CategoryEnvelop> getCategories(){
+        List<CategoryEnvelop> categories = []
+
+        apiGet(_SUBSCRIPTION_LIST_URL)?.subscriptions?.each{
+            categories.add new CategoryEnvelop(identity: it.id, title: it.title, original: it)
+        }
+
+        categories
     }
 
-    def getTags(){
+    List<TagEnvelop> getTags(){
+        List<TagEnvelop> tags = []
+
+        apiGet(_TAG_LIST_URL)?.tags?.each{
+            tags.add new TagEnvelop(identity: it.id, title: it.id, original: it)
+        }
+
+        tags
     }
 
     def getTags(category){
@@ -54,7 +61,7 @@ class GreaderAccess extends AAccess {
     }
 
     boolean isPushable(){
-        true
+        false
     }
 
     def pull(){
@@ -65,5 +72,18 @@ class GreaderAccess extends AAccess {
 
     }
 
+    private apiGet(String url) {
+        OAuthSession s = new OAuthSession(config);
+        s.consumer.setTokenWithSecret(access.token, access.secret)
 
+        url += (url.indexOf("?")>-1 ? "&" : "?")+"output=json"
+        String result = s.apiGet(url)
+
+        if(!result) {
+            access.expired = true
+            access.save()
+            return [:]
+        }
+        JSON.parse(result)
+    }
 }

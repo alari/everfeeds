@@ -28,13 +28,25 @@ class EvernoteAccess extends AAccess {
         noteStoreUrl = "http://" + config.host + "/edam/note/" + access.shard
     }
 
-    def getCategories(){
-        //List<Notebook> -> create layer categories?
-        noteStore.listNotebooks(access.token).name
+    List<CategoryEnvelop> getCategories(){
+        List<CategoryEnvelop> categories = []
+
+        // TODO: listNotebooks will return nothing when access token is expired
+        noteStore.listNotebooks(access.token).each{
+            categories.add new CategoryEnvelop(identity: it.guid, title: it.name, original: it)
+        }
+        categories
     }
 
-    def getTags(){
-        noteStore.listTags(access.token)
+    List<TagEnvelop> getTags(){
+        List<TagEnvelop> tags = []
+
+        // TODO: expire access when listTags returns nothing
+        noteStore.listTags(access.token).each{
+            tags.add new TagEnvelop(identity: it.guid, title: it.name, original: it)
+        }
+
+        tags
     }
 
     def getTags(category){

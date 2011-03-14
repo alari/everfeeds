@@ -23,8 +23,18 @@
         <g:each in="${account.accesses}" var="access">
             <li>
                 ${access.identity}
-                <br/>
-                ${access.manager.categories.join("; ")}
+                <div>
+                <b>Categories:</b>
+                <ul>
+                    <g:each in="${access.manager.categories}" var="c"><li>${c}</li></g:each>
+                </ul>
+                </div>
+                <div>
+                <b>Tags:</b>
+                <ul>
+                    <g:each in="${access.manager.tags}" var="t"><li>${t}</li></g:each>
+                </ul>
+                </div>
             </li>
         </g:each>
         </ul>
