@@ -30,8 +30,9 @@ class AccessController {
     private processCallback(service, verifier) {
         Access access = service.processCallback(verifier)
         if(!access) {
-            flash.message = "Access denied"
+            flash.message = "Access denied for ${verifier}"
             redirect controller: "root"
+            return
         }
 
         setLoggedAccountAccess(access)

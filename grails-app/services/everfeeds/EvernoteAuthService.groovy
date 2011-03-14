@@ -28,7 +28,10 @@ class EvernoteAuthService {
     }
 
     Access processCallback(String verifier) {
-        if (!session.evernote) return null
+        if (!session.evernote) {
+            log.error "no session.evernote"
+            return null
+        }
 
         session.evernote.verify(verifier)
         String accessToken = session.evernote.token;

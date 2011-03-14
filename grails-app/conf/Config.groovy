@@ -103,10 +103,10 @@ evernote {
     userAgent = "everfeeds.com"
 }
 greader {
-    requestTokenUrl = "https://www.google.com/accounts/OAuthGetRequestToken?scope=http%3A%2F%2Fwww.google.com%2Freader%2Fapi%2F*+http%3A%2F%2Fwww.google.com%2Freader%2Fatom%2F*+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo%23email&xoauth_displayname=everfeeds.com"
+    requestTokenUrl = "https://www.google.com/accounts/OAuthGetRequestToken?scope=http%3A%2F%2Fwww.google.com%2Freader%2Fapi%2F+http%3A%2F%2Fwww.google.com%2Freader%2Fatom%2F+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo%23email&xoauth_displayname=everfeeds.com"
     accessTokenUrl = "https://www.google.com/accounts/OAuthGetAccessToken"
     authUrl = "https://www.google.com/accounts/OAuthAuthorizeToken"
-    scope = "http://www.google.com/reader/api/* http://www.google.com/reader/atom/* https://www.googleapis.com/auth/userinfo#email"
+    scope = "http://www.google.com/reader/api/ http://www.google.com/reader/atom/ https://www.googleapis.com/auth/userinfo#email"
     emailUrl = "https://www.googleapis.com/userinfo/email"
     consumer.key = "everfeeds.com"
     consumer.secret = "mucd4gqA1yLtrY6eMzZo3IYe"

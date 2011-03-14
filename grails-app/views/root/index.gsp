@@ -18,6 +18,17 @@
     <g:gLogin>Auth With Google</g:gLogin>
     <hr/>
 
+    <sec:ifLoggedIn>
+        <ul>
+        <g:each in="${account.accesses}" var="access">
+            <li>
+                ${access.identity}
+                <br/>
+                ${access.manager.categories.join("; ")}
+            </li>
+        </g:each>
+        </ul>
+    </sec:ifLoggedIn>
 
     </body>
 </html>

@@ -4,8 +4,10 @@ class RootController {
 
 
     def index = {
-
+        [account:authenticatedUser]
     }
+
+
 /*
     def list = {
         if (session?.evernote?.accessToken == null) {
