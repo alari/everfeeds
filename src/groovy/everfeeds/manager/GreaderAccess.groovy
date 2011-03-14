@@ -43,17 +43,11 @@ class GreaderAccess extends AAccess {
         List<TagEnvelop> tags = []
 
         apiGet(_TAG_LIST_URL)?.tags?.each{
+            // TODO: add localized tag names
             tags.add new TagEnvelop(identity: it.id, title: it.id.substring(it.id.lastIndexOf("/")+1), original: it)
         }
 
         tags
-    }
-
-    def getTags(category){
-    }
-
-    void sync(){
-
     }
 
     boolean isPullable(){
@@ -72,7 +66,7 @@ class GreaderAccess extends AAccess {
 
     }
 
-    private apiGet(String url) {
+    protected apiGet(String url) {
         OAuthSession s = new OAuthSession(config);
         s.consumer.setTokenWithSecret(access.token, access.secret)
 

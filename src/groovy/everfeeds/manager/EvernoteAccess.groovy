@@ -58,14 +58,6 @@ class EvernoteAccess extends AAccess {
         tags
     }
 
-    def getTags(category){
-        noteStore.listTagsByNotebook(access.token, category)
-    }
-
-    void sync(){
-
-    }
-
     boolean isPullable(){
         true
     }
@@ -81,9 +73,6 @@ class EvernoteAccess extends AAccess {
     def push(){
 
     }
-
-
-
 
     protected NoteStore.Client getNoteStore() {
         if(noteStoreClient) return noteStoreClient
