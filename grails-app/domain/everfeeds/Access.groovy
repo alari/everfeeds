@@ -28,6 +28,8 @@ class Access {
     static belongsTo = Account
     static hasMany = [feeds:Feed, tags:Tag, categories:Category]
 
+    static transients = ["manager", "accessManager"]
+
     static constraints = {
         identity unique: true
         secret nullable: true
@@ -36,7 +38,7 @@ class Access {
         lastSync nullable: true
     }
 
-    def getManager() {
+    AAccess getManager() {
         if(!accessManager) {
             accessManager = MANAGERS[type].newInstance(this)
         }

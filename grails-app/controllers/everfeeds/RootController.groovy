@@ -7,6 +7,13 @@ class RootController {
         [account:authenticatedUser]
     }
 
+    def sync = {
+        if(isLoggedIn()){
+            Access.get(params.id)?.manager?.sync()
+        }
+        redirect action:"index"
+    }
+
 
 /*
     def list = {

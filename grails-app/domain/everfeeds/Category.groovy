@@ -13,4 +13,8 @@ class Category {
 
     static constraints = {
     }
+
+    String toString(){
+        "[${identity} -> ${title}]"
+    }
 }

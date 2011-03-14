@@ -19,25 +19,41 @@
     <hr/>
 
     <sec:ifLoggedIn>
-        <ul>
-        <g:each in="${account.accesses}" var="access">
-            <li>
-                ${access.identity}
-                <div>
-                <b>Categories:</b>
-                <ul>
-                    <g:each in="${access.manager.categories}" var="c"><li>${c}</li></g:each>
-                </ul>
-                </div>
-                <div>
-                <b>Tags:</b>
-                <ul>
-                    <g:each in="${access.manager.tags}" var="t"><li>${t}</li></g:each>
-                </ul>
-                </div>
-            </li>
-        </g:each>
-        </ul>
+        <table>
+            <tr>
+                <th width="50%">Actual state</th>
+                <th>Local state</th>
+            </tr>
+            <g:each in="${account.accesses}" var="access">
+                <tr>
+                    <th colspan="2">${access.identity} (<g:link controller="root" action="sync" params="[id:access.id]">sync</g:link>)</th>
+                </tr>
+                <tr>
+                    <td colspan="2">Categories</td>
+                </tr>
+                <tr><td>
+                    <ul>
+                        <g:each in="${access.manager.categories}" var="c"><li>${c}</li></g:each>
+                    </ul>
+                </td><td>
+                    <ul>
+                        <g:each in="${access.categories}" var="c"><li>${c}</li></g:each>
+                    </ul>
+                </td></tr>
+                <tr>
+                    <td colspan="2">Tags</td>
+                </tr>
+                <tr><td>
+                    <ul>
+                        <g:each in="${access.manager.tags}" var="t"><li>${t}</li></g:each>
+                    </ul>
+                </td><td>
+                    <ul>
+                        <g:each in="${access.tags}" var="t"><li>${t}</li></g:each>
+                    </ul>
+                </td></tr>
+            </g:each>
+        </table>
     </sec:ifLoggedIn>
 
     </body>

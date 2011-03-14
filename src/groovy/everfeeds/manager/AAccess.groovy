@@ -37,7 +37,7 @@ abstract class AAccess {
 
         currentCategories.each { c->
             category = actualCategories.find{it.identity == c.identity}
-            if(!tag) {
+            if(!category) {
                 access.removeFromCategories c
                 c.delete()
             } else {
@@ -49,6 +49,9 @@ abstract class AAccess {
         actualCategories.each { c ->
             access.addToCategories new Category(identity: c.identity, title: c.title, access: access).save()
         }
+
+        access.lastSync = new Date()
+        access.save()
     }
 
     abstract public List<TagEnvelop> getTags()

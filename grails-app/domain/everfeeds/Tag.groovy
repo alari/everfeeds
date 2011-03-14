@@ -13,4 +13,8 @@ class Tag {
 
     static constraints = {
     }
+
+    String toString(){
+        "[${identity} -> ${title}]"
+    }
 }
