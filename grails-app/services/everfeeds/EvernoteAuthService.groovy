@@ -46,13 +46,14 @@ class EvernoteAuthService {
         // Finding access by username
         User user = userStore.getUser(accessToken)
 
-        Access access = Access.findByIdentity(Access.TYPE_EVERNOTE + ":" + user.username)
-        if(!access) {
-            access = new Access(identity: Access.TYPE_EVERNOTE + ":" + user.username, type: Access.TYPE_EVERNOTE)
-        }
+        Access access = Access.findByIdentity(Access.TYPE_EVERNOTE + ":" + user.username) ?: new Access(
+                identity: Access.TYPE_EVERNOTE + ":" + user.username,
+                type: Access.TYPE_EVERNOTE
+        )
 
         access.token = accessToken
         access.shard = user.shardId
+        access.expired = false
         access.save()
     }
 

@@ -36,13 +36,13 @@ class GreaderAuthService {
             return null
         }
 
-        Access access = Access.findByIdentity(Access.TYPE_GREADER + ":" + email)
-        if(!access) {
-            access = new Access(identity: Access.TYPE_GREADER + ":" + email, type: Access.TYPE_GREADER)
-        }
+        Access access = Access.findByIdentity(Access.TYPE_GREADER + ":" + email) ?: new Access(
+                identity: Access.TYPE_GREADER + ":" + email, type: Access.TYPE_GREADER
+        )
 
         access.token = accessToken
         access.secret = tokenSecret
+        access.expired = false
         access.save()
     }
 
