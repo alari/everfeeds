@@ -6,6 +6,7 @@ package everfeeds.manager
 class CategoryEnvelop {
     String identity
     String title
+
     def original
 
     String toString(){

@@ -27,4 +27,8 @@ class Account {
     String toString(){
         username
     }
+
+    Set<Feed> getFeeds(){
+        accesses.collect{it.feeds}.flatten()
+    }
 }

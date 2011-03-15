@@ -1,10 +1,37 @@
 package everfeeds
 
+import grails.plugins.springsecurity.Secured
+
 class RootController {
 
 
     def index = {
+        if(session.feed) session.feed.attach()
         [account:authenticatedUser]
+    }
+
+    @Secured('IS_AUTHENTICATED_REMEMBERED')
+    def createFeed = {
+        Access access = Access.get(params.access)
+        if(!access || access.account.id != principal.id) {
+            flash.message = "wrong data provided: ${params.access} (${access})"
+            redirect action: "index"
+            return
+        }
+        render view: "index", model: [account:authenticatedUser, _feed:[access: access]]
+    }
+
+    @Secured('IS_AUTHENTICATED_REMEMBERED')
+    def saveFeed = {
+        Access access = Access.findByAccountAndId(principal, params.access)
+        Category category = Category.findByAccessAndId(access, params.category)
+        if(!category) {
+            flash.message = "Category not found"
+            redirect action: "index"
+            return
+        }
+        access.addToFeeds new Feed(access: access, category: category).save()
+        redirect action: "index"
     }
 
     def sync = {
@@ -16,29 +43,6 @@ class RootController {
 
 
 /*
-    def list = {
-        if (session?.evernote?.accessToken == null) {
-            redirect action: "index"
-            return
-        }
-
-        String resp = ""
-
-        NoteStore.Client noteStore = evernoteService.getNoteStore()
-        List<?> notebooks = noteStore.listNotebooks(session.evernote.accessToken);
-        for (Object notebook: notebooks) {
-            resp += "+Notebook: " + ((Notebook) notebook).getName();
-        }
-        render resp
-
-        UserStore.Client userStore = evernoteService.getUserStore()
-        def user = userStore.getUser(session.evernote.accessToken)
-        render "<br/><br/>"
-        render user.username
-    }
-
-
-
     def rss = {
         String rss_url = "http://vz.ru/columns/rss.xml"
 

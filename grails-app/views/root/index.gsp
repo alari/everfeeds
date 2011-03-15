@@ -54,6 +54,25 @@
                 </td></tr>
             </g:each>
         </table>
+        <g:form action="createFeed">
+            <fieldset><legend>Create feed</legend>
+                Access: <g:select from="${account.accesses}" name="access" optionKey="id"></g:select>
+                <g:submitButton name="submit" value="Create"/>
+            </fieldset>
+        </g:form>
+        <g:if test="${_feed}">
+            <g:form action="saveFeed">
+                <fieldset>
+                    <legend>Save feed</legend>
+                    Category: <g:select from="${_feed.access.categories}" name="category" optionKey="id"></g:select>
+                    <g:submitButton name="submit" value="Save"/>
+                    <g:field type="hidden" name="access" value="${_feed.access.id}"/>
+                </fieldset>
+            </g:form>
+        </g:if>
+        <g:each in="${account.feeds}" var="feed">
+            ${feed} <br/>
+        </g:each>
     </sec:ifLoggedIn>
 
     </body>

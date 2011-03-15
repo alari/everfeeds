@@ -17,6 +17,8 @@ abstract class AAccess {
         Set<Tag> currentTags = access.tags
         Set<Category> currentCategories = access.categories
 
+        if(access.expired) return;
+
         TagEnvelop tag
         CategoryEnvelop category
 

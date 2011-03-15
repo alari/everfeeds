@@ -44,4 +44,8 @@ class Access {
         }
         accessManager
     }
+
+    String toString() {
+        "access#${identity}"
+    }
 }
