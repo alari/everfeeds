@@ -4,8 +4,8 @@ import everfeeds.manager.*
 
 class Access {
 
-    static final String TYPE_EVERNOTE = "en"
-    static final String TYPE_GREADER = "gr"
+    static final String TYPE_EVERNOTE = "evernote"
+    static final String TYPE_GREADER = "greader"
 
     static final Map MANAGERS = [
             (TYPE_EVERNOTE):EvernoteAccess,
@@ -28,7 +28,7 @@ class Access {
     static belongsTo = Account
     static hasMany = [feeds:Feed, tags:Tag, categories:Category]
 
-    static transients = ["manager", "accessManager"]
+    static transients = ["manager", "accessManager", "title"]
 
     static constraints = {
         identity unique: true
@@ -43,6 +43,10 @@ class Access {
             accessManager = MANAGERS[type].newInstance(this)
         }
         accessManager
+    }
+
+    String getTitle(){
+        identity.substring(identity.indexOf(":")+1)
     }
 
     String toString() {

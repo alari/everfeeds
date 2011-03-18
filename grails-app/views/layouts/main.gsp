@@ -10,7 +10,15 @@
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
         </div>
-        <div id="grailsLogo"><a href="http://grails.org"><img src="${resource(dir:'images',file:'grails_logo.png')}" alt="Grails" border="0" /></a></div>
+        <div id="grailsLogo"><g:link controller="root">Everfeeds.com</g:link></div>
+        <g:if test="${flash.message}">
+        <div id="message">${flash.message}</div>
+    </g:if>
+
         <g:layoutBody />
+
+    <div id="footer">
+        &copy; Everfeeds.com, 2011
+    </div>
     </body>
 </html>

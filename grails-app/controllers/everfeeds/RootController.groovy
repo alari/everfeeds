@@ -6,8 +6,10 @@ class RootController {
 
 
     def index = {
-        if(session.feed) session.feed.attach()
-        [account:authenticatedUser]
+        if(loggedIn) {
+            render view: "authIndex", model: [account: authenticatedUser]
+            return
+        }
     }
 
     @Secured('IS_AUTHENTICATED_REMEMBERED')
