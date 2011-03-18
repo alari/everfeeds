@@ -1,13 +1,14 @@
 package everfeeds
 
-class Tag {
+import everfeeds.manager.ITag
 
-    Access access
-
+class Tag implements ITag{
     String identity
     String title
 
-    static hasMany = [feeds:Feed]
+    Access access
+
+    static hasMany = [feeds: Feed]
 
     static belongsTo = Access
 

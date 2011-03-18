@@ -9,6 +9,9 @@ import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 import com.evernote.edam.type.User
 import com.evernote.edam.type.Notebook
+import com.evernote.edam.notestore.NoteFilter
+import org.jsoup.Jsoup
+import org.jsoup.safety.Whitelist
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -66,11 +69,24 @@ class EvernoteAccess extends AAccess {
         true
     }
 
-    def pull(){
-
+    public List<EntryEnvelop> pull(Map params=[:]){
+        NoteFilter filter = new NoteFilter()
+        if(params.category && params.category instanceof ICategory) {
+            ICategory category = params.category
+            filter.setNotebookGuid category.identity
+        }
+        if(params.tags && params.tags instanceof List<ITag>) {
+            List<ITag> tags = params.tags
+            filter.setTagGuids tags*.identity
+        }
+        List<EntryEnvelop> entries = []
+        noteStore.findNotes(access.token, filter, 0, 10).notes.each {
+            entries.add new EntryEnvelop(title: it.title, content: getNoteContent(it.guid), identity: it.guid, author: it.attributes.author)
+        }
+        entries
     }
 
-    def push(){
+    void push(IEntry entry){
 
     }
 
@@ -94,5 +110,9 @@ class EvernoteAccess extends AAccess {
     User getUser() {
         if(!enUser) enUser = getUserStore().getUser(access.token)
         enUser
+    }
+
+    private String getNoteContent(String guid) {
+        Jsoup.clean(noteStore.getNoteContent(access.token, guid), Whitelist.relaxed())
     }
 }

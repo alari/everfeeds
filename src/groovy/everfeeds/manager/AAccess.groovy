@@ -59,4 +59,8 @@ abstract class AAccess {
     abstract public List<TagEnvelop> getTags()
 
     abstract public List<CategoryEnvelop> getCategories()
+
+    abstract public List<EntryEnvelop> pull(Map params=[:])
+
+    abstract public void push(IEntry entry)
 }

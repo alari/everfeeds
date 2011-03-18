@@ -12,6 +12,12 @@ class RootController {
         }
     }
 
+    @Secured('IS_AUTHENTICATED_FULLY')
+    def lookAtAccess = {
+        Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
+        [access:access, entries:access.manager.pull()]
+    }
+
     @Secured('IS_AUTHENTICATED_REMEMBERED')
     def createFeed = {
         Access access = Access.get(params.access)

@@ -21,6 +21,8 @@ class GreaderAccess extends AAccess {
     private static final String _DISABLE_TAG_URL = _API_URL + "disable-tag";
     private static final String _SUBSCRIPTION_URL = _API_URL + "subscription/edit";
     private static final String _SUBSCRIPTION_LIST_URL = _API_URL + "subscription/list";
+    private static final String _CONTENT_BASE_URL = _API_URL + "stream/contents/"
+    private static final String _CONTENT_READER_LIST = _CONTENT_BASE_URL + "user/-/state/com.google/reading-list"
 
     private config = AH.application.mainContext.grailsApplication.config.greader
 
@@ -58,12 +60,31 @@ class GreaderAccess extends AAccess {
         false
     }
 
-    def pull(){
+    public List<EntryEnvelop> pull(Map params = [:]){
+        String url = ""
+        if(params.category && params.category instanceof ICategory) {
+            ICategory category = params.category
+            url = _CONTENT_BASE_URL + category.identity
+        } else {
+            url = _CONTENT_READER_LIST
+        }
 
+        // TODO: handle tags
+
+        url += "?ck="+System.currentTimeMillis()*1000
+        url += "&n=100"
+
+        List<EntryEnvelop> entries = []
+
+        apiGet(url).items.each{
+            entries.add new EntryEnvelop(title: it.title, content: it.content?.content ?: it.summary?.content?.replace("\n", "<br/>"), identity: it.id, author: it.author)
+        }
+
+        entries
     }
 
-    def push(){
-
+    void push(IEntry entry){
+        void
     }
 
     protected apiGet(String url) {

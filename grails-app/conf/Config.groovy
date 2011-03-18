@@ -92,6 +92,8 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'everfeeds.Acc
 grails.plugins.springsecurity.authority.className = 'everfeeds.Role'
 grails.plugins.springsecurity.requestMap.className = 'everfeeds.AccountRole'
 grails.plugins.springsecurity.securityConfigType = 'Requestmap'
+grails.plugins.springsecurity.failureHandler.defaultFailureUrl = '/'
+grails.plugins.springsecurity.auth.loginFormUrl = '/'
 
 evernote {
     host = "sandbox.evernote.com"

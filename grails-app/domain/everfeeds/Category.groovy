@@ -1,11 +1,13 @@
 package everfeeds
 
-class Category {
+import everfeeds.manager.ICategory
 
-    Access access
+class Category implements ICategory{
 
     String identity
     String title
+
+    Access access
 
     static hasMany = [feeds: Feed]
 

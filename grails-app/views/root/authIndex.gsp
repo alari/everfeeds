@@ -12,7 +12,7 @@
                <div style="height:500px;scroll:auto">
                    <ul>
                     <g:each in="${account.accesses}" var="access">
-                        <li><img src="${resource(dir:"images/social", file:access.type+".jpg")}" with="40" height="40" alt="${access.type}"/> (${access.title})</li>
+                        <li><g:link action="lookAtAccess" id="${access.id}"><img src="${resource(dir:"images/social", file:access.type+".jpg")}" with="40" height="40" alt="${access.type}"/> (${access.title})</g:link></li>
                     </g:each>
                    </ul>
                </div>
