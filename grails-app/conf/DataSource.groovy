@@ -28,7 +28,7 @@ environments {
   production {
     dataSource {
       configClass = GrailsAnnotationConfiguration.class
-      dbCreate = "create"
+      dbCreate = "update"
       username = "postgres"
       url = "jdbc:postgresql://localhost/everfeeds" //:file:prodDb;shutdown=true"
       driverClassName = "org.postgresql.Driver"

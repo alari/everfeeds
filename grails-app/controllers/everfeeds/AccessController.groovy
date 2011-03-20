@@ -9,7 +9,10 @@ class AccessController {
     def greaderAuthService
     def springSecurityService
 
-    def index = { }
+    def index = {
+        flash.message = "Error: somehow we got to Access::index"
+        redirect controller: "root"
+    }
 
     def greader = {
         redirect url: greaderAuthService.getAuthUrl()

@@ -61,7 +61,7 @@ class GreaderAccess extends AAccess {
     }
 
     public List<EntryEnvelop> pull(Map params = [:]){
-        String url = ""
+        String url
         if(params.category && params.category instanceof ICategory) {
             ICategory category = params.category
             url = _CONTENT_BASE_URL + category.identity
