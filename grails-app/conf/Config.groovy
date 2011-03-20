@@ -64,12 +64,18 @@ environments {
 
 // log4j configuration
 log4j = {
-    // Example of changing the log pattern for the default console
-    // appender:
-    //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+    appenders {
+        rollingFile  name:'infoLog', file:'info.log', threshold: org.apache.log4j.Level.INFO, maxFileSize:1024
+        rollingFile  name:'warnLog', file:'warn.log', threshold: org.apache.log4j.Level.WARN, maxFileSize:1024
+        rollingFile  name:'errorLog', file:'error.log', threshold: org.apache.log4j.Level.ERROR, maxFileSize:1024
+        rollingFile  name:'custom', file:'custom.log', maxFileSize:1024
+    }
+
+    root {
+        info 'infoLog','warnLog','errorLog','custom', stdout
+        error()
+        additivity = true
+    }
 
     error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
             'org.codehaus.groovy.grails.web.pages', //  GSP
