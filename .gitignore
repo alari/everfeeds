@@ -1,5 +1,7 @@
 target/*
 target/stacktrace.log
+target/**
+**.log
 *.log
 *.iml
 .idea
