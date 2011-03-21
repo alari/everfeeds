@@ -88,7 +88,7 @@ class GreaderAccess extends AAccess {
                     author: it.author,
                     tagIdentities: it.categories,
                     categoryIdentity: it.origin.streamId,
-                    sourceUrl: it.origin.htmlUrl,
+                    sourceUrl: it.alternate.find{it.type=="text/html"}?.href,
                     placedDate: new Date(((long)it.updated)*1000),
                     accessId: access.id
             )
