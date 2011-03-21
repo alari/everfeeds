@@ -71,17 +71,37 @@ class EvernoteAccess extends AAccess {
 
     public List<EntryEnvelop> pull(Map params=[:]){
         NoteFilter filter = new NoteFilter()
+        // Categories
         if(params.category && params.category instanceof ICategory) {
             ICategory category = params.category
             filter.setNotebookGuid category.identity
         }
+        // Tags
         if(params.tags && params.tags instanceof List<ITag>) {
             List<ITag> tags = params.tags
             filter.setTagGuids tags*.identity
         }
+        // Words
+        if(params.search) {
+            filter.setWords((String)params.search)
+        }
+        // Max count
+        int num = params.num ?: NUM
+
         List<EntryEnvelop> entries = []
-        noteStore.findNotes(access.token, filter, 0, 10).notes.each {
-            entries.add new EntryEnvelop(title: it.title, content: getNoteContent(it.guid), identity: it.guid, author: it.attributes.author)
+        noteStore.findNotes(access.token, filter, 0, num).notes.each {
+
+            entries.add new EntryEnvelop(
+                    title: it.title,
+                    content: getNoteContent(it.guid),
+                    identity: it.guid,
+                    author: it.attributes.author,
+                    tagIdentities: it.tagGuids,
+                    categoryIdentity: it.notebookGuid,
+                    sourceUrl: it.attributes.sourceURL,
+                    placedDate: new Date(it.created),
+                    accessId: access.id
+            )
         }
         entries
     }

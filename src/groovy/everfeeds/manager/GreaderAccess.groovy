@@ -62,6 +62,7 @@ class GreaderAccess extends AAccess {
 
     public List<EntryEnvelop> pull(Map params = [:]){
         String url
+        // Category
         if(params.category && params.category instanceof ICategory) {
             ICategory category = params.category
             url = _CONTENT_BASE_URL + category.identity
@@ -69,15 +70,28 @@ class GreaderAccess extends AAccess {
             url = _CONTENT_READER_LIST
         }
 
-        // TODO: handle tags
+        // TODO: handle tags; now it doesn't work
 
-        url += "?ck="+System.currentTimeMillis()*1000
-        url += "&n=100"
+        // Max num
+        int num = params.num ?: NUM
+
+        url += "?ck="+System.currentTimeMillis()/1000
+        url += "&n=" + num
 
         List<EntryEnvelop> entries = []
 
-        apiGet(url).items.each{
-            entries.add new EntryEnvelop(title: it.title, content: it.content?.content ?: it.summary?.content?.replace("\n", "<br/>"), identity: it.id, author: it.author)
+        apiGet(url)?.items?.each{
+            entries.add new EntryEnvelop(
+                    title: it.title,
+                    content: it.content?.content ?: it.summary?.content?.replace("\n", "<br/>"),
+                    identity: it.id,
+                    author: it.author,
+                    tagIdentities: it.categories,
+                    categoryIdentity: it.origin.streamId,
+                    sourceUrl: it.origin.htmlUrl,
+                    placedDate: new Date(((long)it.updated)*1000),
+                    accessId: access.id
+            )
         }
 
         entries

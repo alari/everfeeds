@@ -8,9 +8,9 @@ class Tag implements ITag{
 
     Access access
 
-    static hasMany = [feeds: Feed]
-
     static belongsTo = Access
+
+    static hasMany = [entries:Entry]
 
     static constraints = {
     }

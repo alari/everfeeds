@@ -8,6 +8,7 @@ class AccessController {
     def evernoteAuthService
     def greaderAuthService
     def springSecurityService
+    def syncService
 
     def index = {
         flash.message = "Error: somehow we got to Access::index"
@@ -64,6 +65,7 @@ class AccessController {
             authenticatedUser.addToAccesses access
             access.account = authenticatedUser
             access.save(flush: true)
+            syncService.addToQueue access, true
         } else {
             if(!access.account) {
                 access.account = createAccessAccount(access)
@@ -72,6 +74,7 @@ class AccessController {
             }
             // set as logged
             SCH.context.authentication = new PreAuthenticatedAuthenticationToken(access.account, access.account)
+            syncService.addToQueue access.account, true
         }
     }
 }

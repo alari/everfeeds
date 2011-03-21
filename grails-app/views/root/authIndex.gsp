@@ -20,6 +20,7 @@
             <h2>Useful tips</h2>
            <b>
            <ul>
+               <li><g:link action="mash">Take a look on mash</g:link></li>
                <li>Filter the feed and transfer it to another social service</li>
                <li>Create a mix of filtered feeds</li>
            </ul>

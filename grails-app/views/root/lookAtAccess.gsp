@@ -5,14 +5,9 @@
     </head>
     <body>
 
-    <h1>Access: ${access}</h1>
+    <h1>Access: ${access} | <small><g:link action="requestAccessPull" id="${access.id}">Request pull</g:link></small></h1>
     <g:each in="${entries}" var="entry">
-        <div>
-            <h2>${entry.title}</h2>
-            <b>Author: ${entry.author}</b>
-            <blockquote>${entry.content}</blockquote>
-        </div>
-        <hr/>
+        <g:render template="entry" model="[entry:entry]"/>
     </g:each>
 
     </body>

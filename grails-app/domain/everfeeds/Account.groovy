@@ -9,7 +9,7 @@ class Account {
 	boolean accountLocked
 	boolean passwordExpired
 
-    static hasMany = [accesses:Access]
+    static hasMany = [accesses:Access, entries:Entry]
 
 	static constraints = {
 		username blank: false, unique: true
@@ -26,9 +26,5 @@ class Account {
 
     String toString(){
         username
-    }
-
-    Set<Feed> getFeeds(){
-        accesses.collect{it.feeds}.flatten()
     }
 }

@@ -15,4 +15,13 @@ interface IEntry {
 
     String getAuthor()
     void setAuthor(String s)
+
+    String getSourceUrl()
+    void setSourceUrl(String s)
+
+    Date placedDate
+
+    List<String> getTagIdentities()
+
+    String getCategoryIdentity()
 }

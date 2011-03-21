@@ -15,8 +15,12 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-            url = "jdbc:hsqldb:mem:devDB"
+            configClass = GrailsAnnotationConfiguration.class
+            dbCreate = "create-drop"
+            username = "postgres"
+            password = "12345"
+            url = "jdbc:postgresql://localhost/everfeeds" //:file:prodDb;shutdown=true"
+            driverClassName = "org.postgresql.Driver"
         }
     }
     test {

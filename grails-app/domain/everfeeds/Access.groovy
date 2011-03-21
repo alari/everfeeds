@@ -26,7 +26,7 @@ class Access {
     Account account
 
     static belongsTo = Account
-    static hasMany = [feeds:Feed, tags:Tag, categories:Category]
+    static hasMany = [tags:Tag, categories:Category, entries:Entry]
 
     static transients = ["manager", "accessManager", "title"]
 
@@ -36,6 +36,7 @@ class Access {
         shard nullable: true
         account nullable: true
         lastSync nullable: true
+        entries sort: "placedDate"
     }
 
     AAccess getManager() {

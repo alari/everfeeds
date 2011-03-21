@@ -9,6 +9,7 @@ import everfeeds.Category
  */
 abstract class AAccess {
     protected Access access
+    static final int NUM = 10
 
     public void sync(){
         List<TagEnvelop> actualTags = tags
@@ -55,6 +56,10 @@ abstract class AAccess {
         access.lastSync = new Date()
         access.save()
     }
+
+    abstract public boolean isPullable()
+
+    abstract public boolean isPushable()
 
     abstract public List<TagEnvelop> getTags()
 

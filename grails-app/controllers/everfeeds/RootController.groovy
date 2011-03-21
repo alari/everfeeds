@@ -3,7 +3,7 @@ package everfeeds
 import grails.plugins.springsecurity.Secured
 
 class RootController {
-
+    def syncService
 
     def index = {
         if(loggedIn) {
@@ -12,41 +12,33 @@ class RootController {
         }
     }
 
-    @Secured('IS_AUTHENTICATED_FULLY')
+    @Secured('IS_AUTHENTICATED_REMEMBERED')
     def lookAtAccess = {
         Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
-        [access:access, entries:access.manager.pull()]
+        if(!access) {
+            flash.message = "Access not found"
+            redirect action: "index"
+            return;
+        }
+        [access:access, entries: Entry.findAllByAccess(access, [sort: "placedDate", order: "desc"])]
     }
 
     @Secured('IS_AUTHENTICATED_REMEMBERED')
-    def createFeed = {
-        Access access = Access.get(params.access)
-        if(!access || access.account.id != principal.id) {
-            flash.message = "wrong data provided: ${params.access} (${access})"
+    def requestAccessPull = {
+        Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
+        if(!access) {
+            flash.message = "Access not found"
             redirect action: "index"
-            return
+            return;
         }
-        render view: "index", model: [account:authenticatedUser, _feed:[access: access]]
+        //syncService.addToQueue access, true
+        sendMessage("seda:sync.pull.access", params.id)
+        redirect action: "lookAtAccess", id: params.id
     }
 
     @Secured('IS_AUTHENTICATED_REMEMBERED')
-    def saveFeed = {
-        Access access = Access.findByAccountAndId(principal, params.access)
-        Category category = Category.findByAccessAndId(access, params.category)
-        if(!category) {
-            flash.message = "Category not found"
-            redirect action: "index"
-            return
-        }
-        access.addToFeeds new Feed(access: access, category: category).save()
-        redirect action: "index"
-    }
-
-    def sync = {
-        if(isLoggedIn()){
-            Access.get(params.id)?.manager?.sync()
-        }
-        redirect action:"index"
+    def mash = {
+        [entries: Entry.findAllByAccount(authenticatedUser, [sort: "placedDate", order: "desc"])]
     }
 
 

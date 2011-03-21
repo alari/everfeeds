@@ -9,11 +9,12 @@ class Category implements ICategory{
 
     Access access
 
-    static hasMany = [feeds: Feed]
-
     static belongsTo = Access
 
+    static hasMany = [entries:Entry]
+
     static constraints = {
+        entries sort: "placedDate", order: -1
     }
 
     String toString(){
