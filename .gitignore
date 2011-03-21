@@ -1,6 +1,7 @@
 target/*
 target/stacktrace.log
 target/**
+activemq-data/**
 **.log
 *.log
 *.iml
