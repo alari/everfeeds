@@ -12,7 +12,7 @@ class RootController {
         }
     }
 
-    @Secured('IS_AUTHENTICATED_REMEMBERED')
+    @Secured('IS_AUTHENTICATED_FULLY')
     def lookAtAccess = {
         Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
         if(!access) {
@@ -36,7 +36,7 @@ class RootController {
         redirect action: "lookAtAccess", id: params.id
     }
 
-    @Secured('IS_AUTHENTICATED_REMEMBERED')
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def mash = {
         [entries: Entry.findAllByAccount(authenticatedUser, [sort: "placedDate", order: "desc"])]
     }
