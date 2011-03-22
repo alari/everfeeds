@@ -31,6 +31,7 @@
                 <ul>
                     <li><g:auth type="evernote"><img src="${resource(dir:"images/social", file:"evernote.jpg")}" with="40" height="40" alt="Evernote"/> Evernote</g:auth></li>
                     <li><g:auth type="greader"><img src="${resource(dir:"images/social", file:"greader.jpg")}" with="40" height="40" alt="Google Reader"/> Google Reader</g:auth></li>
+                    <li><g:auth type="twitter"><img src="${resource(dir:"images/social", file:"twitter.jpg")}" with="40" height="40" alt="Twitter"/> Twitter</g:auth></li>
                 </ul>
 
            <hr/>

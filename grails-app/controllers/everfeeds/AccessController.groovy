@@ -7,6 +7,7 @@ class AccessController {
 
     def evernoteAuthService
     def greaderAuthService
+    def twitterAuthService
     def springSecurityService
     def syncService
 
@@ -29,6 +30,14 @@ class AccessController {
 
     def evernoteCallback = {
         processCallback(evernoteAuthService, params.oauth_verifier)
+    }
+
+    def twitter = {
+        redirect url: twitterAuthService.getAuthUrl()
+    }
+
+    def twitterCallback = {
+        processCallback(twitterAuthService, params.oauth_verifier)
     }
 
     private processCallback(service, verifier) {

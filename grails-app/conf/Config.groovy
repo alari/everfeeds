@@ -187,3 +187,8 @@ greader {
     consumer.secret = "mucd4gqA1yLtrY6eMzZo3IYe"
     userAgent = "everfeeds.com"
 }
+twitter {
+    key = 'A5maG2S6WHvloLeFDeIw'
+    secret = '2QFVqw7L0GISHTgdB11GHcmhJo970qRmt2Tg10'
+    provider = org.scribe.builder.api.TwitterApi
+}

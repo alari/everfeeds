@@ -41,6 +41,7 @@ class SyncService {
     boolean pullAccess(id){
         log.debug "Processing pullAccess(${id})"
         Access access = Access.get(id)
+        log.debug "Access type: ${access.type}, manager class: ${access.manager.class.canonicalName}"
         access.manager.pull()?.each{
             if(Entry.countByAccessAndIdentity(access, it.identity)) return;
             it.store()

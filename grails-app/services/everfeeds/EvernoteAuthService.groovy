@@ -13,7 +13,6 @@ class EvernoteAuthService {
     def grailsApplication
 
     def springSecurityService
-    def evernoteService
 
     def getSession() {
         return RequestContextHolder.currentRequestAttributes().getSession()

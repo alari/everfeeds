@@ -6,10 +6,12 @@ class Access {
 
     static final String TYPE_EVERNOTE = "evernote"
     static final String TYPE_GREADER = "greader"
+    static final String TYPE_TWITTER = "twitter"
 
     static final Map MANAGERS = [
             (TYPE_EVERNOTE):EvernoteAccess,
-            (TYPE_GREADER): GreaderAccess
+            (TYPE_GREADER): GreaderAccess,
+            (TYPE_TWITTER): TwitterAccess
     ]
 
     String identity
@@ -41,7 +43,10 @@ class Access {
 
     AAccess getManager() {
         if(!accessManager) {
+            log.debug "Access | ${type}"
             accessManager = MANAGERS[type].newInstance(this)
+        } else {
+            log.debug "Access | ${type} already has ${accessManager.class.canonicalName}"
         }
         accessManager
     }
