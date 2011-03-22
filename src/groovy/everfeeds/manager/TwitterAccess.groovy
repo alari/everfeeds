@@ -5,6 +5,7 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 import everfeeds.Access
 import everfeeds.AuthService
 import java.text.SimpleDateFormat
+import com.twitter.Autolink
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -39,7 +40,7 @@ class TwitterAccess extends AAccess {
     }
 
     public List<EntryEnvelop> pull(Map params=[:]){
-        System.err << "Trying to pull from TwitterAccess\n"
+        // TODO: handle categories and tags somehow
         // Max count
         int num = params.num ?: NUM
 
@@ -47,10 +48,12 @@ class TwitterAccess extends AAccess {
 
         AuthService service = AH.application.mainContext.authService
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH)
+        Autolink autolink = new Autolink()
+
         service.oAuthCallJson(_FRIENDS_TIMELINE_URL+"?count=${num}", config, access.token, access.secret)?.each{
             entries.add new EntryEnvelop(
                     title: it.text,
-                    content: it,
+                    content: autolink.autoLink(it.text),
                     identity: it.id,
                     author: it.user.screen_name,
                     /*tagIdentities: it.tagGuids,*/
