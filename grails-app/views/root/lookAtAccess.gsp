@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>EverFeeds.com access: ${access}</title>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="duo" />
     </head>
     <body>
 
@@ -9,9 +9,9 @@
     <table>
         <tr>
             <td>
-                <g:each in="${entries}" var="entry">
-        <g:render template="entry" model="[entry:entry]"/>
-    </g:each>
+
+                <g:render template="entries" model="[entries:entries]"/>
+
             </td>
             <td>
                 <ul>

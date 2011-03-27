@@ -7,11 +7,13 @@ class Access {
     static final String TYPE_EVERNOTE = "evernote"
     static final String TYPE_GREADER = "greader"
     static final String TYPE_TWITTER = "twitter"
+    static final String TYPE_GMAIL = "gmail"
 
     static final Map MANAGERS = [
             (TYPE_EVERNOTE):EvernoteAccess,
             (TYPE_GREADER): GreaderAccess,
-            (TYPE_TWITTER): TwitterAccess
+            (TYPE_TWITTER): TwitterAccess,
+            (TYPE_GMAIL): GmailAccess,
     ]
 
     String identity

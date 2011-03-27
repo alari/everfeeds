@@ -48,20 +48,14 @@ class TwitterAuthService {
                 grailsApplication.config.twitter,
                 token, secret)?.screen_name
 
+        if(!screen_name) return null
+
         session.twitter = null
 
-        Access access = Access.findByIdentity(Access.TYPE_TWITTER + ":" + screen_name) ?: new Access(
-                identity: Access.TYPE_TWITTER + ":" + screen_name,
-                type: Access.TYPE_TWITTER
-        )
-
-        access.token = token
-        access.secret = secret
-        access.expired = false
-        access.save()
+        authService.getAccess(Access.TYPE_TWITTER, screen_name, token, secret)
     }
 
     def setAccountRole(Account account) {
-        AccountRole.create account, Role.findByAuthority("TWITTER") ?: new Role(authority: "TWITTER").save()
+        authService.setAccountRole account, Access.TYPE_TWITTER
     }
 }

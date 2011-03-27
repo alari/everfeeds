@@ -1,13 +1,11 @@
 <html>
     <head>
         <title>EverFeeds.com MASH</title>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="duo" />
     </head>
     <body>
 
-  <g:each in="${entries}" var="entry">
-        <g:render template="entry" model="[entry:entry]"/>
-    </g:each>
+<g:render template="entries" model="[entries:entries]"/>
 
     </body>
 </html>

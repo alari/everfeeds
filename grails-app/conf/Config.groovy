@@ -48,6 +48,8 @@ grails.logging.jul.usebridge = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
 
+grails.views.javascript.library="jquery"
+
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
@@ -176,6 +178,17 @@ evernote {
     consumer.key = "name_alari"
     consumer.secret = "f3ea2d71d1647525"
     userAgent = "everfeeds.com"
+
+    if(environment == "production") {
+        key = "name_alari"
+        secret = "f3ea2d71d1647525"
+        provider = org.scribe.builder.api.EvernoteApi
+    } else {
+        key = "name_alari"
+        secret = "f3ea2d71d1647525"
+        provider = org.scribe.builder.api.EvernoteApi.Sandbox
+    }
+
 }
 greader {
     requestTokenUrl = "https://www.google.com/accounts/OAuthGetRequestToken?scope=http%3A%2F%2Fwww.google.com%2Freader%2Fapi%2F+http%3A%2F%2Fwww.google.com%2Freader%2Fatom%2F+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo%23email&xoauth_displayname=everfeeds.com"
@@ -191,4 +204,11 @@ twitter {
     key = 'A5maG2S6WHvloLeFDeIw'
     secret = '2QFVqw7L0GISHTgdB11GHcmhJo970qRmt2Tg10'
     provider = org.scribe.builder.api.TwitterApi
+}
+gmail {
+    key = "everfeeds.com"
+    secret = "mucd4gqA1yLtrY6eMzZo3IYe"
+    scope = "https://www.googleapis.com/auth/userinfo#email https://mail.google.com/mail/feed/atom/ https://apps-apis.google.com/a/feeds/email_settings/2.0/"
+    provider = org.scribe.builder.api.GoogleApi
+    emailUrl = "https://www.googleapis.com/userinfo/email"
 }

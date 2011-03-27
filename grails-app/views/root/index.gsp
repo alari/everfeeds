@@ -1,7 +1,7 @@
-<html>
+   <html>
     <head>
         <title>EverFeeds.com</title>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="mono" />
     </head>
     <body>
 
@@ -31,6 +31,5 @@
             </td>
         </tr>
     </table>
-
     </body>
 </html>

@@ -1,15 +1,25 @@
 <html>
     <head>
         <title>EverFeeds.com private area</title>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="duo" />
     </head>
     <body>
 
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">Root</a></li>
+            <li><g:link action="mashEntries">Mash</g:link></li>
+            <g:each in="${account.accesses}" var="access">
+                <li><g:link action="accessEntries" id="${access.id}">${access}</g:link></li>
+            </g:each>
+        </ul>
+
+    <div id="tabs-1">
    <table>
        <tr>
            <td>
                <b>Available accesses</b>
-               <div style="height:500px;scroll:auto">
+               <div style="max-height:400px;scroll:auto">
                    <ul>
                     <g:each in="${account.accesses}" var="access">
                         <li><g:link action="lookAtAccess" id="${access.id}"><img src="${resource(dir:"images/social", file:access.type+".jpg")}" with="40" height="40" alt="${access.type}"/> (${access.title})</g:link></li>
@@ -38,64 +48,19 @@
            Learn how to achieve more with Everfeeds
            </td>
        </tr>
-   </table>
+   </table>     </div>  </div>
 
-    <sec:ifNotLoggedIn>
-        <table>
-            <tr>
-                <th width="50%">Actual state</th>
-                <th>Local state</th>
-            </tr>
-            <g:each in="${account.accesses}" var="access">
-                <tr>
-                    <th colspan="2">${access.identity} (<g:link controller="root" action="sync" params="[id:access.id]">sync</g:link>)</th>
-                </tr>
-                <tr>
-                    <td colspan="2">Categories</td>
-                </tr>
-                <tr><td>
-                    <ul>
-                        <g:each in="${access.manager.categories}" var="c"><li>${c}</li></g:each>
-                    </ul>
-                </td><td>
-                    <ul>
-                        <g:each in="${access.categories}" var="c"><li>${c}</li></g:each>
-                    </ul>
-                </td></tr>
-                <tr>
-                    <td colspan="2">Tags</td>
-                </tr>
-                <tr><td>
-                    <ul>
-                        <g:each in="${access.manager.tags}" var="t"><li>${t}</li></g:each>
-                    </ul>
-                </td><td>
-                    <ul>
-                        <g:each in="${access.tags}" var="t"><li>${t}</li></g:each>
-                    </ul>
-                </td></tr>
-            </g:each>
-        </table>
-        <g:form action="createFeed">
-            <fieldset><legend>Create feed</legend>
-                Access: <g:select from="${account.accesses}" name="access" optionKey="id"></g:select>
-                <g:submitButton name="submit" value="Create"/>
-            </fieldset>
-        </g:form>
-        <g:if test="${_feed}">
-            <g:form action="saveFeed">
-                <fieldset>
-                    <legend>Save feed</legend>
-                    Category: <g:select from="${_feed.access.categories}" name="category" optionKey="id"></g:select>
-                    <g:submitButton name="submit" value="Save"/>
-                    <g:field type="hidden" name="access" value="${_feed.access.id}"/>
-                </fieldset>
-            </g:form>
-        </g:if>
-        <g:each in="${account.feeds}" var="feed">
-            ${feed} <br/>
-        </g:each>
-    </sec:ifNotLoggedIn>
-
+    <jq:jquery>
+		$( "#tabs" ).tabs({
+		    collapsible: true,
+			ajaxOptions: {
+				error: function( xhr, status, index, anchor ) {
+					$( anchor.hash ).html(
+						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
+						"If this wouldn't be a demo." );
+				}
+			}
+		});
+	</jq:jquery>
     </body>
 </html>

@@ -12,6 +12,19 @@ class RootController {
         }
     }
 
+    def accessEntries = {
+        Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
+        if(!access) {
+            render code: 403
+            return
+        }
+        render template: "entries", model: [entries: Entry.findAllByAccess(access, [sort:"placedDate", order: "desc"])]
+    }
+
+    def mashEntries = {
+        render template: "entries", model: [entries: Entry.findAllByAccount(authenticatedUser, [sort:"placedDate", order: "desc"])]
+    }
+
     //@Secured('ROLE_EVERNOTE')
     def lookAtAccess = {
         Access access = Access.findByIdAndAccount(params.id, authenticatedUser)

@@ -12,13 +12,11 @@ class EvernoteAuthService {
 
     def grailsApplication
 
-    def springSecurityService
+    def authService
 
     def getSession() {
         return RequestContextHolder.currentRequestAttributes().getSession()
     }
-
-    def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 
     String getAuthUrl() {
         session.evernote = new OAuthSession(grailsApplication.config.evernote)
@@ -45,18 +43,15 @@ class EvernoteAuthService {
         // Finding access by username
         User user = userStore.getUser(accessToken)
 
-        Access access = Access.findByIdentity(Access.TYPE_EVERNOTE + ":" + user.username) ?: new Access(
-                identity: Access.TYPE_EVERNOTE + ":" + user.username,
-                type: Access.TYPE_EVERNOTE
+        authService.getAccess(
+                type: Access.TYPE_EVERNOTE,
+                screen: user.username,
+                token: accessToken,
+                shard: user.shardId
         )
-
-        access.token = accessToken
-        access.shard = user.shardId
-        access.expired = false
-        access.save()
     }
 
     def setAccountRole(Account account) {
-        AccountRole.create account, Role.findByAuthority("EVERNOTE") ?: new Role(authority: "EVERNOTE").save()
+        authService.setAccountRole account, Access.TYPE_EVERNOTE
     }
 }

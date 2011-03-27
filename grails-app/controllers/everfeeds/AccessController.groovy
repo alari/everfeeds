@@ -10,6 +10,7 @@ class AccessController {
     def twitterAuthService
     def springSecurityService
     def syncService
+    def gmailAuthService
 
     def index = {
         flash.message = "Error: somehow we got to Access::index"
@@ -38,6 +39,14 @@ class AccessController {
 
     def twitterCallback = {
         processCallback(twitterAuthService, params.oauth_verifier)
+    }
+
+    def gmail = {
+        redirect url: gmailAuthService.getAuthUrl()
+    }
+
+    def gmailCallback = {
+        processCallback(gmailAuthService, params.oauth_verifier)
     }
 
     private processCallback(service, verifier) {
