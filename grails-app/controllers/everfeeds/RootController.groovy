@@ -19,10 +19,22 @@ class RootController {
             return
         }
         render template: "entries", model: [entries: Entry.findAllByAccess(access, [sort:"placedDate", order: "desc"])]
+        render template: "sideRightCategs", model: [categories: access.categories, tags: access.tags]
+    }
+
+    def tagEntries = {
+        Tag tag = Tag.get(params.id)
+        Access access = tag?.access
+        if(!access?.account?.id == authenticatedUser.id) {
+            render code: 403
+            return
+        }
+        render template: "entries", model: [entries: Entry.findAllByTagsInList([tag], [sort:"placedDate", order: "desc"])]
     }
 
     def mashEntries = {
         render template: "entries", model: [entries: Entry.findAllByAccount(authenticatedUser, [sort:"placedDate", order: "desc"])]
+        render template: "sideRightCategs", model: "No way out"
     }
 
     //@Secured('ROLE_EVERNOTE')
