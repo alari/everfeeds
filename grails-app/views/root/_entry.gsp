@@ -1,14 +1,10 @@
-<div>
-            <h2>
-                <g:if test="${entry.sourceUrl}">
-                    <a href="${entry.sourceUrl}">${entry.title}</a>
-                </g:if>
-                <g:if test="${!entry.sourceUrl}">
-                    ${entry.title}
-                </g:if>
-            </h2>
-            <p><b>Author: ${entry.author}</b></p>
-            <p>Date: <g:formatDate date="${entry.placedDate}"/></p>
-            <blockquote>${entry.content}</blockquote>
-        </div>
-        <hr/>
+<%@ page import="everfeeds.Access" %>
+<div class="entry entry-${entry.type}">
+    <g:if test="${entry.type == Access.TYPE_TWITTER}">
+        <g:render template="/entry/twitter" model="[entry:entry]"/>
+    </g:if>
+
+    <g:if test="${entry.type != Access.TYPE_TWITTER}">
+        <g:render template="/entry/default" model="[entry:entry]"/>
+    </g:if>
+</div>

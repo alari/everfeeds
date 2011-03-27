@@ -10,6 +10,9 @@ interface IEntry {
     String getTitle()
     void setTitle(String s)
 
+    String getImageUrl()
+    void setImageUrl(String s)
+
     String getContent()
     void setContent(String s)
 

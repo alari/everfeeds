@@ -54,6 +54,7 @@ class TwitterAccess extends AAccess {
             entries.add new EntryEnvelop(
                     title: it.text,
                     content: autolink.autoLink(it.text),
+                    imageUrl: it.user.profile_image_url,
                     identity: it.id,
                     author: it.user.screen_name,
                     /*tagIdentities: it.tagGuids,*/

@@ -18,6 +18,7 @@
 
 	<header id="header">
 		<g:link controller="root">Everfeeds.com</g:link>
+        <sec:ifLoggedIn><g:link controller="logout">- Logout</g:link> </sec:ifLoggedIn>
 	</header><!-- #header-->
 
 

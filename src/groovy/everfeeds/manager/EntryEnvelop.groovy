@@ -12,6 +12,7 @@ import org.apache.log4j.Logger
 class EntryEnvelop implements IEntry {
     String identity
     String title
+    String imageUrl
     String content
     String author
     String sourceUrl
@@ -27,6 +28,7 @@ class EntryEnvelop implements IEntry {
         Entry entry = new Entry(
                 identity: identity,
                 title: title,
+                imageUrl: imageUrl,
                 content: content,
                 author: author,
                 sourceUrl: sourceUrl,
