@@ -90,7 +90,7 @@ class EvernoteAccess extends AAccess {
 
         List<EntryEnvelop> entries = []
         noteStore.findNotes(access.token, filter, 0, num).notes.each {
-
+            System.err << "Tag guids are ${it.tagGuids}\n"
             entries.add new EntryEnvelop(
                     title: it.title,
                     content: getNoteContent(it.guid),

@@ -29,41 +29,19 @@ class RootController {
             render code: 403
             return
         }
-        render template: "entries", model: [entries: Entry.findAllByTagsInList([tag], [sort:"placedDate", order: "desc"])]
+        def entries = Entry.createCriteria().list {
+            tags {
+                idEq(Long.parseLong(params.id))
+            }
+            order "placedDate", "desc"
+        }
+        log.debug "Entries count: "+entries.size()
+        render template: "entries", model: [entries: entries]
     }
 
     def mashEntries = {
         render template: "entries", model: [entries: Entry.findAllByAccount(authenticatedUser, [sort:"placedDate", order: "desc"])]
         render template: "sideRightCategs", model: "No way out"
-    }
-
-    //@Secured('ROLE_EVERNOTE')
-    def lookAtAccess = {
-        Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
-        if(!access) {
-            flash.message = "Access not found"
-            redirect action: "index"
-            return;
-        }
-        [access:access, entries: Entry.findAllByAccess(access, [sort: "placedDate", order: "desc"])]
-    }
-
-    //@Secured('IS_AUTHENTICATED_REMEMBERED')
-    def requestAccessPull = {
-        Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
-        if(!access) {
-            flash.message = "Access not found"
-            redirect action: "index"
-            return;
-        }
-        //syncService.addToQueue access, true
-        sendMessage("seda:sync.pull.access", params.id)
-        redirect action: "lookAtAccess", id: params.id
-    }
-
-    //@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-    def mash = {
-        [entries: Entry.findAllByAccount(authenticatedUser, [sort: "placedDate", order: "desc"])]
     }
 
 

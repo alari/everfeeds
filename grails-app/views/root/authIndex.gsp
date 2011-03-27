@@ -46,6 +46,11 @@
    </table></div></div>
 
 <jq:jquery>
+    var selectedTabId = "";
+    function loadTab(link){
+        $("#"+selectedTabId).load(link.href);
+        return false;
+    }
     $( "#tabss" ).tabs({
              ajaxOptions: {
                  error: function( xhr, status, index, anchor ) {
@@ -53,6 +58,9 @@
                          "Couldn't load this tab. We'll try to fix this as soon as possible. " +
                          "If this wouldn't be a demo." );
                  }
+             },
+             select: function(event, ui){
+                selectedTabId = ui.panel.id;
              }
          });
 </jq:jquery>

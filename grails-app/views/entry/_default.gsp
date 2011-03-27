@@ -12,3 +12,5 @@
         <g:formatDate date="${entry.placedDate}"/>
             |
         <a href="${entry.sourceUrl}" target="_blank">Link</a>
+            |
+        Tags: ${entry.tagIdentities.join(" , ")}
