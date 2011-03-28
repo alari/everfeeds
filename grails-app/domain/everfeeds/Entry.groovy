@@ -34,15 +34,28 @@ class Entry implements IEntry {
     }
 
     static namedQueries = {
-        findAllFiltered {access, category, taglist ->
+        findAllFiltered { params ->
+            System.err << params
             and {
-                eq("access", access)
-                if (category) {
-                    eq("category", category)
+                eq("access", params.access)
+                if(params.withCategories?.size()) {
+                    'in'("category", params.withCategories)
                 }
-                if (taglist.size()) {
+                if(params.withoutCategories?.size()) {
+                    not{
+                        'in'("category", params.withoutCategories)
+                    }
+                }
+                if (params.withTags?.size()) {
                     tags {
-                        'in'("id", taglist.id)
+                        'in'("id", params.withTags.id)
+                    }
+                }
+                if(params.withoutTags?.size()) {
+                    tags {
+                        not {
+                            'in'("id", params.withoutTags.id)
+                        }
                     }
                 }
             }

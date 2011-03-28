@@ -48,13 +48,13 @@
 <script type="text/javascript">
     var tabId = "";
     var access = null;
-    var tags = [];
+    var withTags = [];
     var category = [];
+    function loadTab(params){
+        $("#"+tabId).load("<g:createLink controller="root" action="entries"/>");
+        return false;
+    }
     $(function(){
-        function loadTab(params){
-            $("#"+tabId).load("<g:createLink controller="root" action="entries"/>");
-            return false;
-        }
         $( "#tabss" ).tabs({
                  ajaxOptions: {
                      error: function( xhr, status, index, anchor ) {
@@ -64,7 +64,7 @@
                      }
                  },
                  select: function(event, ui){
-                    selectedTabId = ui.panel.id;
+                    tabId = ui.panel.id;
                  }
              });
     });

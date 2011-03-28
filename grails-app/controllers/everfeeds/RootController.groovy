@@ -22,7 +22,7 @@ class RootController {
                     taglist.add access.tags.find{it.id == Long.parseLong(t.toString())}
             }
             Category category = params.category ? access.categories.find{it.id == params.long("category")} : null
-            entries = Entry.findAllFiltered(access, category, taglist).list()
+            entries = Entry.findAllFiltered(access:access, withTags:taglist, withCategories: category?[category]:[]).list()
         } else {
             entries = Entry.findAllByAccount(authenticatedUser, [sort:"placedDate", order: "desc"])
         }
