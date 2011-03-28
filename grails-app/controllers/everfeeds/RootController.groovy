@@ -1,6 +1,7 @@
 package everfeeds
 
 import grails.plugins.springsecurity.Secured
+import grails.converters.JSON
 
 class RootController {
     def syncService
@@ -28,7 +29,14 @@ class RootController {
         }
         render template: "entries", model: [entries: entries]
         if(access) {
-            render template: "sideRightCategs", model: [categories:access.categories,tags:access.tags]
+            render "<script>setAccess('${access.id}');</script>"
         }
+    }
+
+    @Secured(['ROLE_ACCOUNT'])
+    def loadAccess = {
+        Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
+        log.debug "Hey ${params.id} / ${access}"
+        render([categories: access.categories.collect{[it.id, it.title]}, tags: access.tags.collect{[it.id, it.title]}] as JSON)
     }
 }

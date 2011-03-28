@@ -50,6 +50,33 @@
     var access = null;
     var withTags = [];
     var category = [];
+    var accesses = [];
+    function loadAccess(id){
+        alert("load "+id);
+        $.ajax({
+            url: "<g:createLink controller="root" action="loadAccess"/>",
+            data: {id: id},
+            type: "GET",
+            success: function(data){
+                accesses[id] = data;
+                showAccess(id);
+            }
+        }).send();
+    }
+    function showAccess(id){
+        if(accesses[id]) {
+            $("#sideRightBox").html(accesses[id]);
+        }
+    }
+    function setAccess(id){
+        if(!accesses[id]) {
+            loadAccess(id);
+        }
+        if(access != id) {
+            showAccess(id);
+        }
+        access = id;
+    }
     function loadTab(params){
         $("#"+tabId).load("<g:createLink controller="root" action="entries"/>");
         return false;
