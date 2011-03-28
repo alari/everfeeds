@@ -1,6 +1,7 @@
 package everfeeds
 
 import everfeeds.manager.IEntry
+import org.hibernate.transform.DistinctRootEntityResultTransformer
 
 class Entry implements IEntry {
 
@@ -18,30 +19,49 @@ class Entry implements IEntry {
 
     private String type
 
-    static hasMany = [tags:Tag]
+    static hasMany = [tags: Tag]
 
-    static belongsTo = [Access,Account,Category,Tag]
+    static belongsTo = [Access, Account, Category, Tag]
 
     static transients = ["tagIdentities", "categoryIdentity", "type"]
 
     static constraints = {
         placedDate index: "placedDateIndex"
-        content maxSize: 1024*1024
+        content maxSize: 1024 * 1024
         author nullable: true
         sourceUrl nullable: true
         imageUrl nullable: true
     }
 
-    List<String> getTagIdentities(){
+    static namedQueries = {
+        findAllFiltered {access, category, taglist ->
+            and {
+                eq("access", access)
+                if (category) {
+                    eq("category", category)
+                }
+                if (taglist.size()) {
+                    tags {
+                        'in'("id", taglist.id)
+                    }
+                }
+            }
+            fetchMode("tags", org.hibernate.FetchMode.EAGER)
+            resultTransformer(new DistinctRootEntityResultTransformer())
+            order "placedDate", "desc"
+        }
+    }
+
+    List<String> getTagIdentities() {
         tags*.identity
     }
 
-    String getCategoryIdentity(){
+    String getCategoryIdentity() {
         category.identity
     }
 
-    String getType(){
-        if(!type) type = access.type
+    String getType() {
+        if (!type) type = access.type
         type
     }
 }

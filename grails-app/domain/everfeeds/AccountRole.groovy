@@ -29,7 +29,12 @@ class AccountRole implements Serializable {
 	}
 
 	static AccountRole create(Account account, Role role, boolean flush = false) {
-		new AccountRole(account: account, role: role).save(flush: flush, insert: true)
+        try {
+		    return new AccountRole(account: account, role: role).save(flush: flush, insert: true)
+        } catch(org.hibernate.NonUniqueObjectException e){
+            log.info e
+            return null
+        }
 	}
 
 	static boolean remove(Account account, Role role, boolean flush = false) {

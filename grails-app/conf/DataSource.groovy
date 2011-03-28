@@ -21,6 +21,7 @@ environments {
             password = "12345"
             url = "jdbc:postgresql://localhost/everfeeds" //:file:prodDb;shutdown=true"
             driverClassName = "org.postgresql.Driver"
+            logSql = true
         }
     }
     test {

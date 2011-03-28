@@ -1,6 +1,8 @@
 package everfeeds
 
-class Role {
+import org.springframework.security.core.GrantedAuthority
+
+class Role implements GrantedAuthority {
 
 	String authority
 
@@ -11,4 +13,8 @@ class Role {
 	static constraints = {
 		authority blank: false, unique: true
 	}
+
+    static Role getByAuthority(String authority){
+        Role.findByAuthority(authority) ?: new Role(authority: authority).save()
+    }
 }

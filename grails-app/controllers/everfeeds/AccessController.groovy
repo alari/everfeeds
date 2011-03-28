@@ -67,7 +67,7 @@ class AccessController {
     }
 
     private Account createAccessAccount(Access access) {
-        new Account(
+        Account account = new Account(
                 username: access.identity,
                 password: springSecurityService.encodePassword(access.identity+new Random().nextInt().toString()),
                 enabled: true,
@@ -75,6 +75,9 @@ class AccessController {
 	            accountLocked: false,
 	            passwordExpired: false
         ).save(flush: true)
+        AccountRole.create(account, Role.getByAuthority("ROLE_ACCOUNT"), true)
+        log.debug "Created access account: ${account} with "+account.authorities*.authority.join(";")
+        account
     }
 
     private void setLoggedAccountAccess(Access access){
@@ -91,7 +94,8 @@ class AccessController {
                 access.save(flush: true)
             }
             // set as logged
-            SCH.context.authentication = new PreAuthenticatedAuthenticationToken(access.account, access.account)
+            log.debug "Setting as logged with authorities: "+access.account.authorities*.authority.join(";")
+            SCH.context.authentication = new PreAuthenticatedAuthenticationToken(access.account, access.account, access.account.authorities)
             syncService.addToQueue access.account, true
         }
     }

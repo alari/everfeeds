@@ -21,6 +21,10 @@
         <sec:ifLoggedIn><g:link controller="logout">- Logout</g:link> </sec:ifLoggedIn>
 	</header><!-- #header-->
 
+    <g:if test="${flash.message}">
+        <div id="message"><p>${flash.message}</p></div>
+        <jq:jquery>$("#message").dialog();</jq:jquery>
+    </g:if>
 
         <g:layoutBody />
 

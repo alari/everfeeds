@@ -72,6 +72,7 @@ class AuthService {
 
     void setAccountRole(Account account, String authority) {
         authority = authority.toUpperCase()
-        AccountRole.create account, Role.findByAuthority(authority) ?: new Role(authority: authority).save()
+        if(!authority.startsWith("ROLE_")) authority = "ROLE_"+authority
+        AccountRole.create account, Role.getByAuthority(authority)
     }
 }

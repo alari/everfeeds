@@ -9,16 +9,16 @@
 <div id="tabss">
     <ul>
         <li><a href="#tabss-1">Root</a></li>
-        <li><g:link action="mashEntries">Mash</g:link></li>
+        <li><g:link action="entries">Mash</g:link></li>
         <g:each in="${account.accesses}" var="access">
             <li>
-                <g:link action="accessEntries" id="${access.id}">
+                <g:link action="entries" params="[access:access.id]">
                     <img src="${resource(dir: "images/social", file: access.type+".jpg")}" with="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title}"/>
                     ${access.title}</g:link></li>
         </g:each>
     </ul>
 
-    <div id="tabss-1">ololo
+    <div id="tabss-1">
     <table>
        <tr><td>
             <h2>Useful tips</h2>
@@ -45,24 +45,30 @@
        </tr>
    </table></div></div>
 
-<jq:jquery>
-    var selectedTabId = "";
-    function loadTab(link){
-        $("#"+selectedTabId).load(link.href);
-        return false;
-    }
-    $( "#tabss" ).tabs({
-             ajaxOptions: {
-                 error: function( xhr, status, index, anchor ) {
-                     $( anchor.hash ).html(
-                         "Couldn't load this tab. We'll try to fix this as soon as possible. " +
-                         "If this wouldn't be a demo." );
+<script type="text/javascript">
+    var tabId = "";
+    var access = null;
+    var tags = [];
+    var category = [];
+    $(function(){
+        function loadTab(params){
+            $("#"+tabId).load("<g:createLink controller="root" action="entries"/>");
+            return false;
+        }
+        $( "#tabss" ).tabs({
+                 ajaxOptions: {
+                     error: function( xhr, status, index, anchor ) {
+                         $( anchor.hash ).html(
+                             "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+                             "If this wouldn't be a demo." );
+                     }
+                 },
+                 select: function(event, ui){
+                    selectedTabId = ui.panel.id;
                  }
-             },
-             select: function(event, ui){
-                selectedTabId = ui.panel.id;
-             }
-         });
-</jq:jquery>
+             });
+    });
+</script>
+
 </body>
 </html>

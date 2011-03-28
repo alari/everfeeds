@@ -1,3 +1,3 @@
-<script>$("#sideRightBox").html("<ul><g:each in="${categories}" var="c"><li>${c.title}</li></g:each></ul>"+
+<script>$("#sideRightBox").html("<ul><g:each in="${categories}" var="c"><li>${c.id}:${c.title}</li></g:each></ul>"+
             "<br/><br/>"+
-        '<ul><g:each in="${tags}" var="t"><li><g:link controller="root" action="tagEntries" id="${t.id}" onclick="loadTab(this);return false;">${t.title}</g:link></li></g:each></ul>');</script>
+        '<ul><g:each in="${tags}" var="t"><li><a href="#" onclick="loadTab(this);return false;">${t.id}:${t.title}</a></li></g:each></ul>');</script>
