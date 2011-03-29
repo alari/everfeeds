@@ -2,7 +2,7 @@ package everfeeds
 
 import everfeeds.manager.ITag
 
-class Tag implements ITag{
+class Tag implements ITag, Comparable{
     String identity
     String title
 
@@ -13,9 +13,21 @@ class Tag implements ITag{
     static hasMany = [entries:Entry]
 
     static constraints = {
+        title index: "titleTagIdx"
+    }
+
+    static mapping = {
+        sort "title"
     }
 
     String toString(){
         "[${identity} -> ${title}]"
+    }
+
+    public int compareTo(def other) {
+        if(other instanceof Tag) {
+            return title <=> other.title
+        }
+        throw new IllegalArgumentException("Cannot compare with ${other}")
     }
 }

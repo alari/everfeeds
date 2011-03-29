@@ -45,7 +45,6 @@ class EntryEnvelop implements IEntry {
 
         entry.save(flush: true)
         if(tagIdentities?.size()) Tag.findAllByAccessAndIdentityInList(access, tagIdentities).each{
-            System.err << "Found: ${it}\n"
             entry.addToTags it
             it.addToEntries entry
             it.save()

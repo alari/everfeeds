@@ -17,7 +17,7 @@
 		</div><!-- #container-->
 
 		<aside id="sideRight">
-            <div id="sideRightBox"></div>
+            <div id="asideBox"></div>
 
             <sec:ifLoggedIn>
                 <g:showAccesses/>

@@ -29,6 +29,9 @@ class Access {
 
     Account account
 
+    SortedSet tags
+    SortedSet categories
+
     static belongsTo = Account
     static hasMany = [tags:Tag, categories:Category, entries:Entry]
 
@@ -41,6 +44,8 @@ class Access {
         account nullable: true
         lastSync nullable: true
         entries sort: "placedDate"
+        tags sort: "title", order: 1
+        categories sort: "title", order: 1
     }
 
     AAccess getManager() {

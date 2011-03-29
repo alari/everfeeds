@@ -17,26 +17,32 @@ class RootController {
     def entries = {
         Access access = Access.findByIdAndAccount(params.access, authenticatedUser)
         def entries
+        Map filterParams = [
+                access: access,
+                withTags: [],
+                withoutTags: [],
+                withCategories: [],
+                withoutCategories: [],
+                ]
         if(access) {
-            List<Tag> taglist = []
-            params.list("tag").each { t->
-                    taglist.add access.tags.find{it.id == Long.parseLong(t.toString())}
+            Closure filterParam = {what, param ->
+                params.list(param+"[]").collect{p->access."${what}".find{i->i.id==Long.parseLong(p.toString())}}
             }
-            Category category = params.category ? access.categories.find{it.id == params.long("category")} : null
-            entries = Entry.findAllFiltered(access:access, withTags:taglist, withCategories: category?[category]:[]).list()
+            filterParams.withTags = filterParam("tags", "wtag")
+            filterParams.withoutTags = filterParam("tags", "wotag")
+
+            filterParams.withCategories = filterParam("categories", "wcat")
+            filterParams.withoutCategories = filterParam("categories", "wocat")
+
+            entries = Entry.findAllFiltered(filterParams).list()
         } else {
             entries = Entry.findAllByAccount(authenticatedUser, [sort:"placedDate", order: "desc"])
         }
         render template: "entries", model: [entries: entries]
         if(access) {
-            render "<script>setAccess('${access.id}');</script>"
+            filterParams.random = new Random().nextInt().toString()
+            filterParams.testClass = {obj, with, without -> with.contains(obj) ? "with" : (without.contains(obj) ? "without" : "")}
+            render template: "filterAside", model: filterParams
         }
-    }
-
-    @Secured(['ROLE_ACCOUNT'])
-    def loadAccess = {
-        Access access = Access.findByIdAndAccount(params.id, authenticatedUser)
-        log.debug "Hey ${params.id} / ${access}"
-        render([categories: access.categories.collect{[it.id, it.title]}, tags: access.tags.collect{[it.id, it.title]}] as JSON)
     }
 }

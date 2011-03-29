@@ -35,7 +35,6 @@ class Entry implements IEntry {
 
     static namedQueries = {
         findAllFiltered { params ->
-            System.err << params
             and {
                 eq("access", params.access)
                 if(params.withCategories?.size()) {

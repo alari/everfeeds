@@ -2,7 +2,7 @@ package everfeeds
 
 import everfeeds.manager.ICategory
 
-class Category implements ICategory{
+class Category implements ICategory,Comparable{
 
     String identity
     String title
@@ -15,9 +15,21 @@ class Category implements ICategory{
 
     static constraints = {
         entries sort: "placedDate", order: -1
+        title index: "titleCategoryIdx"
+    }
+
+    static mapping = {
+        sort "title"
     }
 
     String toString(){
         "[${identity} -> ${title}]"
+    }
+
+    public int compareTo(def other) {
+        if(other instanceof Category) {
+            return title <=> other.title
+        }
+        throw new IllegalArgumentException("Cannot compare with ${other}")
     }
 }

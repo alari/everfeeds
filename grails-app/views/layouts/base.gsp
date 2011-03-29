@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="${resource(dir:'css',file:'base.css')}" type="text/css" media="screen, projection" />
     <g:layoutHead />
     <g:javascript library="jquery" />
+    <g:javascript library="everfeeds"/>
     <jqui:resources/>
 </head>
 
