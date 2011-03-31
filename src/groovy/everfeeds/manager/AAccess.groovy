@@ -9,7 +9,7 @@ import everfeeds.Category
  */
 abstract class AAccess {
     protected Access access
-    static final int NUM = 10
+    static final int NUM = 150
 
     public void sync(){
         List<TagEnvelop> actualTags = tags
