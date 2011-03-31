@@ -1,10 +1,9 @@
 package everfeeds.manager
 
-import everfeeds.Entry
 import everfeeds.Access
 import everfeeds.Category
+import everfeeds.Entry
 import everfeeds.Tag
-import org.apache.log4j.Logger
 
 /**
  * Created by alari @ 14.03.11 17:21
@@ -23,8 +22,10 @@ class EntryEnvelop implements IEntry {
 
     int accessId
 
-    Entry store(){
+    Entry store() {
         Access access = Access.get(accessId)
+        // Check uniqueness
+        if (Entry.countByAccessAndIdentity(access, identity)) return;
         Entry entry = new Entry(
                 identity: identity,
                 title: title,
@@ -37,14 +38,14 @@ class EntryEnvelop implements IEntry {
                 access: access,
                 category: Category.findByAccessAndIdentity(access, categoryIdentity)
         )
-        if(!entry.validate()) {
+        if (!entry.validate()) {
 
             System.err << "Failed entry validation: ${entry.errors}\n"
             return null
         }
 
         entry.save(flush: true)
-        if(tagIdentities?.size()) Tag.findAllByAccessAndIdentityInList(access, tagIdentities).each{
+        if (tagIdentities?.size()) access.tags.findAll{it.identity in tagIdentities}.each {
             entry.addToTags it
             it.addToEntries entry
             it.save()

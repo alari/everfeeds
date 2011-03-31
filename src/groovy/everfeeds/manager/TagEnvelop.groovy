@@ -8,7 +8,7 @@ class TagEnvelop implements ITag {
     String title
     def original
 
-    String toString(){
+    String toString() {
         "(${identity} -> ${title})"
     }
 }

@@ -73,7 +73,8 @@ $(function() {
             if (tabId == "tab-root") {
                 $("#asideBox").html("");
             }
-        }
+        },
+        cache: true
     });
 });
 

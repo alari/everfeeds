@@ -1,10 +1,9 @@
 package everfeeds
 
-import oauth.signpost.basic.DefaultOAuthProvider
 import oauth.signpost.basic.DefaultOAuthConsumer
-
-import org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib
+import oauth.signpost.basic.DefaultOAuthProvider
 import org.apache.log4j.Logger
+import org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib
 
 /**
  * Created by alari @ 12.03.11 19:22
@@ -47,36 +46,36 @@ class OAuthSession {
     }
 
     DefaultOAuthProvider getProvider() {
-        if(!oauthProvider) {
-        oauthProvider = new DefaultOAuthProvider(
-                config.requestTokenUrl,
-                config.accessTokenUrl,
-                config.authUrl);
+        if (!oauthProvider) {
+            oauthProvider = new DefaultOAuthProvider(
+                    config.requestTokenUrl,
+                    config.accessTokenUrl,
+                    config.authUrl);
         }
         oauthProvider
     }
 
     String apiGet(String url) {
         HttpURLConnection conn =
-            (HttpURLConnection) new URL(url).openConnection();
+        (HttpURLConnection) new URL(url).openConnection();
 
         conn.setRequestMethod("GET");
-        conn.setConnectTimeout(10*1000);
-        conn.setReadTimeout(25*1000);
+        conn.setConnectTimeout(10 * 1000);
+        conn.setReadTimeout(25 * 1000);
 
         consumer.sign(conn);
 
         conn.connect();
 
-        if(conn.getResponseCode() != 200) {
-            log.error "Error: "+conn.getResponseCode()+" "+conn.getResponseMessage()
+        if (conn.getResponseCode() != 200) {
+            log.error "Error: " + conn.getResponseCode() + " " + conn.getResponseMessage()
             return;
         }
 
         InputStream is = conn.getInputStream();
 
         BufferedReader br =
-            new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        new BufferedReader(new InputStreamReader(is, "UTF-8"));
         StringBuffer buf = new StringBuffer();
         String line;
         while (null != (line = br.readLine())) {

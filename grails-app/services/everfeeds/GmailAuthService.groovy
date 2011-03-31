@@ -42,9 +42,8 @@ class GmailAuthService {
         String token = accessToken.token
         String secret = accessToken.secret
 
-        def email = authService
-                .oAuthCall(
-                    grailsApplication.config.gmail.emailUrl,
+        def email = authService.oAuthCall(
+                grailsApplication.config.gmail.emailUrl,
                 grailsApplication.config.gmail,
                 token, secret).body
 
@@ -54,7 +53,7 @@ class GmailAuthService {
             return null
         }
 
-        if(!email) return null
+        if (!email) return null
 
         session.gmail = null
 

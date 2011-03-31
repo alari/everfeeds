@@ -8,22 +8,22 @@ class SyncService {
 
     void addToQueue(Access access, boolean pull = false) {
         log.debug "Adding access ${access} to queue, pull=${pull}"
-        sendMessage("seda:sync.access", [id:access.id, pull:pull])
+        sendMessage("seda:sync.access", [id: access.id, pull: pull])
     }
 
-    void addToQueue(Account account, boolean pull=false){
+    void addToQueue(Account account, boolean pull = false) {
         log.debug "Adding account ${account} to queue, pull=${pull}"
         account.accesses.each {
             addToQueue it, pull
         }
     }
 
-    void addToQueue(EntryEnvelop entry){
+    void addToQueue(EntryEnvelop entry) {
         log.debug "Adding entry ${entry.identity} to queue"
         sendMessage("seda:sync.entry", entry)
     }
 
-    boolean syncAccess(Map params){
+    boolean syncAccess(Map params) {
         def id = params.id
         def pull = params.pull
         log.debug "Processing syncAccess(${id})"
@@ -32,20 +32,17 @@ class SyncService {
         access.lastSync = new Date()
         access.save()
         log.debug "Sync complete"
-        if(pull) {
+        if (pull) {
             sendMessage("seda:sync.pull.access", id)
         }
         true
     }
 
-    boolean pullAccess(id){
+    boolean pullAccess(id) {
         log.debug "Processing pullAccess(${id})"
         Access access = Access.get(id)
         log.debug "Access type: ${access.type}, manager class: ${access.manager.class.canonicalName}"
-        access.manager.pull()?.each{
-            if(Entry.countByAccessAndIdentity(access, it.identity)) return;
-            it.store()
-        }
+        access.manager.pull([store:true])
         log.debug "pullAccess(${id}) finished"
         true
     }

@@ -4,7 +4,6 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 
 import everfeeds.Access
 import everfeeds.OAuthSession
-import grails.converters.deep.JSON
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -20,7 +19,7 @@ class GmailAccess extends AAccess {
         this.access = access
     }
 
-    List<CategoryEnvelop> getCategories(){
+    List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
 
         //apiGet(_SUBSCRIPTION_LIST_URL)?.subscriptions?.each{
@@ -31,7 +30,7 @@ class GmailAccess extends AAccess {
         categories
     }
 
-    List<TagEnvelop> getTags(){
+    List<TagEnvelop> getTags() {
         List<TagEnvelop> tags = []
         /*
         apiGet(_TAG_LIST_URL)?.tags?.each{
@@ -42,15 +41,15 @@ class GmailAccess extends AAccess {
         tags
     }
 
-    boolean isPullable(){
+    boolean isPullable() {
         true
     }
 
-    boolean isPushable(){
+    boolean isPushable() {
         false
     }
 
-    public List<EntryEnvelop> pull(Map params = [:]){
+    public List<EntryEnvelop> pull(Map params = [:]) {
         /*
         String url
         // Category
@@ -70,9 +69,10 @@ class GmailAccess extends AAccess {
         url += "&n=" + num
                                */
         List<EntryEnvelop> entries = []
+        IEntry entry
 
         new XmlSlurper().parseText(apiGet(_FEED_URL).toString())?.entry?.each {
-            entries.add new EntryEnvelop(
+            entry = new EntryEnvelop(
                     title: it.title.text(),
                     content: it.summary.text(),
                     identity: it.id,
@@ -82,12 +82,17 @@ class GmailAccess extends AAccess {
                     placedDate: new Date(),
                     accessId: access.id
             )
+            if (params?.store) {
+                entry.store()
+            } else {
+                entries.add entry
+            }
         }
 
         entries
     }
 
-    void push(IEntry entry){
+    void push(IEntry entry) {
         void
     }
 
@@ -99,7 +104,7 @@ class GmailAccess extends AAccess {
 
         String result = s.apiGet(url)
 
-        if(!result) {
+        if (!result) {
             access.expired = true
             access.save()
             return [:]

@@ -5,8 +5,10 @@ package everfeeds.manager
  */
 public interface ICategory {
     String getIdentity()
+
     void setIdentity(String s)
 
     String getTitle()
+
     void setTitle(String s)
 }

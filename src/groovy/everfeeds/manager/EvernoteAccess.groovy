@@ -1,15 +1,14 @@
 package everfeeds.manager
 
-import everfeeds.Access
+import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
+
+import com.evernote.edam.notestore.NoteFilter
 import com.evernote.edam.notestore.NoteStore
+import com.evernote.edam.type.User
+import com.evernote.edam.userstore.UserStore
+import everfeeds.Access
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
-import com.evernote.edam.userstore.UserStore
-import org.springframework.web.context.request.RequestContextHolder
-import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
-import com.evernote.edam.type.User
-import com.evernote.edam.type.Notebook
-import com.evernote.edam.notestore.NoteFilter
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
 
@@ -32,28 +31,28 @@ class EvernoteAccess extends AAccess {
         noteStoreUrl = "http://" + config.host + "/edam/note/" + access.shard
     }
 
-    List<CategoryEnvelop> getCategories(){
+    List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
 
         try {
-            noteStore.listNotebooks(access.token).each{
+            noteStore.listNotebooks(access.token).each {
                 categories.add new CategoryEnvelop(identity: it.guid, title: it.name, original: it)
             }
-        } catch(e){
+        } catch (e) {
             access.expired = true
             access.save(flush: true)
         }
         categories
     }
 
-    List<TagEnvelop> getTags(){
+    List<TagEnvelop> getTags() {
         List<TagEnvelop> tags = []
 
         try {
-            noteStore.listTags(access.token).each{
+            noteStore.listTags(access.token).each {
                 tags.add new TagEnvelop(identity: it.guid, title: it.name, original: it)
             }
-        } catch(e){
+        } catch (e) {
             access.expired = true
             access.save(flush: true)
         }
@@ -61,36 +60,38 @@ class EvernoteAccess extends AAccess {
         tags
     }
 
-    boolean isPullable(){
+    boolean isPullable() {
         true
     }
 
-    boolean isPushable(){
+    boolean isPushable() {
         true
     }
 
-    public List<EntryEnvelop> pull(Map params=[:]){
+    public List<EntryEnvelop> pull(Map params = [:]) {
         NoteFilter filter = new NoteFilter()
         // Categories
-        if(params.category && params.category instanceof ICategory) {
+        if (params.category && params.category instanceof ICategory) {
             ICategory category = params.category
             filter.setNotebookGuid category.identity
         }
         // Tags
-        if(params.tags && params.tags instanceof List<ITag>) {
+        if (params.tags && params.tags instanceof List<ITag>) {
             List<ITag> tags = params.tags
             filter.setTagGuids tags*.identity
         }
         // Words
-        if(params.search) {
-            filter.setWords((String)params.search)
+        if (params.search) {
+            filter.setWords((String) params.search)
         }
         // Max count
         int num = params.num ?: NUM
 
         List<EntryEnvelop> entries = []
+        IEntry entry
+
         noteStore.findNotes(access.token, filter, 0, num).notes.each {
-            entries.add new EntryEnvelop(
+            entry = new EntryEnvelop(
                     title: it.title,
                     content: getNoteContent(it.guid),
                     identity: it.guid,
@@ -101,16 +102,21 @@ class EvernoteAccess extends AAccess {
                     placedDate: new Date(it.created),
                     accessId: access.id
             )
+            if (params?.store) {
+                entry.store()
+            } else {
+                entries.add entry
+            }
         }
         entries
     }
 
-    void push(IEntry entry){
+    void push(IEntry entry) {
 
     }
 
     protected NoteStore.Client getNoteStore() {
-        if(noteStoreClient) return noteStoreClient
+        if (noteStoreClient) return noteStoreClient
         THttpClient noteStoreTrans = new THttpClient(noteStoreUrl);
         TBinaryProtocol noteStoreProt = new TBinaryProtocol(noteStoreTrans);
         noteStoreClient = new NoteStore.Client(noteStoreProt, noteStoreProt);
@@ -118,7 +124,7 @@ class EvernoteAccess extends AAccess {
     }
 
     protected UserStore.Client getUserStore() {
-        if(userStoreClient) return userStoreClient
+        if (userStoreClient) return userStoreClient
         THttpClient userStoreTrans = new THttpClient(userStoreUrl);
         userStoreTrans.setCustomHeader("User-Agent", config.userAgent);
         TBinaryProtocol userStoreProt = new TBinaryProtocol(userStoreTrans);
@@ -127,7 +133,7 @@ class EvernoteAccess extends AAccess {
     }
 
     User getUser() {
-        if(!enUser) enUser = getUserStore().getUser(access.token)
+        if (!enUser) enUser = getUserStore().getUser(access.token)
         enUser
     }
 

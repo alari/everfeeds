@@ -1,8 +1,9 @@
 package everfeeds
 
+import org.scribe.model.Token
+import org.scribe.model.Verifier
 import org.scribe.oauth.OAuthService
 import org.springframework.web.context.request.RequestContextHolder
-import org.scribe.model.*
 
 class TwitterAuthService {
 
@@ -42,13 +43,12 @@ class TwitterAuthService {
         String token = accessToken.token
         String secret = accessToken.secret
 
-        def screen_name = authService
-                .oAuthCallJson(
-                    "http://api.twitter.com/1/account/verify_credentials.json",
+        def screen_name = authService.oAuthCallJson(
+                "http://api.twitter.com/1/account/verify_credentials.json",
                 grailsApplication.config.twitter,
                 token, secret)?.screen_name
 
-        if(!screen_name) return null
+        if (!screen_name) return null
 
         session.twitter = null
 

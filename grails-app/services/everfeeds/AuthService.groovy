@@ -1,9 +1,12 @@
 package everfeeds
 
-import org.scribe.builder.ServiceBuilder
-import org.scribe.oauth.OAuthService
-import org.scribe.model.*
 import grails.converters.deep.JSON
+import org.scribe.builder.ServiceBuilder
+import org.scribe.model.OAuthRequest
+import org.scribe.model.Response
+import org.scribe.model.Token
+import org.scribe.model.Verb
+import org.scribe.oauth.OAuthService
 
 class AuthService {
 
@@ -11,22 +14,22 @@ class AuthService {
 
     static transactional = true
 
-    OAuthService getOAuthService(config, String callbackAction=null) {
+    OAuthService getOAuthService(config, String callbackAction = null) {
         ServiceBuilder builder = new ServiceBuilder()
         builder.provider(config.provider)
         builder.apiKey(config.key.toString())
         builder.apiSecret(config.secret.toString())
-        if(callbackAction) {
-            builder.callback(g.createLink(controller:"access", action:callbackAction, absolute:true).toString())
+        if (callbackAction) {
+            builder.callback(g.createLink(controller: "access", action: callbackAction, absolute: true).toString())
         }
-        if(config.scope) {
+        if (config.scope) {
             builder.scope(config.scope.toString())
         }
 
         builder.build()
     }
 
-    Response oAuthCall(String url, def config, String token, String secret, Verb method = Verb.GET){
+    Response oAuthCall(String url, def config, String token, String secret, Verb method = Verb.GET) {
         OAuthService service = getOAuthService(config)
         OAuthRequest request = new OAuthRequest(method, url);
         def tkn = new Token(token, secret)
@@ -38,22 +41,22 @@ class AuthService {
         JSON.parse(oAuthCall(url, config, token, secret, method).body)
     }
 
-    Access getAccess(final String type, String screen, String token=null, String secret=null, String shard=null) {
+    Access getAccess(final String type, String screen, String token = null, String secret = null, String shard = null) {
         Access access = Access.findByIdentity(type + ":" + screen) ?: new Access(
                 identity: type + ":" + screen,
                 type: type
         )
-        if(token) {
+        if (token) {
             access.token = token
-            if(secret) access.secret = secret
-            if(shard) access.shard = shard
+            if (secret) access.secret = secret
+            if (shard) access.shard = shard
             access.expired = false
         }
         access.save()
     }
 
-    Access getAccess(Map params){
-        if(!params.type || !params.screen) {
+    Access getAccess(Map params) {
+        if (!params.type || !params.screen) {
             throw new IllegalArgumentException("Cannot get access without type/screen")
         }
 
@@ -61,10 +64,10 @@ class AuthService {
                 identity: params.type + ":" + params.screen,
                 type: params.type
         )
-        if(params.token) {
+        if (params.token) {
             access.token = params.token
-            if(params.secret) access.secret = params.secret
-            if(params.shard) access.shard = params.shard
+            if (params.secret) access.secret = params.secret
+            if (params.shard) access.shard = params.shard
             access.expired = false
         }
         access.save()
@@ -72,7 +75,7 @@ class AuthService {
 
     void setAccountRole(Account account, String authority) {
         authority = authority.toUpperCase()
-        if(!authority.startsWith("ROLE_")) authority = "ROLE_"+authority
+        if (!authority.startsWith("ROLE_")) authority = "ROLE_" + authority
         AccountRole.create account, Role.getByAuthority(authority)
     }
 }

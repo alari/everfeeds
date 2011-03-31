@@ -1,6 +1,7 @@
 package everfeeds.manager
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
+
 import everfeeds.Access
 import everfeeds.OAuthSession
 import grails.converters.deep.JSON
@@ -31,39 +32,39 @@ class GreaderAccess extends AAccess {
         this.access = access
     }
 
-    List<CategoryEnvelop> getCategories(){
+    List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
 
-        apiGet(_SUBSCRIPTION_LIST_URL)?.subscriptions?.each{
+        apiGet(_SUBSCRIPTION_LIST_URL)?.subscriptions?.each {
             categories.add new CategoryEnvelop(identity: it.id, title: it.title, original: it)
         }
 
         categories
     }
 
-    List<TagEnvelop> getTags(){
+    List<TagEnvelop> getTags() {
         List<TagEnvelop> tags = []
 
-        apiGet(_TAG_LIST_URL)?.tags?.each{
+        apiGet(_TAG_LIST_URL)?.tags?.each {
             // TODO: add localized tag names
-            tags.add new TagEnvelop(identity: it.id, title: it.id.substring(it.id.lastIndexOf("/")+1), original: it)
+            tags.add new TagEnvelop(identity: it.id, title: it.id.substring(it.id.lastIndexOf("/") + 1), original: it)
         }
 
         tags
     }
 
-    boolean isPullable(){
+    boolean isPullable() {
         true
     }
 
-    boolean isPushable(){
+    boolean isPushable() {
         false
     }
 
-    public List<EntryEnvelop> pull(Map params = [:]){
+    public List<EntryEnvelop> pull(Map params = [:]) {
         String url
         // Category
-        if(params.category && params.category instanceof ICategory) {
+        if (params.category && params.category instanceof ICategory) {
             ICategory category = params.category
             url = _CONTENT_BASE_URL + category.identity
         } else {
@@ -75,29 +76,35 @@ class GreaderAccess extends AAccess {
         // Max num
         int num = params.num ?: NUM
 
-        url += "?ck="+System.currentTimeMillis()/1000
+        url += "?ck=" + System.currentTimeMillis() / 1000
         url += "&n=" + num
 
         List<EntryEnvelop> entries = []
+        IEntry entry
 
-        apiGet(url)?.items?.each{
-            entries.add new EntryEnvelop(
+        apiGet(url)?.items?.each {
+            entry = new EntryEnvelop(
                     title: it.title,
                     content: it.content?.content ?: it.summary?.content?.replace("\n", "<br/>"),
                     identity: it.id,
                     author: it.author,
                     tagIdentities: it.categories.collect {it.toString()},
                     categoryIdentity: it.origin.streamId,
-                    sourceUrl: it.alternate.find{it.type=="text/html"}?.href,
-                    placedDate: new Date(((long)it.updated)*1000),
+                    sourceUrl: it.alternate.find {it.type == "text/html"}?.href,
+                    placedDate: new Date(((long) it.updated) * 1000),
                     accessId: access.id
             )
+            if (params?.store) {
+                entry.store()
+            } else {
+                entries.add entry
+            }
         }
 
         entries
     }
 
-    void push(IEntry entry){
+    void push(IEntry entry) {
         void
     }
 
@@ -105,10 +112,10 @@ class GreaderAccess extends AAccess {
         OAuthSession s = new OAuthSession(config);
         s.consumer.setTokenWithSecret(access.token, access.secret)
 
-        url += (url.indexOf("?")>-1 ? "&" : "?")+"output=json"
+        url += (url.indexOf("?") > -1 ? "&" : "?") + "output=json"
         String result = s.apiGet(url)
 
-        if(!result) {
+        if (!result) {
             access.expired = true
             access.save()
             return [:]

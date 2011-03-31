@@ -2,10 +2,10 @@ package everfeeds.manager
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 
+import com.twitter.Autolink
 import everfeeds.Access
 import everfeeds.AuthService
 import java.text.SimpleDateFormat
-import com.twitter.Autolink
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -15,7 +15,7 @@ class TwitterAccess extends AAccess {
     private config = AH.application.mainContext.grailsApplication.config.twitter
 
     static final Map CATEGORIES = [
-            timeline:"http://api.twitter.com/1/statuses/home_timeline.json",
+            timeline: "http://api.twitter.com/1/statuses/home_timeline.json",
             mentions: "http://api.twitter.com/1/statuses/mentions.json",
             messages: "http://api.twitter.com/1/direct_messages.json",
     ]
@@ -39,7 +39,7 @@ class TwitterAccess extends AAccess {
             ],
             mention: [
                     title: "Mentions of you",
-                    check: {it?.entities?.user_mentions?.any{m->m?.screen_name == access.title}}
+                    check: {it?.entities?.user_mentions?.any {m -> m?.screen_name == access.title}}
             ],
             link: [
                     title: "Contains links",
@@ -59,7 +59,7 @@ class TwitterAccess extends AAccess {
         this.access = access
     }
 
-    List<CategoryEnvelop> getCategories(){
+    List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
         categories.add new CategoryEnvelop(identity: "timeline", title: "Timeline")
         categories.add new CategoryEnvelop(identity: "mentions", title: "Mentions")
@@ -67,23 +67,23 @@ class TwitterAccess extends AAccess {
         categories
     }
 
-    List<TagEnvelop> getTags(){
+    List<TagEnvelop> getTags() {
         List<TagEnvelop> tags = []
-        TAGS.each {identity,params->
+        TAGS.each {identity, params ->
             tags.add new TagEnvelop(identity: identity, title: params.title)
         }
         tags
     }
 
-    boolean isPullable(){
+    boolean isPullable() {
         true
     }
 
-    boolean isPushable(){
+    boolean isPushable() {
         true
     }
 
-    public List<EntryEnvelop> pull(Map params=[:]){
+    public List<EntryEnvelop> pull(Map params = [:]) {
         // TODO: handle categories and tags somehow
         // Max count
         int num = params.num ?: NUM
@@ -96,19 +96,20 @@ class TwitterAccess extends AAccess {
 
         String screenName
         List tags
+        IEntry entry
 
-        CATEGORIES.each{catIdx,cat->
-            service.oAuthCallJson(cat+"?count=${num}&include_entities=1", config, access.token, access.secret)?.each{
+        CATEGORIES.each {catIdx, cat ->
+            service.oAuthCallJson(cat + "?count=${num}&include_entities=1", config, access.token, access.secret)?.each {
                 tags = []
                 screenName = it?.user?.screen_name ?: it.sender.screen_name
-                TAGS.each {tagId,tagData->
-                    if(tagData.check(it)) tags.add tagId
+                TAGS.each {tagId, tagData ->
+                    if (tagData.check(it)) tags.add tagId
                 }
-                entries.add new EntryEnvelop(
+                entry = new EntryEnvelop(
                         title: it.text,
                         content: autolink.autoLink(it.text),
                         imageUrl: it?.user?.profile_image_url ?: it.sender.profile_image_url,
-                        identity: (catIdx=="messages"?catIdx:"")+it.id,
+                        identity: (catIdx == "messages" ? catIdx : "") + it.id,
                         author: screenName,
                         tagIdentities: tags,
                         categoryIdentity: catIdx,
@@ -116,13 +117,18 @@ class TwitterAccess extends AAccess {
                         placedDate: simpleDateFormat.parse(it?.created_at ?: it.sender.created_at),
                         accessId: access.id
                 )
+                if (params?.store) {
+                    entry.store()
+                } else {
+                    entries.add entry
+                }
             }
         }
 
         entries
     }
 
-    void push(IEntry entry){
+    void push(IEntry entry) {
 
     }
 }
