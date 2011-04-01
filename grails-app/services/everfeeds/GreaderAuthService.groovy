@@ -1,34 +1,44 @@
 package everfeeds
 
 import org.springframework.web.context.request.RequestContextHolder
+import org.scribe.oauth.OAuthService
+import org.scribe.model.Token
+import org.scribe.model.Verifier
 
 class GreaderAuthService {
     def grailsApplication
-    def springSecurityService
+    def authService
 
     def getSession() {
         return RequestContextHolder.currentRequestAttributes().getSession()
     }
 
-    def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
-
     String getAuthUrl() {
-        session.greader = new OAuthSession(grailsApplication.config.greader)
-        session.greader.getAuthUrl(controller: "access", action: "greaderCallback")
+        OAuthService service = authService.getOAuthService(grailsApplication.config.greader, "greaderCallback")
+
+        Token requestToken = service.getRequestToken();
+        session.greader = [service: service, token: requestToken]
+
+        service.getAuthorizationUrl requestToken
     }
 
-    Access processCallback(String verifier) {
-        if (!session.greader) return null
+    Access processCallback(String verifierStr) {
+        Verifier verifier = new Verifier(verifierStr)
 
-        session.greader.verify(verifier)
+        if (!session.greader) {
+            log.error "no session.greader"
+            return null
+        }
 
-        String accessToken = session.greader.token;
-        String tokenSecret = session.greader.secret
+        Token accessToken = session.greader.service.getAccessToken(session.greader.token, verifier);
 
-        String email = session.greader.apiGet(grailsApplication.config.greader.emailUrl)
-        // email=fred.example@gmail.com&is_verified=true
+        String token = accessToken.token
+        String secret = accessToken.secret
 
-        session.greader = null
+        def email = authService.oAuthCall(
+                grailsApplication.config.greader.emailUrl,
+                grailsApplication.config.greader,
+                token, secret).body
 
         if (email) {
             email = email.substring(email.indexOf("=") + 1, email.indexOf("&"))
@@ -36,17 +46,14 @@ class GreaderAuthService {
             return null
         }
 
-        Access access = Access.findByIdentity(Access.TYPE_GREADER + ":" + email) ?: new Access(
-                identity: Access.TYPE_GREADER + ":" + email, type: Access.TYPE_GREADER
-        )
+        if (!email) return null
 
-        access.token = accessToken
-        access.secret = tokenSecret
-        access.expired = false
-        access.save()
+        session.gmail = null
+
+        authService.getAccess(Access.TYPE_GREADER, email, token, secret)
     }
 
     def setAccountRole(Account account) {
-        AccountRole.create account, Role.findByAuthority("GREADER") ?: new Role(authority: "GREADER").save()
+        authService.setAccountRole account, Access.TYPE_GREADER
     }
 }

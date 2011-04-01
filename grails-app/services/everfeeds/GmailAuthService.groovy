@@ -17,8 +17,6 @@ class GmailAuthService {
         return RequestContextHolder.currentRequestAttributes().getSession()
     }
 
-    def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
-
     String getAuthUrl() {
         OAuthService service = authService.getOAuthService(grailsApplication.config.gmail, "gmailCallback")
 
@@ -29,8 +27,7 @@ class GmailAuthService {
     }
 
     Access processCallback(String verifierStr) {
-        Verifier verifier = new Verifier(verifierStr.encodeAsURL());
-        log.debug verifierStr
+        Verifier verifier = new Verifier(verifierStr);
 
         if (!session.gmail) {
             log.error "no session.gmail"

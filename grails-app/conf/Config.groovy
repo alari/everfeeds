@@ -186,19 +186,16 @@ evernote {
     } else {
         key = "name_alari"
         secret = "f3ea2d71d1647525"
-        provider = org.scribe.builder.api.EvernoteApi.Sandbox
+        //provider = org.scribe.builder.api.EvernoteApi.Sandbox
+        provider = everfeeds.EvernoteSandboxApi
     }
-
 }
 greader {
-    requestTokenUrl = "https://www.google.com/accounts/OAuthGetRequestToken?scope=http%3A%2F%2Fwww.google.com%2Freader%2Fapi%2F+http%3A%2F%2Fwww.google.com%2Freader%2Fatom%2F+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo%23email&xoauth_displayname=everfeeds.com"
-    accessTokenUrl = "https://www.google.com/accounts/OAuthGetAccessToken"
-    authUrl = "https://www.google.com/accounts/OAuthAuthorizeToken"
+    key = "everfeeds.com"
+    secret = "mucd4gqA1yLtrY6eMzZo3IYe"
     scope = "http://www.google.com/reader/api/ http://www.google.com/reader/atom/ https://www.googleapis.com/auth/userinfo#email"
+    provider = org.scribe.builder.api.GoogleApi
     emailUrl = "https://www.googleapis.com/userinfo/email"
-    consumer.key = "everfeeds.com"
-    consumer.secret = "mucd4gqA1yLtrY6eMzZo3IYe"
-    userAgent = "everfeeds.com"
 }
 twitter {
     key = 'A5maG2S6WHvloLeFDeIw'

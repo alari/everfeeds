@@ -19,8 +19,6 @@ class TwitterAuthService {
         return RequestContextHolder.currentRequestAttributes().getSession()
     }
 
-    def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
-
     String getAuthUrl() {
         OAuthService service = authService.getOAuthService(grailsApplication.config.twitter, "twitterCallback")
 
