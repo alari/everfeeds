@@ -87,11 +87,15 @@ class AccessController {
             access.account = authenticatedUser
             access.save(flush: true)
             syncService.addToQueue access, true
+            // Adding to a MAX queue
         } else {
             if(!access.account) {
                 access.account = createAccessAccount(access)
                 access.account.addToAccesses access
                 access.save(flush: true)
+                // Adding to a MAX queue
+            } else {
+                // Adding to a CUURENT queue
             }
             // set as logged
             log.debug "Setting as logged with authorities: "+access.account.authorities*.authority.join(";")

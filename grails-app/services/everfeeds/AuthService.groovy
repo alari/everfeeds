@@ -7,12 +7,50 @@ import org.scribe.model.Response
 import org.scribe.model.Token
 import org.scribe.model.Verb
 import org.scribe.oauth.OAuthService
+import org.springframework.web.context.request.RequestContextHolder
+import org.scribe.model.Verifier
 
 class AuthService {
 
     def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
+    def grailsApplication
 
     static transactional = true
+
+    def getSession() {
+        return RequestContextHolder.currentRequestAttributes().getSession()
+    }
+
+    String getAuthUrl(String accessType) {
+        OAuthService service = getOAuthService(grailsApplication.config."${accessType}", "${accessType}Callback")
+
+        Token requestToken = service.getRequestToken();
+        session."${accessType}" = [service: service, token: requestToken]
+
+        service.getAuthorizationUrl requestToken
+    }
+
+    Access processCallback(String accessType, String verifierStr, Closure closure) {
+        if(!session."${accessType}") {
+            log.error "No session object related to ${accessType}"
+            return null
+        }
+
+        Verifier verifier = new Verifier(verifierStr);
+        Token accessToken = session."${accessType}".service.getAccessToken(session."${accessType}".token, verifier);
+        session."${accessType}" = null
+
+        Map params = closure.call(accessToken)
+        if(!params?.screen) {
+            log.debug "Seems like access denied: cannot figure out access screen name"
+            return null
+        }
+        params.type = accessType
+        params.token = accessToken.token
+        params.secret = accessToken.secret
+
+        getAccess(params)
+    }
 
     OAuthService getOAuthService(config, String callbackAction = null) {
         ServiceBuilder builder = new ServiceBuilder()

@@ -1,9 +1,6 @@
 package everfeeds
 
 import org.scribe.model.Token
-import org.scribe.model.Verifier
-import org.scribe.oauth.OAuthService
-import org.springframework.web.context.request.RequestContextHolder
 
 class GmailAuthService {
 
@@ -13,48 +10,29 @@ class GmailAuthService {
 
     def authService
 
-    def getSession() {
-        return RequestContextHolder.currentRequestAttributes().getSession()
-    }
-
     String getAuthUrl() {
-        OAuthService service = authService.getOAuthService(grailsApplication.config.gmail, "gmailCallback")
-
-        Token requestToken = service.getRequestToken();
-        session.gmail = [service: service, token: requestToken]
-
-        service.getAuthorizationUrl requestToken
+        authService.getAuthUrl Access.TYPE_GMAIL
     }
 
     Access processCallback(String verifierStr) {
-        Verifier verifier = new Verifier(verifierStr);
+        authService.processCallback(Access.TYPE_GMAIL, verifierStr) { Token accessToken ->
+            def email = authService.oAuthCall(
+                    grailsApplication.config.gmail.emailUrl,
+                    grailsApplication.config.gmail,
+                    accessToken.token, accessToken.secret).body
 
-        if (!session.gmail) {
-            log.error "no session.gmail"
-            return null
+            if (email) {
+                email = email.substring(email.indexOf("=") + 1, email.indexOf("&"))
+            } else {
+                return null
+            }
+
+            if (!email) return null
+
+            [
+                    screen: email
+            ]
         }
-
-        Token accessToken = session.gmail.service.getAccessToken(session.gmail.token, verifier);
-
-        String token = accessToken.token
-        String secret = accessToken.secret
-
-        def email = authService.oAuthCall(
-                grailsApplication.config.gmail.emailUrl,
-                grailsApplication.config.gmail,
-                token, secret).body
-
-        if (email) {
-            email = email.substring(email.indexOf("=") + 1, email.indexOf("&"))
-        } else {
-            return null
-        }
-
-        if (!email) return null
-
-        session.gmail = null
-
-        authService.getAccess(Access.TYPE_GMAIL, email, token, secret)
     }
 
     def setAccountRole(Account account) {
