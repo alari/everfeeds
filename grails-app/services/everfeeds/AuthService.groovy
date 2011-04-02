@@ -1,19 +1,12 @@
 package everfeeds
 
-import grails.converters.deep.JSON
-import org.scribe.builder.ServiceBuilder
-import org.scribe.model.OAuthRequest
-import org.scribe.model.Response
-import org.scribe.model.Token
-import org.scribe.model.Verb
-import org.scribe.oauth.OAuthService
 import org.springframework.web.context.request.RequestContextHolder
-import org.scribe.model.Verifier
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class AuthService {
 
     def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
-    def grailsApplication
+    Map config = [:]
 
     static transactional = true
 
@@ -22,61 +15,31 @@ class AuthService {
     }
 
     String getAuthUrl(String accessType) {
-        OAuthService service = getOAuthService(grailsApplication.config."${accessType}", "${accessType}Callback")
-
-        Token requestToken = service.getRequestToken();
-        session."${accessType}" = [service: service, token: requestToken]
-
-        service.getAuthorizationUrl requestToken
+        if(!config."${accessType}") {
+            buildAccessConfig(accessType)
+        }
+        config."${accessType}".auth.getAuthUrl(config."${accessType}", accessType, session)
     }
 
-    Access processCallback(String accessType, String verifierStr, Closure closure) {
+    void buildAccessConfig(type) {
+        config."${type}" = [:]
+        if(ConfigurationHolder.config.access."${type}".extend) {
+            String extend = ConfigurationHolder.config.access."${type}".extend
+            if(!config."${extend}") {
+                buildAccessConfig(extend)
+            }
+            config."${type}" = config."${extend}"
+        }
+        config."${type}" += ConfigurationHolder.config.access."${type}" as Map
+    }
+
+    Access processCallback(String accessType, String verifierStr) {
         if(!session."${accessType}") {
             log.error "No session object related to ${accessType}"
             return null
         }
 
-        Verifier verifier = new Verifier(verifierStr);
-        Token accessToken = session."${accessType}".service.getAccessToken(session."${accessType}".token, verifier);
-        session."${accessType}" = null
-
-        Map params = closure.call(accessToken)
-        if(!params?.screen) {
-            log.debug "Seems like access denied: cannot figure out access screen name"
-            return null
-        }
-        params.type = accessType
-        params.token = accessToken.token
-        params.secret = accessToken.secret
-
-        getAccess(params)
-    }
-
-    OAuthService getOAuthService(config, String callbackAction = null) {
-        ServiceBuilder builder = new ServiceBuilder()
-        builder.provider(config.provider)
-        builder.apiKey(config.key.toString())
-        builder.apiSecret(config.secret.toString())
-        if (callbackAction) {
-            builder.callback(g.createLink(controller: "access", action: callbackAction, absolute: true).toString())
-        }
-        if (config.scope) {
-            builder.scope(config.scope.toString())
-        }
-
-        builder.build()
-    }
-
-    Response oAuthCall(String url, def config, String token, String secret, Verb method = Verb.GET) {
-        OAuthService service = getOAuthService(config)
-        OAuthRequest request = new OAuthRequest(method, url);
-        def tkn = new Token(token, secret)
-        service.signRequest(tkn, request);
-        request.send();
-    }
-
-    Object oAuthCallJson(String url, def config, String token, String secret, Verb method = Verb.GET) {
-        JSON.parse(oAuthCall(url, config, token, secret, method).body)
+        getAccess config."${type}".auth.authCallback(verifierStr, accessType)
     }
 
     Access getAccess(final String type, String screen, String token = null, String secret = null, String shard = null) {

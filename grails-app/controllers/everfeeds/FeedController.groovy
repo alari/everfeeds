@@ -10,6 +10,6 @@ class FeedController {
     }
 
     def create = {
-        [access: principal.accesses.find{it.id=params.id}]
+        [access: principal.accesses.find {it.id = params.id}]
     }
 }

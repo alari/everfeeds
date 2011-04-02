@@ -1,6 +1,6 @@
 package everfeeds
 
-import everfeeds.manager.EntryEnvelop
+import everfeeds.access.envelops.EntryEnvelop
 
 class SyncService {
 
@@ -41,7 +41,7 @@ class SyncService {
     boolean pullAccess(id) {
         log.debug "Processing pullAccess(${id})"
         Access access = Access.get(id)
-        log.debug "Access type: ${access.type}, manager class: ${access.manager.class.canonicalName}"
+        log.debug "Access type: ${access.type}, access class: ${access.manager.class.canonicalName}"
         access.manager.pull([store:true])
         log.debug "pullAccess(${id}) finished"
         true

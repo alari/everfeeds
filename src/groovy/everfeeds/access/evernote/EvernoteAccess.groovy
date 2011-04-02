@@ -1,4 +1,4 @@
-package everfeeds.manager
+package everfeeds.access.evernote
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 
@@ -7,6 +7,13 @@ import com.evernote.edam.notestore.NoteStore
 import com.evernote.edam.type.User
 import com.evernote.edam.userstore.UserStore
 import everfeeds.Access
+import everfeeds.access.AAccess
+import everfeeds.access.ICategory
+import everfeeds.access.IEntry
+import everfeeds.access.ITag
+import everfeeds.access.envelops.CategoryEnvelop
+import everfeeds.access.envelops.EntryEnvelop
+import everfeeds.access.envelops.TagEnvelop
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
 import org.jsoup.Jsoup
@@ -85,7 +92,7 @@ class EvernoteAccess extends AAccess {
             filter.setWords((String) params.search)
         }
         // Max count
-        int num = params.num ?: NUM
+        int num = params.num ?: everfeeds.access.AAccess.NUM
 
         List<EntryEnvelop> entries = []
         IEntry entry

@@ -1,6 +1,6 @@
 package everfeeds
 
-import everfeeds.manager.ITag
+import everfeeds.access.ITag
 
 class Tag implements ITag, Comparable{
     String identity

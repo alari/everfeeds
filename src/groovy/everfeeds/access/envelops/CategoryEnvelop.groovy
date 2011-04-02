@@ -1,4 +1,6 @@
-package everfeeds.manager
+package everfeeds.access.envelops
+
+import everfeeds.access.ICategory
 
 /**
  * Created by alari @ 14.03.11 16:34

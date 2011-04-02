@@ -1,4 +1,4 @@
-package everfeeds.manager
+package everfeeds.access
 
 /**
  * Created by alari @ 18.03.11 17:51

@@ -170,42 +170,58 @@ grails.plugins.springsecurity.requestMap.className = 'everfeeds.AccountRole'
 grails.plugins.springsecurity.failureHandler.defaultFailureUrl = '/'
 grails.plugins.springsecurity.auth.loginFormUrl = '/'
 
-evernote {
-    host = "sandbox.evernote.com"
-    requestTokenUrl = 'https://sandbox.evernote.com/oauth'
-    accessTokenUrl = 'https://sandbox.evernote.com/oauth'
-    authUrl = 'https://sandbox.evernote.com/OAuth.action'
-    consumer.key = "name_alari"
-    consumer.secret = "f3ea2d71d1647525"
-    userAgent = "everfeeds.com"
-
-    if(environment == "production") {
-        key = "name_alari"
-        secret = "f3ea2d71d1647525"
-        provider = org.scribe.builder.api.EvernoteApi
-    } else {
-        key = "name_alari"
-        secret = "f3ea2d71d1647525"
-        //provider = org.scribe.builder.api.EvernoteApi.Sandbox
-        provider = everfeeds.EvernoteSandboxApi
+access {
+    google {
+        oauth {
+            key = "everfeeds.com"
+            secret = "mucd4gqA1yLtrY6eMzZo3IYe"
+            provider = org.scribe.builder.api.GoogleApi
+        }
+        auth = false
+        emailUrl = "https://www.googleapis.com/userinfo/email"
+        title = "Google Account"
     }
-}
-greader {
-    key = "everfeeds.com"
-    secret = "mucd4gqA1yLtrY6eMzZo3IYe"
-    scope = "http://www.google.com/reader/api/ http://www.google.com/reader/atom/ https://www.googleapis.com/auth/userinfo#email"
-    provider = org.scribe.builder.api.GoogleApi
-    emailUrl = "https://www.googleapis.com/userinfo/email"
-}
-twitter {
-    key = 'A5maG2S6WHvloLeFDeIw'
-    secret = '2QFVqw7L0GISHTgdB11GHcmhJo970qRmt2Tg10'
-    provider = org.scribe.builder.api.TwitterApi
-}
-gmail {
-    key = "everfeeds.com"
-    secret = "mucd4gqA1yLtrY6eMzZo3IYe"
-    scope = "https://www.googleapis.com/auth/userinfo#email https://mail.google.com/mail/feed/atom/ https://apps-apis.google.com/a/feeds/email_settings/2.0/"
-    provider = org.scribe.builder.api.GoogleApi
-    emailUrl = "https://www.googleapis.com/userinfo/email"
+    gmail {
+        extend = "google"
+        oauth {
+            scope = "https://www.googleapis.com/auth/userinfo#email https://mail.google.com/mail/feed/atom/ https://apps-apis.google.com/a/feeds/email_settings/2.0/"
+        }
+        auth = everfeeds.access.gmail.GmailAuth
+        title = "GMail (inbox/unread)"
+    }
+    greader {
+        extend = "google"
+        oauth {
+            scope = "http://www.google.com/reader/api/ http://www.google.com/reader/atom/ https://www.googleapis.com/auth/userinfo#email"
+        }
+        auth = everfeeds.access.greader.GreaderAuth
+        title = "Google Reader"
+    }
+    evernote {
+        userAgent = "everfeeds.com"
+        host = "sandbox.evernote.com"
+        oauth {
+            if(environment == "production") {
+                key = "name_alari"
+                secret = "f3ea2d71d1647525"
+                provider = org.scribe.builder.api.EvernoteApi
+            } else {
+                key = "name_alari"
+                secret = "f3ea2d71d1647525"
+                //provider = org.scribe.builder.api.EvernoteApi.Sandbox
+                provider = everfeeds.EvernoteSandboxApi
+            }
+        }
+        auth = everfeeds.access.evernote.EvernoteAuth
+        title = "Evernote"
+    }
+    twitter {
+        oauth {
+            key = 'A5maG2S6WHvloLeFDeIw'
+            secret = '2QFVqw7L0GISHTgdB11GHcmhJo970qRmt2Tg10'
+            provider = org.scribe.builder.api.TwitterApi
+        }
+        auth = everfeeds.access.twitter.TwitterAuth
+        title = "Twitter"
+    }
 }

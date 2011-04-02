@@ -1,10 +1,15 @@
-package everfeeds.manager
+package everfeeds.access.twitter
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 
 import com.twitter.Autolink
 import everfeeds.Access
 import everfeeds.AuthService
+import everfeeds.access.AAccess
+import everfeeds.access.IEntry
+import everfeeds.access.envelops.CategoryEnvelop
+import everfeeds.access.envelops.EntryEnvelop
+import everfeeds.access.envelops.TagEnvelop
 import java.text.SimpleDateFormat
 
 /**
@@ -86,7 +91,7 @@ class TwitterAccess extends AAccess {
     public List<EntryEnvelop> pull(Map params = [:]) {
         // TODO: handle categories and tags somehow
         // Max count
-        int num = params.num ?: NUM
+        int num = params.num ?: everfeeds.access.AAccess.NUM
 
         List<EntryEnvelop> entries = []
 

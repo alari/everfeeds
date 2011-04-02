@@ -1,4 +1,4 @@
-package everfeeds
+package everfeeds.access.evernote
 
 import org.springframework.web.context.request.RequestContextHolder
 import org.htmlcleaner.*

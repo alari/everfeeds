@@ -1,9 +1,9 @@
-package everfeeds.manager
+package everfeeds.access
 
 /**
- * Created by alari @ 18.03.11 17:50
+ * Created by alari @ 18.03.11 17:51
  */
-public interface ICategory {
+public interface ITag {
     String getIdentity()
 
     void setIdentity(String s)

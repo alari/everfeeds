@@ -1,6 +1,10 @@
 package everfeeds
 
-import everfeeds.manager.*
+import everfeeds.access.*
+import everfeeds.access.evernote.EvernoteAccess
+import everfeeds.access.gmail.GmailAccess
+import everfeeds.access.greader.GreaderAccess
+import everfeeds.access.twitter.TwitterAccess
 
 class Access {
 
@@ -35,7 +39,7 @@ class Access {
     static belongsTo = Account
     static hasMany = [tags:Tag, categories:Category, entries:Entry]
 
-    static transients = ["manager", "accessManager", "title"]
+    static transients = ["access", "accessManager", "title"]
 
     static constraints = {
         identity unique: true

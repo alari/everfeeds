@@ -1,9 +1,14 @@
-package everfeeds.manager
+package everfeeds.access.gmail
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 
 import everfeeds.Access
 import everfeeds.OAuthSession
+import everfeeds.access.AAccess
+import everfeeds.access.IEntry
+import everfeeds.access.envelops.CategoryEnvelop
+import everfeeds.access.envelops.EntryEnvelop
+import everfeeds.access.envelops.TagEnvelop
 
 /**
  * Created by alari @ 14.03.11 14:55

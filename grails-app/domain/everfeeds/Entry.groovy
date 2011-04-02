@@ -1,6 +1,6 @@
 package everfeeds
 
-import everfeeds.manager.IEntry
+import everfeeds.access.IEntry
 import org.hibernate.transform.DistinctRootEntityResultTransformer
 
 class Entry implements IEntry {

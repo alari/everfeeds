@@ -1,9 +1,9 @@
-package everfeeds.manager
+package everfeeds.access.envelops
 
 import everfeeds.Access
 import everfeeds.Category
 import everfeeds.Entry
-import everfeeds.Tag
+import everfeeds.access.IEntry
 
 /**
  * Created by alari @ 14.03.11 17:21
@@ -45,7 +45,7 @@ class EntryEnvelop implements IEntry {
         }
 
         entry.save(flush: true)
-        if (tagIdentities?.size()) access.tags.findAll{it.identity in tagIdentities}.each {
+        if (tagIdentities?.size()) access.tags.findAll {it.identity in tagIdentities}.each {
             entry.addToTags it
             it.addToEntries entry
             it.save()

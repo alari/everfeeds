@@ -1,9 +1,15 @@
-package everfeeds.manager
+package everfeeds.access.greader
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 
 import everfeeds.Access
 import everfeeds.OAuthSession
+import everfeeds.access.AAccess
+import everfeeds.access.ICategory
+import everfeeds.access.IEntry
+import everfeeds.access.envelops.CategoryEnvelop
+import everfeeds.access.envelops.EntryEnvelop
+import everfeeds.access.envelops.TagEnvelop
 import grails.converters.deep.JSON
 
 /**
@@ -74,7 +80,7 @@ class GreaderAccess extends AAccess {
         // TODO: handle tags; now it doesn't work
 
         // Max num
-        int num = params.num ?: NUM
+        int num = params.num ?: everfeeds.access.AAccess.NUM
 
         url += "?ck=" + System.currentTimeMillis() / 1000
         url += "&n=" + num

@@ -1,8 +1,11 @@
-package everfeeds.manager
+package everfeeds.access
 
 import everfeeds.Access
 import everfeeds.Category
 import everfeeds.Tag
+import everfeeds.access.envelops.CategoryEnvelop
+import everfeeds.access.envelops.EntryEnvelop
+import everfeeds.access.envelops.TagEnvelop
 
 /**
  * Created by alari @ 14.03.11 15:00

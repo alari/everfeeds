@@ -1,4 +1,6 @@
-package everfeeds.manager
+package everfeeds.access.envelops
+
+import everfeeds.access.ITag
 
 /**
  * Created by alari @ 14.03.11 16:47

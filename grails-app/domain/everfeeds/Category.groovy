@@ -1,6 +1,6 @@
 package everfeeds
 
-import everfeeds.manager.ICategory
+import everfeeds.access.ICategory
 
 class Category implements ICategory,Comparable{
 
