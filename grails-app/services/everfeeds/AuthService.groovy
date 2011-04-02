@@ -17,11 +17,13 @@ class AuthService {
     String getAuthUrl(String accessType) {
         if(!config."${accessType}") {
             buildAccessConfig(accessType)
+            log.debug config
         }
         config."${accessType}".auth.getAuthUrl(config."${accessType}", accessType, session)
     }
 
     void buildAccessConfig(type) {
+        log.debug "BEFORE BUILD: " +ConfigurationHolder.config.access."${type}"
         config."${type}" = [:]
         if(ConfigurationHolder.config.access."${type}".extend) {
             String extend = ConfigurationHolder.config.access."${type}".extend
@@ -39,7 +41,7 @@ class AuthService {
             return null
         }
 
-        getAccess config."${type}".auth.authCallback(verifierStr, accessType)
+        getAccess config."${accessType}".auth.authCallback(verifierStr, session)
     }
 
     Access getAccess(final String type, String screen, String token = null, String secret = null, String shard = null) {

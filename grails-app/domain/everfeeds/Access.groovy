@@ -39,7 +39,7 @@ class Access {
     static belongsTo = Account
     static hasMany = [tags:Tag, categories:Category, entries:Entry]
 
-    static transients = ["access", "accessManager", "title"]
+    static transients = ["manager", "accessManager", "title"]
 
     static constraints = {
         identity unique: true

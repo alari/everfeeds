@@ -13,7 +13,7 @@ class TwitterAuth extends AOAuthAuth {
     }
 
     static public Map authCallback(String verifierStr, Object session) {
-        authCallback(verifierStr, session, type) {Token accessToken ->
+        _authCallback(verifierStr, session, type) {Token accessToken ->
             def screen_name = callJsonApi(
                     ConfigurationHolder.config.twitter.oauth,
                     "http://api.twitter.com/1/account/verify_credentials.json",

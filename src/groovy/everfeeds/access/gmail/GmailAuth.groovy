@@ -11,6 +11,6 @@ class GmailAuth extends GoogleAuth {
     }
 
     static public Map authCallback(String verifierStr, Object session) {
-        authCallback(verifierStr, session, type, super.&authCallback)
+        _authCallback(verifierStr, session, type, super.&authCallback)
     }
 }

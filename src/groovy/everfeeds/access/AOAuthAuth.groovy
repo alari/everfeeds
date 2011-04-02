@@ -11,12 +11,13 @@ import org.scribe.oauth.OAuthService
 /**
  * Created by alari @ 02.04.11 13:01
  */
-abstract class AOAuthAuth extends AAuth {
+/*abstract*/ class AOAuthAuth extends AAuth {
     static def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 
-    abstract static public Map authCallback(String verifierStr, Object session)
+    //abstract static public Map authCallback(String verifierStr, Object session)
 
-    static protected Map authCallback(String verifierStr, Object session, String accessType, Closure closure) {
+    static protected Map _authCallback(String verifierStr, Object session, String accessType, Closure closure) {
+        System.err << "Session is ${session}"
         Verifier verifier = new Verifier(verifierStr);
         Token accessToken = session."${accessType}".service.getAccessToken(session."${accessType}".token, verifier);
         session."${accessType}" = null
@@ -59,7 +60,7 @@ abstract class AOAuthAuth extends AAuth {
         builder.apiKey(config.key.toString())
         builder.apiSecret(config.secret.toString())
         if (accessType) {
-            builder.callback(g.createLink(controller: "access", action: "callback", params: [provider: accessType], absolute: true).toString())
+            builder.callback(g.createLink(controller: "access", action: "callback", id: accessType, absolute: true).toString())
         }
         if (config.scope) {
             builder.scope(config.scope.toString())

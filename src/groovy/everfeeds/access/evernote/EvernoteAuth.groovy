@@ -17,10 +17,11 @@ class EvernoteAuth extends AOAuthAuth {
     }
 
     static public Map authCallback(String verifierStr, Object session) {
-        authCallback(verifierStr, session, type) {Token accessToken ->
+        _authCallback(verifierStr, session, type) {Token accessToken ->
             // Getting UserStore
-            THttpClient userStoreTrans = new THttpClient("https://" + ConfigurationHolder.config.evernote.host + "/edam/user");
-            userStoreTrans.setCustomHeader("User-Agent", ConfigurationHolder.config.evernote.userAgent);
+            System.err << "https://" + ConfigurationHolder.config.access.evernote.host + "/edam/user"
+            THttpClient userStoreTrans = new THttpClient("https://" + ConfigurationHolder.config.access.evernote.host + "/edam/user");
+            userStoreTrans.setCustomHeader("User-Agent", ConfigurationHolder.config.access.evernote.userAgent);
             TBinaryProtocol userStoreProt = new TBinaryProtocol(userStoreTrans);
             UserStore.Client userStore = new UserStore.Client(userStoreProt, userStoreProt);
 
