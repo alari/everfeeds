@@ -18,7 +18,7 @@ class OAuthSession {
 
     OAuthSession(def config) {
         oauthConsumer = new DefaultOAuthConsumer(
-                config.consumer.key ?: config.key, config.consumer.secret ?: config.secret);
+                config.oauth.key, config.oauth.secret);
 
         this.config = config
     }

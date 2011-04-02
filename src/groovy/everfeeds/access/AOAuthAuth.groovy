@@ -17,7 +17,6 @@ import org.scribe.oauth.OAuthService
     //abstract static public Map authCallback(String verifierStr, Object session)
 
     static protected Map _authCallback(String verifierStr, Object session, String accessType, Closure closure) {
-        System.err << "Session is ${session}"
         Verifier verifier = new Verifier(verifierStr);
         Token accessToken = session."${accessType}".service.getAccessToken(session."${accessType}".token, verifier);
         session."${accessType}" = null

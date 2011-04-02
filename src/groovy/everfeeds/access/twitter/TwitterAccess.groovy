@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
  */
 class TwitterAccess extends AAccess {
 
-    private config = AH.application.mainContext.grailsApplication.config.twitter
+    private config = AH.application.mainContext.grailsApplication.config.access.twitter
 
     static final Map CATEGORIES = [
             timeline: "http://api.twitter.com/1/statuses/home_timeline.json",

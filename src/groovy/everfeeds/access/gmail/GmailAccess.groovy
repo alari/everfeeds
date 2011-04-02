@@ -17,7 +17,7 @@ class GmailAccess extends AAccess {
 
     private static final String _FEED_URL = "https://mail.google.com/mail/feed/atom/";
 
-    private config = AH.application.mainContext.grailsApplication.config.gmail
+    private config = AH.application.mainContext.grailsApplication.config.access.gmail
 
 
     GmailAccess(Access access) {

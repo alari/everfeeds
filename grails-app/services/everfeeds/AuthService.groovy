@@ -24,15 +24,16 @@ class AuthService {
 
     void buildAccessConfig(type) {
         log.debug "BEFORE BUILD: " +ConfigurationHolder.config.access."${type}"
-        config."${type}" = [:]
-        if(ConfigurationHolder.config.access."${type}".extend) {
+        config."${type}" = ConfigurationHolder.config.access."${type}"
+        if(config."${type}".extend) {
             String extend = ConfigurationHolder.config.access."${type}".extend
             if(!config."${extend}") {
                 buildAccessConfig(extend)
             }
-            config."${type}" = config."${extend}"
+            config."$type" = config."$extend".merge(config."$type")
+            log.debug "AFTER MERGE: ${config}"
         }
-        config."${type}" += ConfigurationHolder.config.access."${type}" as Map
+        log.debug "AFTER BUILD: " + config."$type"
     }
 
     Access processCallback(String accessType, String verifierStr) {

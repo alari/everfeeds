@@ -31,7 +31,7 @@ class GreaderAccess extends AAccess {
     private static final String _CONTENT_BASE_URL = _API_URL + "stream/contents/"
     private static final String _CONTENT_READER_LIST = _CONTENT_BASE_URL + "user/-/state/com.google/reading-list"
 
-    private config = AH.application.mainContext.grailsApplication.config.greader
+    private config = AH.application.mainContext.grailsApplication.config.access.greader
 
 
     GreaderAccess(Access access) {
