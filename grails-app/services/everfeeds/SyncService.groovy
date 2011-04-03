@@ -28,7 +28,7 @@ class SyncService {
         def pull = params.pull
         log.debug "Processing syncAccess(${id})"
         Access access = Access.get(id)
-        access.manager.sync()
+        access.accessor.sync()
         access.lastSync = new Date()
         access.save()
         log.debug "Sync complete"
@@ -41,8 +41,8 @@ class SyncService {
     boolean pullAccess(id) {
         log.debug "Processing pullAccess(${id})"
         Access access = Access.get(id)
-        log.debug "Access type: ${access.type}, access class: ${access.manager.class.canonicalName}"
-        access.manager.pull([store:true])
+        log.debug "Access type: ${access.type}, access class: ${access.accessor.class.canonicalName}"
+        access.accessor.pull([store:true])
         log.debug "pullAccess(${id}) finished"
         true
     }

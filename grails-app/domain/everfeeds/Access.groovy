@@ -1,10 +1,6 @@
 package everfeeds
 
 import everfeeds.access.*
-import everfeeds.access.evernote.EvernoteAccessor
-import everfeeds.access.gmail.GmailAccessor
-import everfeeds.access.greader.GreaderAccessor
-import everfeeds.access.twitter.TwitterAccessor
 
 class Access {
 
@@ -12,13 +8,6 @@ class Access {
     static final String TYPE_GREADER = "greader"
     static final String TYPE_TWITTER = "twitter"
     static final String TYPE_GMAIL = "gmail"
-
-    static final Map MANAGERS = [
-            (TYPE_EVERNOTE):EvernoteAccessor,
-            (TYPE_GREADER): GreaderAccessor,
-            (TYPE_TWITTER): TwitterAccessor,
-            (TYPE_GMAIL): GmailAccessor,
-    ]
 
     String identity
     String type
@@ -29,7 +18,7 @@ class Access {
     boolean expired = false
     Date lastSync
 
-    private accessManager
+    private cachedAccessor
 
     Account account
 
@@ -39,7 +28,7 @@ class Access {
     static belongsTo = Account
     static hasMany = [tags:Tag, categories:Category, entries:Entry]
 
-    static transients = ["manager", "accessManager", "title"]
+    static transients = ["accessor", "cachedAccessor", "title"]
 
     static constraints = {
         identity unique: true
@@ -52,14 +41,14 @@ class Access {
         categories sort: "title", order: 1
     }
 
-    AAccessor getManager() {
-        if(!accessManager) {
+    AAccessor getAccessor() {
+        if(!cachedAccessor) {
             log.debug "Access | ${type}"
-            accessManager = MANAGERS[type].newInstance(this)
+            cachedAccessor = Manager.getAccessor(type, tris)
         } else {
-            log.debug "Access | ${type} already has ${accessManager.class.canonicalName}"
+            log.debug "Access | ${type} already has ${cachedAccessor.class.canonicalName}"
         }
-        accessManager
+        cachedAccessor
     }
 
     String getTitle(){

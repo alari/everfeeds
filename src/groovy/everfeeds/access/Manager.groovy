@@ -24,6 +24,11 @@ class Manager {
         return configCache[type]
     }
 
+    static Map getConfigs(){
+        // TODO: return full configCache instead
+        config
+    }
+
     static AAuth getAuth(String type){
         if(authCache[type]) {
             return authCache[type]
@@ -34,7 +39,7 @@ class Manager {
         return authCache[type]
     }
 
-    static AAccessor getAccess(String type, Access access) {
+    static AAccessor getAccessor(String type, Access access) {
         Class accessClass = getConfig(type)?.access
         if(!accessClass) return null
         accessClass.newInstance(access)
