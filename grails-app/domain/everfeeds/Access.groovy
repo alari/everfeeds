@@ -1,10 +1,10 @@
 package everfeeds
 
 import everfeeds.access.*
-import everfeeds.access.evernote.EvernoteAccess
-import everfeeds.access.gmail.GmailAccess
-import everfeeds.access.greader.GreaderAccess
-import everfeeds.access.twitter.TwitterAccess
+import everfeeds.access.evernote.EvernoteAccessor
+import everfeeds.access.gmail.GmailAccessor
+import everfeeds.access.greader.GreaderAccessor
+import everfeeds.access.twitter.TwitterAccessor
 
 class Access {
 
@@ -14,10 +14,10 @@ class Access {
     static final String TYPE_GMAIL = "gmail"
 
     static final Map MANAGERS = [
-            (TYPE_EVERNOTE):EvernoteAccess,
-            (TYPE_GREADER): GreaderAccess,
-            (TYPE_TWITTER): TwitterAccess,
-            (TYPE_GMAIL): GmailAccess,
+            (TYPE_EVERNOTE):EvernoteAccessor,
+            (TYPE_GREADER): GreaderAccessor,
+            (TYPE_TWITTER): TwitterAccessor,
+            (TYPE_GMAIL): GmailAccessor,
     ]
 
     String identity
@@ -52,7 +52,7 @@ class Access {
         categories sort: "title", order: 1
     }
 
-    AAccess getManager() {
+    AAccessor getManager() {
         if(!accessManager) {
             log.debug "Access | ${type}"
             accessManager = MANAGERS[type].newInstance(this)

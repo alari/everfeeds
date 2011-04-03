@@ -5,19 +5,18 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 import com.twitter.Autolink
 import everfeeds.Access
 import everfeeds.AuthService
-import everfeeds.access.AAccess
+import everfeeds.access.AAccessor
 import everfeeds.access.IEntry
 import everfeeds.access.envelops.CategoryEnvelop
 import everfeeds.access.envelops.EntryEnvelop
 import everfeeds.access.envelops.TagEnvelop
 import java.text.SimpleDateFormat
+import everfeeds.OAuthHelper
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class TwitterAccess extends AAccess {
-
-    private config = AH.application.mainContext.grailsApplication.config.access.twitter
+class TwitterAccessor extends AAccessor {
 
     static final Map CATEGORIES = [
             timeline: "http://api.twitter.com/1/statuses/home_timeline.json",
@@ -60,8 +59,12 @@ class TwitterAccess extends AAccess {
             ]
     ]
 
-    TwitterAccess(Access access) {
+    TwitterAccessor(Access access) {
         this.access = access
+    }
+
+    public String getType(){
+        "twitter"
     }
 
     List<CategoryEnvelop> getCategories() {
@@ -89,13 +92,11 @@ class TwitterAccess extends AAccess {
     }
 
     public List<EntryEnvelop> pull(Map params = [:]) {
-        // TODO: handle categories and tags somehow
         // Max count
-        int num = params.num ?: everfeeds.access.AAccess.NUM
+        int num = params.num ?: NUM
 
         List<EntryEnvelop> entries = []
 
-        AuthService service = AH.application.mainContext.authService
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH)
         Autolink autolink = new Autolink()
 
@@ -104,12 +105,13 @@ class TwitterAccess extends AAccess {
         IEntry entry
 
         CATEGORIES.each {catIdx, cat ->
-            service.oAuthCallJson(cat + "?count=${num}&include_entities=1", config, access.token, access.secret)?.each {
+            OAuthHelper.callJsonApi(config.oauth, cat + "?count=${num}&include_entities=1", access.token, access.secret)?.each {
                 tags = []
                 screenName = it?.user?.screen_name ?: it.sender.screen_name
                 TAGS.each {tagId, tagData ->
                     if (tagData.check(it)) tags.add tagId
                 }
+                // TODO: direct messages should be handled separately
                 entry = new EntryEnvelop(
                         title: it.text,
                         content: autolink.autoLink(it.text),

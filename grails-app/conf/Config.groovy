@@ -187,6 +187,7 @@ access {
             scope = "https://www.googleapis.com/auth/userinfo#email https://mail.google.com/mail/feed/atom/ https://apps-apis.google.com/a/feeds/email_settings/2.0/"
         }
         auth = everfeeds.access.gmail.GmailAuth
+        access = everfeeds.access.gmail.GmailAccessor
         title = "GMail (inbox/unread)"
     }
     greader {
@@ -195,6 +196,7 @@ access {
             scope = "http://www.google.com/reader/api/ http://www.google.com/reader/atom/ https://www.googleapis.com/auth/userinfo#email"
         }
         auth = everfeeds.access.greader.GreaderAuth
+        access = everfeeds.access.greader.GreaderAccessor
         title = "Google Reader"
     }
     evernote {
@@ -213,6 +215,7 @@ access {
             }
         }
         auth = everfeeds.access.evernote.EvernoteAuth
+        access = everfeeds.access.evernote.EvernoteAccessor
         title = "Evernote"
     }
     twitter {
@@ -222,6 +225,7 @@ access {
             provider = org.scribe.builder.api.TwitterApi
         }
         auth = everfeeds.access.twitter.TwitterAuth
+        access = everfeeds.access.twitter.TwitterAccessor
         title = "Twitter"
     }
 }

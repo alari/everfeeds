@@ -1,31 +1,29 @@
 package everfeeds.access.evernote
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
-
 import com.evernote.edam.notestore.NoteFilter
 import com.evernote.edam.notestore.NoteStore
 import com.evernote.edam.type.User
 import com.evernote.edam.userstore.UserStore
+
 import everfeeds.Access
-import everfeeds.access.AAccess
+import everfeeds.access.AAccessor
 import everfeeds.access.ICategory
 import everfeeds.access.IEntry
 import everfeeds.access.ITag
 import everfeeds.access.envelops.CategoryEnvelop
 import everfeeds.access.envelops.EntryEnvelop
 import everfeeds.access.envelops.TagEnvelop
+
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
+
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class EvernoteAccess extends AAccess {
-
-    private config = AH.application.mainContext.grailsApplication.config.evernote
-
+class EvernoteAccessor extends AAccessor {
     private final String userStoreUrl = "https://" + config.host + "/edam/user"
     private String noteStoreUrl
 
@@ -33,9 +31,14 @@ class EvernoteAccess extends AAccess {
     private User enUser
     private NoteStore.Client noteStoreClient
 
-    EvernoteAccess(Access access) {
+    EvernoteAccessor(Access access) {
         this.access = access
         noteStoreUrl = "http://" + config.host + "/edam/note/" + access.shard
+    }
+
+
+    public String getType(){
+        "evernote"
     }
 
     List<CategoryEnvelop> getCategories() {
@@ -92,7 +95,7 @@ class EvernoteAccess extends AAccess {
             filter.setWords((String) params.search)
         }
         // Max count
-        int num = params.num ?: everfeeds.access.AAccess.NUM
+        int num = params.num ?: NUM
 
         List<EntryEnvelop> entries = []
         IEntry entry

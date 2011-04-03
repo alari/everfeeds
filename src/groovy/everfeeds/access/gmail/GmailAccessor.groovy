@@ -1,48 +1,36 @@
 package everfeeds.access.gmail
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
-
 import everfeeds.Access
-import everfeeds.OAuthSession
-import everfeeds.access.AAccess
+import everfeeds.access.AAccessor
 import everfeeds.access.IEntry
 import everfeeds.access.envelops.CategoryEnvelop
 import everfeeds.access.envelops.EntryEnvelop
 import everfeeds.access.envelops.TagEnvelop
+import everfeeds.OAuthHelper
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class GmailAccess extends AAccess {
+class GmailAccessor extends AAccessor {
 
     private static final String _FEED_URL = "https://mail.google.com/mail/feed/atom/";
 
-    private config = AH.application.mainContext.grailsApplication.config.access.gmail
-
-
-    GmailAccess(Access access) {
+    GmailAccessor(Access access) {
         this.access = access
+    }
+
+    public String getType(){
+        "gmail"
     }
 
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
-
-        //apiGet(_SUBSCRIPTION_LIST_URL)?.subscriptions?.each{
-        //    categories.add new CategoryEnvelop(identity: "unread inbox", title: "unread inbox")
-        //}
         categories.add new CategoryEnvelop(identity: "inbox-unread", title: "Inbox Unread")
-
         categories
     }
 
     List<TagEnvelop> getTags() {
         List<TagEnvelop> tags = []
-        /*
-        apiGet(_TAG_LIST_URL)?.tags?.each{
-            // TODO: add localized tag names
-            tags.add new TagEnvelop(identity: it.id, title: it.id.substring(it.id.lastIndexOf("/")+1), original: it)
-        }
-          */
         tags
     }
 
@@ -55,24 +43,6 @@ class GmailAccess extends AAccess {
     }
 
     public List<EntryEnvelop> pull(Map params = [:]) {
-        /*
-        String url
-        // Category
-        if(params.category && params.category instanceof ICategory) {
-            ICategory category = params.category
-            url = _CONTENT_BASE_URL + category.identity
-        } else {
-            url = _CONTENT_READER_LIST
-        }
-
-        // TODO: handle tags; now it doesn't work
-
-        // Max num
-        int num = params.num ?: NUM
-
-        url += "?ck="+System.currentTimeMillis()/1000
-        url += "&n=" + num
-                               */
         List<EntryEnvelop> entries = []
         IEntry entry
 
@@ -102,17 +72,15 @@ class GmailAccess extends AAccess {
     }
 
     protected apiGet(String url) {
-        OAuthSession s = new OAuthSession(config);
-        s.consumer.setTokenWithSecret(access.token, access.secret)
-
-        //url += (url.indexOf("?")>-1 ? "&" : "?")+"output=json"
-
-        String result = s.apiGet(url)
+        String result = null
+        try {
+            result = OAuthHelper.callApi(config.oauth, url, access.token, access.secret)
+        } catch(e){}
 
         if (!result) {
             access.expired = true
             access.save()
-            return [:]
+            return ""
         }
         result
     }

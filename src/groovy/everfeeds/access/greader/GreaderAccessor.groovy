@@ -4,18 +4,19 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 
 import everfeeds.Access
 import everfeeds.OAuthSession
-import everfeeds.access.AAccess
+import everfeeds.access.AAccessor
 import everfeeds.access.ICategory
 import everfeeds.access.IEntry
 import everfeeds.access.envelops.CategoryEnvelop
 import everfeeds.access.envelops.EntryEnvelop
 import everfeeds.access.envelops.TagEnvelop
 import grails.converters.deep.JSON
+import everfeeds.OAuthHelper
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class GreaderAccess extends AAccess {
+class GreaderAccessor extends AAccessor {
 
     private static final String _READER_BASE_URL = "http://www.google.com/reader/";
     private static final String _API_URL = _READER_BASE_URL + "api/0/";
@@ -31,11 +32,12 @@ class GreaderAccess extends AAccess {
     private static final String _CONTENT_BASE_URL = _API_URL + "stream/contents/"
     private static final String _CONTENT_READER_LIST = _CONTENT_BASE_URL + "user/-/state/com.google/reading-list"
 
-    private config = AH.application.mainContext.grailsApplication.config.access.greader
-
-
-    GreaderAccess(Access access) {
+    GreaderAccessor(Access access) {
         this.access = access
+    }
+
+    public String getType(){
+        "greader"
     }
 
     List<CategoryEnvelop> getCategories() {
@@ -80,7 +82,7 @@ class GreaderAccess extends AAccess {
         // TODO: handle tags; now it doesn't work
 
         // Max num
-        int num = params.num ?: everfeeds.access.AAccess.NUM
+        int num = params.num ?: everfeeds.access.AAccessor.NUM
 
         url += "?ck=" + System.currentTimeMillis() / 1000
         url += "&n=" + num
@@ -115,17 +117,19 @@ class GreaderAccess extends AAccess {
     }
 
     protected apiGet(String url) {
-        OAuthSession s = new OAuthSession(config);
-        s.consumer.setTokenWithSecret(access.token, access.secret)
-
+        // In google reader we always work with json
         url += (url.indexOf("?") > -1 ? "&" : "?") + "output=json"
-        String result = s.apiGet(url)
+        def result = null
+
+        try {
+            result = OAuthHelper.callJsonApi(config.oauth, url, access.token, access.secret)
+        } catch(e){}
 
         if (!result) {
             access.expired = true
             access.save()
             return [:]
         }
-        JSON.parse(result)
+        result
     }
 }

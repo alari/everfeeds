@@ -6,11 +6,11 @@ import everfeeds.access.google.GoogleAuth
  * Created by alari @ 02.04.11 13:15
  */
 class GmailAuth extends GoogleAuth {
-    static String getType() {
+    String getType() {
         "gmail"
     }
 
-    static public Map authCallback(String verifierStr, Object session) {
-        _authCallback(verifierStr, session, type, super.&authCallback)
+    public Map authCallback(String verifierStr, Object session) {
+        authCallbackHelper(verifierStr, session, super.&authCallback)
     }
 }

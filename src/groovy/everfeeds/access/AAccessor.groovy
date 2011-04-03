@@ -10,9 +10,13 @@ import everfeeds.access.envelops.TagEnvelop
 /**
  * Created by alari @ 14.03.11 15:00
  */
-abstract class AAccess {
+abstract class AAccessor {
     protected Access access
     static final int NUM = 150
+
+    public Map getConfig(){
+        Manager.getConfig(type)
+    }
 
     public void sync() {
         List<TagEnvelop> actualTags = tags
@@ -59,6 +63,8 @@ abstract class AAccess {
         access.lastSync = new Date()
         access.save()
     }
+
+    abstract public String getType()
 
     abstract public boolean isPullable()
 

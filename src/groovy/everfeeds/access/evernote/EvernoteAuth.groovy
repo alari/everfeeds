@@ -12,16 +12,15 @@ import org.scribe.model.Token
  * Created by alari @ 02.04.11 13:18
  */
 class EvernoteAuth extends AOAuthAuth {
-    static String getType() {
+    String getType() {
         "evernote"
     }
 
-    static public Map authCallback(String verifierStr, Object session) {
-        _authCallback(verifierStr, session, type) {Token accessToken ->
+    public Map authCallback(String verifierStr, Object session) {
+        authCallbackHelper(verifierStr, session) {Token accessToken ->
             // Getting UserStore
-            System.err << "https://" + ConfigurationHolder.config.access.evernote.host + "/edam/user"
-            THttpClient userStoreTrans = new THttpClient("https://" + ConfigurationHolder.config.access.evernote.host + "/edam/user");
-            userStoreTrans.setCustomHeader("User-Agent", ConfigurationHolder.config.access.evernote.userAgent);
+            THttpClient userStoreTrans = new THttpClient("https://" + config.host + "/edam/user");
+            userStoreTrans.setCustomHeader("User-Agent", config.userAgent);
             TBinaryProtocol userStoreProt = new TBinaryProtocol(userStoreTrans);
             UserStore.Client userStore = new UserStore.Client(userStoreProt, userStoreProt);
 

@@ -4,7 +4,11 @@ package everfeeds.access
  * Created by alari @ 02.04.11 12:57
  */
 abstract class AAuth {
-    //abstract static public String getAuthUrl(def config, String accessType, Object session)
+    abstract public String getAuthUrl(def session)
 
-    //abstract static public String getType()
+    abstract public String getType()
+
+    public Map getConfig(){
+        Manager.getConfig(type)
+    }
 }
