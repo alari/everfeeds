@@ -10,11 +10,13 @@ import everfeeds.OAuthHelper
  */
 abstract class AOAuthAuth extends AAuth {
 
+    private static final Token EMPTY_TOKEN = null;
+
     abstract public Map authCallback(String verifierStr, Object session)
 
     protected Map authCallbackHelper(String verifierStr, Object session, Closure closure) {
         Verifier verifier = new Verifier(verifierStr);
-        Token accessToken = session?."${type}"?.service?.getAccessToken(session?."${type}"?.token, verifier);
+        Token accessToken = session?."${type}"?.service?.getAccessToken(session?."${type}"?.token ?: EMPTY_TOKEN, verifier);
         session."${type}" = null
 
         Map params = closure.call(accessToken)
@@ -31,7 +33,10 @@ abstract class AOAuthAuth extends AAuth {
     public String getAuthUrl(Object session) {
         OAuthService service = OAuthHelper.getOAuthService(config.oauth, type)
 
-        Token requestToken = service.getRequestToken();
+        Token requestToken = EMPTY_TOKEN;
+        if(service instanceof org.scribe.oauth.OAuth10aServiceImpl) {
+            requestToken = service.getRequestToken();
+        }
         session."${type}" = [service: service, token: requestToken]
 
         service.getAuthorizationUrl requestToken

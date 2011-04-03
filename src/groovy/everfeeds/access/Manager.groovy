@@ -13,6 +13,8 @@ class Manager {
 
     static private Map authCache = [:]
 
+    static private Map accessorClassCache = [:]
+
     static Map getConfig(String type){
         if(configCache[type]) {
             return configCache[type]
@@ -33,15 +35,21 @@ class Manager {
         if(authCache[type]) {
             return authCache[type]
         }
-        def authClass = getConfig(type)?.auth
-        if(!authClass) return null
-        authCache[type] = authClass.newInstance()
+        if(getConfig(type)?.auth == false) return null
+        authCache[type] = classForSuffix(type, "Auth").newInstance()
         return authCache[type]
     }
 
     static AAccessor getAccessor(String type, Access access) {
-        Class accessClass = getConfig(type)?.access
-        if(!accessClass) return null
-        accessClass.newInstance(access)
+        if(!accessorClassCache[type]) {
+            Class accessClass = classForSuffix(type, "Accessor")
+            if(!accessClass) return null
+            accessorClassCache[type] = accessClass
+        }
+        accessorClassCache[type].newInstance(access)
+    }
+
+    static Class classForSuffix(String type, String suffix){
+        Class.forName(this.package.name+"."+type+"."+type.capitalize()+suffix, true, Thread.currentThread().contextClassLoader)
     }
 }

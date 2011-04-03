@@ -19,10 +19,6 @@ class GmailAccessor extends AAccessor {
         this.access = access
     }
 
-    public String getType(){
-        "gmail"
-    }
-
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
         categories.add new CategoryEnvelop(identity: "inbox-unread", title: "Inbox Unread")

@@ -186,8 +186,6 @@ access {
         oauth {
             scope = "https://www.googleapis.com/auth/userinfo#email https://mail.google.com/mail/feed/atom/ https://apps-apis.google.com/a/feeds/email_settings/2.0/"
         }
-        auth = everfeeds.access.gmail.GmailAuth
-        access = everfeeds.access.gmail.GmailAccessor
         title = "GMail (inbox/unread)"
     }
     greader {
@@ -195,8 +193,6 @@ access {
         oauth {
             scope = "http://www.google.com/reader/api/ http://www.google.com/reader/atom/ https://www.googleapis.com/auth/userinfo#email"
         }
-        auth = everfeeds.access.greader.GreaderAuth
-        access = everfeeds.access.greader.GreaderAccessor
         title = "Google Reader"
     }
     evernote {
@@ -214,8 +210,6 @@ access {
                 provider = everfeeds.EvernoteSandboxApi
             }
         }
-        auth = everfeeds.access.evernote.EvernoteAuth
-        access = everfeeds.access.evernote.EvernoteAccessor
         title = "Evernote"
     }
     twitter {
@@ -224,8 +218,15 @@ access {
             secret = '2QFVqw7L0GISHTgdB11GHcmhJo970qRmt2Tg10'
             provider = org.scribe.builder.api.TwitterApi
         }
-        auth = everfeeds.access.twitter.TwitterAuth
-        access = everfeeds.access.twitter.TwitterAccessor
         title = "Twitter"
+    }
+    facebook {
+        oauth {
+            key = "118265721567840"
+            secret = "9d43b1e1ce985e1b3f81d44e51e8cd0f"
+            provider = org.scribe.builder.api.FacebookApi
+            scope = "read_stream"
+        }
+        title = "Facebook"
     }
 }

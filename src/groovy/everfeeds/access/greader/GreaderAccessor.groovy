@@ -36,10 +36,6 @@ class GreaderAccessor extends AAccessor {
         this.access = access
     }
 
-    public String getType(){
-        "greader"
-    }
-
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
 

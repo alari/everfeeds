@@ -6,7 +6,9 @@ package everfeeds.access
 abstract class AAuth {
     abstract public String getAuthUrl(def session)
 
-    abstract public String getType()
+    public String getType(){
+        this.class.package.name.tokenize(".").last()
+    }
 
     public Map getConfig(){
         Manager.getConfig(type)

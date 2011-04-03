@@ -12,10 +12,6 @@ import org.scribe.model.Token
  * Created by alari @ 02.04.11 13:18
  */
 class EvernoteAuth extends AOAuthAuth {
-    String getType() {
-        "evernote"
-    }
-
     public Map authCallback(String verifierStr, Object session) {
         authCallbackHelper(verifierStr, session) {Token accessToken ->
             // Getting UserStore

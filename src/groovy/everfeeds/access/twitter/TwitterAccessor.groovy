@@ -63,10 +63,6 @@ class TwitterAccessor extends AAccessor {
         this.access = access
     }
 
-    public String getType(){
-        "twitter"
-    }
-
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
         categories.add new CategoryEnvelop(identity: "timeline", title: "Timeline")

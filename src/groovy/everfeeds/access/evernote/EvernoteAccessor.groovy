@@ -36,11 +36,6 @@ class EvernoteAccessor extends AAccessor {
         noteStoreUrl = "http://" + config.host + "/edam/note/" + access.shard
     }
 
-
-    public String getType(){
-        "evernote"
-    }
-
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
 

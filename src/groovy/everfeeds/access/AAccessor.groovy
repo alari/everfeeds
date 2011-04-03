@@ -64,7 +64,9 @@ abstract class AAccessor {
         access.save()
     }
 
-    abstract public String getType()
+    public String getType(){
+        this.class.package.name.tokenize(".").last()
+    }
 
     abstract public boolean isPullable()
 
