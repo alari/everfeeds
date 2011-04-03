@@ -5,8 +5,8 @@ import org.scribe.builder.ServiceBuilder
 import org.scribe.model.OAuthRequest
 import org.scribe.model.Token
 import org.scribe.model.Verb
-import org.scribe.model.Verifier
 import org.scribe.oauth.OAuthService
+import grails.converters.deep.XML
 
 /**
  * Created by alari @ 03.04.11 13:13
@@ -24,6 +24,10 @@ class OAuthHelper {
 
     static public Object callJsonApi(def oauthConfig, String url, String token, String secret, Verb method = Verb.GET) {
         JSON.parse(callApi(oauthConfig, url, token, secret, method))
+    }
+
+    static public Object callXmlApi(def oauthConfig, String url, String token, String secret, Verb method = Verb.GET) {
+        XML.parse(callApi(oauthConfig, url, token, secret, method))
     }
 
     static public OAuthService getOAuthService(oauthConfig, String accessType = null) {

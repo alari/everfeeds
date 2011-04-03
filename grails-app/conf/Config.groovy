@@ -229,4 +229,12 @@ access {
         }
         title = "Facebook"
     }
+    linkedin {
+        oauth {
+            key = "LYuiN2KtQJVJcHOggAZsMT20HzezFqMFvHlAVsaUju5y7gjhc6Y3BJpFLg86QNBX"
+            secret = "p93hwB8RY5g7BaEwXc4qZbZhZ7Zqsxl0Rv4TRV9zcW4dBeNuTCfFv5rwjyACUL1U"
+            provider = org.scribe.builder.api.LinkedInApi
+        }
+        title = "LinkedIn"
+    }
 }
