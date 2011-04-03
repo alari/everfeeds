@@ -14,6 +14,8 @@ abstract class AAccessor {
     protected Access access
     static final int NUM = 150
 
+    private String typeCache
+
     public Map getConfig(){
         Manager.getConfig(type)
     }
@@ -65,9 +67,11 @@ abstract class AAccessor {
     }
 
     public String getType(){
-        this.class.package.name.tokenize(".").last()
+        if(!typeCache) {
+            typeCache = this.class.package.name.tokenize(".").last()
+        }
+        typeCache
     }
-
     abstract public boolean isPullable()
 
     abstract public boolean isPushable()

@@ -6,8 +6,13 @@ package everfeeds.access
 abstract class AAuth {
     abstract public String getAuthUrl(def session)
 
+    private String typeCache
+
     public String getType(){
-        this.class.package.name.tokenize(".").last()
+        if(!typeCache) {
+            typeCache = this.class.package.name.tokenize(".").last()
+        }
+        typeCache
     }
 
     public Map getConfig(){
