@@ -7,6 +7,9 @@ import everfeeds.Access
  * Created by alari @ 02.04.11 23:34
  */
 class Manager {
+    static public final int MAX_NUM = 500
+    static public final int NUM = 100
+
     static private config = ConfigurationHolder.config.access
 
     static private Map<String,Map> configCache = [:]

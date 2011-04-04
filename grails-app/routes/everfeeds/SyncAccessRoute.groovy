@@ -2,6 +2,6 @@ package everfeeds
 
 class SyncAccessRoute {
     def configure = {
-        from('seda:sync.access').to('bean:syncService?method=syncAccess')
+        from('activemq:sync.access').to('bean:syncService?method=syncAccess')
     }
 }

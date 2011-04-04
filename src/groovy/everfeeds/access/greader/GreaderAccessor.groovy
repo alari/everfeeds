@@ -12,6 +12,7 @@ import everfeeds.access.envelops.EntryEnvelop
 import everfeeds.access.envelops.TagEnvelop
 import grails.converters.deep.JSON
 import everfeeds.OAuthHelper
+import everfeeds.access.Manager
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -78,7 +79,7 @@ class GreaderAccessor extends AAccessor {
         // TODO: handle tags; now it doesn't work
 
         // Max num
-        int num = params.num ?: everfeeds.access.AAccessor.NUM
+        int num = params.num ?: Manager.NUM
 
         url += "?ck=" + System.currentTimeMillis() / 1000
         url += "&n=" + num

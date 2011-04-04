@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
+import everfeeds.access.Manager
 
 class AccessController {
 
@@ -71,7 +72,7 @@ class AccessController {
             authenticatedUser.addToAccesses access
             access.account = authenticatedUser
             access.save(flush: true)
-            syncService.addToQueue access, true
+            syncService.addToQueue access, [pull: true, num: Manager.MAX_NUM]
             // Adding to a MAX queue
         } else {
             if (!access.account) {
@@ -79,13 +80,14 @@ class AccessController {
                 access.account.addToAccesses access
                 access.save(flush: true)
                 // Adding to a MAX queue
+                syncService.addToQueue access, [pull: true, num: Manager.MAX_NUM]
             } else {
                 // Adding to a CURRENT queue
+                syncService.addToQueue access, [pull: true]
             }
             // set as logged
             log.debug "Setting as logged with authorities: " + access.account.authorities*.authority.join(";")
             SCH.context.authentication = new PreAuthenticatedAuthenticationToken(access.account, access.account, access.account.authorities)
-            syncService.addToQueue access.account, true
         }
     }
 }

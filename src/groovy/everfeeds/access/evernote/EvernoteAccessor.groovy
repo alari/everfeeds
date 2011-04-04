@@ -19,6 +19,7 @@ import org.apache.thrift.transport.THttpClient
 
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
+import everfeeds.access.Manager
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -90,7 +91,7 @@ class EvernoteAccessor extends AAccessor {
             filter.setWords((String) params.search)
         }
         // Max count
-        int num = params.num ?: NUM
+        int num = params.num ?: Manager.NUM
 
         List<EntryEnvelop> entries = []
         IEntry entry

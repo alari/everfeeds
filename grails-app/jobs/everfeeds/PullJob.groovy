@@ -11,7 +11,7 @@ class PullJob {
 
     def execute() {
         Access.findAllByExpiredAndLastSyncLessThan(false, new Date(System.currentTimeMillis()-600000l))?.each {
-            syncService.addToQueue it, true
+            syncService.addToQueue it, [pull: true]
         }
     }
 }

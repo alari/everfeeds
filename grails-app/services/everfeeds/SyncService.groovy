@@ -1,31 +1,25 @@
 package everfeeds
 
-import everfeeds.access.envelops.EntryEnvelop
-
 class SyncService {
-
     static transactional = true
 
-    void addToQueue(Access access, boolean pull = false) {
-        log.debug "Adding access ${access} to queue, pull=${pull}"
-        sendMessage("seda:sync.access", [id: access.id, pull: pull])
+    void addToQueue(Access access, Map params = [:]) {
+        log.debug "Adding access ${access} to queue, pull=${params.pull}"
+        params.id = access.id
+        sendMessage("activemq:sync.access", params)
     }
 
-    void addToQueue(Account account, boolean pull = false) {
-        log.debug "Adding account ${account} to queue, pull=${pull}"
+    void addToQueue(Account account, Map params = [:]) {
+        log.debug "Adding account ${account} to queue, pull=${params.pull}"
         account.accesses.each {
-            addToQueue it, pull
+            addToQueue it, params
         }
-    }
-
-    void addToQueue(EntryEnvelop entry) {
-        log.debug "Adding entry ${entry.identity} to queue"
-        sendMessage("seda:sync.entry", entry)
     }
 
     boolean syncAccess(Map params) {
         def id = params.id
         def pull = params.pull
+        def num = params.num
         log.debug "Processing syncAccess(${id})"
         Access access = Access.get(id)
         access.accessor.sync()
@@ -33,17 +27,17 @@ class SyncService {
         access.save()
         log.debug "Sync complete"
         if (pull) {
-            sendMessage("seda:sync.pull.access", id)
+            sendMessage("activemq:sync.pull.access", [id:id, num:num])
         }
         true
     }
 
-    boolean pullAccess(id) {
-        log.debug "Processing pullAccess(${id})"
-        Access access = Access.get(id)
+    boolean pullAccess(Map params) {
+        log.debug "Processing pullAccess(${params.id})"
+        Access access = Access.get(params.id)
         log.debug "Access type: ${access.type}, access class: ${access.accessor.class.canonicalName}"
-        access.accessor.pull([store:true])
-        log.debug "pullAccess(${id}) finished"
+        access.accessor.pull([store:true, num:params?.num])
+        log.debug "pullAccess(${params.id}) finished"
         true
     }
 }

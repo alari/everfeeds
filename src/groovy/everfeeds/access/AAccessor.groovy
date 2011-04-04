@@ -12,7 +12,6 @@ import everfeeds.access.envelops.TagEnvelop
  */
 abstract class AAccessor {
     protected Access access
-    static final int NUM = 150
 
     private String typeCache
 
