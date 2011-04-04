@@ -2,7 +2,7 @@
     .with{background:#e0ffff}
     .without{background:#ffc0cb}
 </style>
-<div id="filterAside-${random}" style="display:none">
+<div class="filterAside" style="display:none">
     <p><b>Access: ${access.title}</b></p>
     <p><b>Categories: <ul>
         <g:each in="${access.categories}" var="category">
@@ -22,13 +22,12 @@
     </ul></b></p>
 </div>
 <script type="text/javascript">
-    aside(${random});
     tabData = {
         access: ${access.id},
         wtag: ${withTags*.id.encodeAsJavaScript()},
         wotag: ${withoutTags*.id.encodeAsJavaScript()},
         wcat: ${withCategories*.id.encodeAsJavaScript()},
         wocat: ${withoutCategories*.id.encodeAsJavaScript()},
-    }
-
+    };
+    cacheTabData();
 </script>

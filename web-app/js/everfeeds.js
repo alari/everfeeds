@@ -21,7 +21,12 @@ Array.prototype.remove = function(itemToRemove) {
 
 var tabId = "";
 var tabData = {};
+var tabDataCache = {};
 var entriesUrl;
+
+function cacheTabData(){
+    tabDataCache[tabId] = tabData;
+}
 
 function loadTab(li) {
     var t = $(li).attr("id").split("-");
@@ -55,10 +60,6 @@ function loadTab(li) {
     $("#" + tabId).load(entriesUrl, tabData);
 }
 
-function aside(rnd) {
-    $("#asideBox").html($("#filterAside-" + rnd).html());
-}
-
 $(function() {
     $("#tabss").tabs({
         ajaxOptions: {
@@ -70,9 +71,13 @@ $(function() {
         },
         select: function(event, ui) {
             tabId = ui.panel.id;
-            if (tabId == "tab-root") {
-                $("#asideBox").html("");
-            }
+            $("#asideBox").html($(".filterAside", ui.panel).html());
+            if(tabDataCache[tabId]) tabData = tabDataCache[tabId];
+        },
+        load: function(event, ui) {
+            tabId = ui.panel.id;
+            $("#asideBox").html($(".filterAside", ui.panel).html());
+            if(tabDataCache[tabId]) tabData = tabDataCache[tabId];
         },
         cache: true
     });
