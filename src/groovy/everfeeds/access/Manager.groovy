@@ -2,6 +2,7 @@ package everfeeds.access
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import everfeeds.Access
+import everfeeds.I18n
 
 /**
  * Created by alari @ 02.04.11 23:34
@@ -26,6 +27,7 @@ class Manager {
         if(configCache[type].extend) {
             configCache[type] = getConfig(configCache[type].extend).merge(configCache[type])
         }
+        configCache[type].title = I18n."${type}.title"(type.capitalize())
         return configCache[type]
     }
 

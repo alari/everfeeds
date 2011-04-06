@@ -1,3 +1,4 @@
+<%@ page import="everfeeds.I18n" %>
 <h3>
         <g:if test="${entry.sourceUrl}">
                     <a href="${entry.sourceUrl}">${entry.title}</a>
@@ -13,4 +14,4 @@
             |
         <a href="${entry.sourceUrl}" target="_blank">Link</a>
             |
-        Tags: ${entry.tags*.title.join(" , ")}
+        ${I18n."entry.tags"}: ${entry.tags*.title.join(", ")}

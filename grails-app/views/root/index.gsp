@@ -1,6 +1,7 @@
-   <html>
+<%@ page import="everfeeds.I18n" %>
+<html>
     <head>
-        <title>EverFeeds.com</title>
+        <title>${I18n."frontpage.title"()}</title>
         <meta name="layout" content="mono" />
     </head>
     <body>
@@ -8,22 +9,19 @@
     <table>
         <tr>
             <td rowspan="2" width="50%">
-                The big picture with huge logos of social services flooding everything with messages.<br/>
-                Messages are going through a vertex, and only the good, cool ones are out.<br/>
-                This illustrates the process of consuming, organizing, filtering and mixing content.
+                ${I18n."frontpage.image"()}
             </td>
             <th>
-                Pay attention only to what is really worth it.<br/>
-                Filter the rest.
+              ${I18n."frontpage.motto"()}
             </th>
         </tr>
         <tr>
             <td>
-                <b>Sign up / Sign on with your social account</b>
+                <b>${I18n."frontpage.signup"()}</b>
                 <br/>
                 <g:showAccesses/>
                 <br/>
-                <i>No password is needed where possible. By logging in you accept our terms and conditions.</i>
+                <i>${I18n."frontpage.nopassword"()}</i>
             </td>
         </tr>
     </table>

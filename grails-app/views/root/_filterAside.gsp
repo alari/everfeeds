@@ -1,10 +1,12 @@
+<%@ page import="everfeeds.I18n" %>
 <style type="text/css">
     .with{background:#e0ffff}
     .without{background:#ffc0cb}
 </style>
 <div class="filterAside" style="display:none">
-    <p><b>Access: ${access.title}</b></p>
-    <p><b>Categories: <ul>
+    <p><b>${I18n."entry.filter.access"}: ${access.title}</b></p>
+
+    <p><b>${I18n."entry.filter.categories"}: <ul>
         <g:each in="${access.categories}" var="category">
             <li
                     class="${testClass(category, withCategories, withoutCategories)}"
@@ -12,7 +14,8 @@
                     onclick="loadTab(this)">${category.title}</li>
         </g:each>
     </ul></b></p>
-    <p><b>Tags: <ul>
+
+    <p><b>${I18n."entry.filter.tags"}: <ul>
         <g:each in="${access.tags}" var="tag">
             <li
                     class="${testClass(tag, withTags, withoutTags)}"
