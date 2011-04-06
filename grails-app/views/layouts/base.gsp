@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="everfeeds.I18n" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -18,8 +18,8 @@
 <div id="wrapper">
 
 	<header id="header">
-		<g:link controller="root">Everfeeds.com</g:link>
-        <sec:ifLoggedIn><g:link controller="logout">- Logout</g:link> </sec:ifLoggedIn>
+		<g:link controller="root">${I18n."layout.title"()}</g:link>
+        <sec:ifLoggedIn><g:link controller="logout">${I18n."layout.logout"()}</g:link> </sec:ifLoggedIn>
 	</header><!-- #header-->
 
     <g:if test="${flash.message}">
@@ -32,7 +32,7 @@
 </div><!-- #wrapper -->
 
 <footer id="footer">
-	&copy; Everfeeds.com, 2011
+	&copy; ${I18n."layout.footer.copyright"()}
 </footer><!-- #footer -->
 
 </body>

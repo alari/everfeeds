@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<!DOCTYPE html><g:applyLayout name="base">
+<g:applyLayout name="base">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <g:layoutHead />
@@ -22,7 +22,6 @@
             <sec:ifLoggedIn>
                 <g:showAccesses/>
             </sec:ifLoggedIn>
-                                 oijoijio
 		</aside><!-- #sideRight -->
 
 	</section><!-- #middle-->
