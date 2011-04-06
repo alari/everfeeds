@@ -25,15 +25,29 @@ class Manager {
         }
         configCache[type] = config."${type}" as Map
         if(configCache[type].extend) {
-            configCache[type] = getConfig(configCache[type].extend).merge(configCache[type])
+            configCache[type] = mergeRecursive( getConfig(configCache[type].extend) , configCache[type])
         }
-        configCache[type].title = I18n."${type}.title"(type.capitalize())
         return configCache[type]
     }
 
+  // TODO: add it to Map metaclass
+  static private Map mergeRecursive(Map base, Map over) {
+    Map result = [:]
+    base.each {k,v->
+        // If current value is a map, we should replace or merge it
+        if(v instanceof Map && over.containsKey(k) && over[k] instanceof Map) {
+            result[k] = mergeRecursive(v, over[k]);
+        } else {
+          result[k] = over.containsKey(k) ? over[k] : v
+        }
+      }
+    result
+  }
+
     static Map getConfigs(){
-        // TODO: return full configCache instead
-        config
+      // TODO: improve performance
+        config.each{k,v->getConfig(k)}
+      configCache
     }
 
     static AAuth getAuth(String type){
