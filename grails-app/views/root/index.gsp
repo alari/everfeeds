@@ -1,4 +1,4 @@
-<%@ page import="everfeeds.I18n" %>
+<%@ page import="everfeeds.I18n" contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
         <title>${I18n."frontpage.title"()}</title>

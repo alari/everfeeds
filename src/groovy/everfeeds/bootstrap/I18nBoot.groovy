@@ -9,7 +9,7 @@ import everfeeds.I18n
  */
 class I18nBoot {
   static run() {
-    // Usage: I18n."code(:locale)?"(param:value?, param:value?, "Default message"?, "encode as"?)
+    // Usage: I18n."code(:locale)?"([value, value?, ...]?, "Default message"?, "encode as"?)
     I18n.metaClass.'static'.invokeMethod = { String code, args ->
 
       // Defining locale and message code
@@ -24,17 +24,17 @@ class I18nBoot {
 
       // No arguments given
       if(args.size() == 0) {
-        args = [:]
+        args = []
       } else {
         List params
         // There is a map of args and some unmapped params
-        if(args[0] instanceof Map) {
+        if(args[0] instanceof List) {
           params = args.tail()
           args = args[0]
         } else {
           // Only unmapped params
           params = args
-          args = [:]
+          args = []
         }
         if(params.size()) {
           if(params[0]) defaultMessage = params[0]

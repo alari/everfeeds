@@ -1,14 +1,15 @@
+<%@ page import="everfeeds.I18n" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>EverFeeds.com private area</title>
+    <title>${I18n."index.title"()}</title>
     <meta name="layout" content="duo"/>
 </head>
 <body>
 
 <div id="tabss">
     <ul>
-        <li><a href="#tab-root">Root</a></li>
-        <li><g:link action="entries">Mash</g:link></li>
+        <li><a href="#tab-root">${I18n."index.tab.root"()}</a></li>
+        <li><g:link action="entries">${I18n."index.tab.mash"()}</g:link></li>
         <g:each in="${account.accesses}" var="access">
             <li>
                 <g:link action="entries" params="[access:access.id]">
@@ -20,11 +21,11 @@
     <div id="tab-root">
         <table>
             <tr><td>
-                <h2>Useful tips</h2>
+                <h2>Useful tips (not i18n until confirmed)</h2>
                 <b>
                     <ul>
-                        <li><g:link action="mash">Take a look on mash</g:link></li>
-                        <li>Filter the feed and transfer it to another social service</li>
+                        <li>Take a look on mash</li>
+                        <li>Filter the feed</li>
                         <li>Create a mix of filtered feeds</li>
                     </ul>
                 </b>

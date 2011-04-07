@@ -13,14 +13,14 @@ class AccessController {
     def springSecurityService
 
     def index = {
-        flash.message = "Error: somehow we got to Access::index"
+        flash.error = I18n."access.error.index"()
         redirect controller: "root"
     }
 
     def auth = {
         log.debug "AUTH for ${params.id}"
         if (!ConfigurationHolder.config.access."${params.id}"?.auth instanceof Class) {
-            flash.message = "Error: unknown provider: ${params.id}"
+            flash.error = I18n."access.error.unknownprovider"([params.id])
             redirect controller: "root"
         } else {
             redirect url: authService.getAuthUrl(params.id)
@@ -30,14 +30,18 @@ class AccessController {
     def callback = {
         log.debug "CALLBACK for ${params.id}"
         if (!ConfigurationHolder.config.access."${params.id}"?.auth instanceof Class) {
-            flash.message = "Error: unknown provider: ${params.id}"
+            flash.error = I18n."access.error.unknownprovider"([params.id])
             redirect controller: "root"
             return
         }
 
-        Access access = authService.processCallback(params.id, params.oauth_verifier)
+        Access access = null
+        try {
+            access = authService.processCallback(params.id, params.oauth_verifier)
+        } catch(ignore){}
+
         if (!access) {
-            flash.message = "Access denied for ${params.oauth_verifier}"
+            flash.error = I18n."access.error.denied"([params.id])
             redirect controller: "root"
             return
         }
@@ -47,7 +51,7 @@ class AccessController {
         access.expired = false
         access.save()
 
-        flash.message = "You're logged in"
+        flash.message = I18n."access.loggedin"([I18n."${params.id}.title"()])
         redirect controller: "root"
 
     }
