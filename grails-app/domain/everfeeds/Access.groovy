@@ -3,12 +3,6 @@ package everfeeds
 import everfeeds.access.*
 
 class Access {
-
-    static final String TYPE_EVERNOTE = "evernote"
-    static final String TYPE_GREADER = "greader"
-    static final String TYPE_TWITTER = "twitter"
-    static final String TYPE_GMAIL = "gmail"
-
     String identity
     String type
     String token
