@@ -63,16 +63,16 @@ class TwitterAccessor extends AAccessor {
 
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
-        categories.add new CategoryEnvelop(identity: "timeline", title: "Timeline")
-        categories.add new CategoryEnvelop(identity: "mentions", title: "Mentions")
-        categories.add new CategoryEnvelop(identity: "messages", title: "Messages")
+        categories.add new CategoryEnvelop(identity: "timeline", title: "twitter.category.timeline", titleIsCode: true)
+        categories.add new CategoryEnvelop(identity: "mentions", title: "twitter.category.mentions", titleIsCode: true)
+        categories.add new CategoryEnvelop(identity: "messages", title: "twitter.category.messages", titleIsCode: true)
         categories
     }
 
     List<TagEnvelop> getTags() {
         List<TagEnvelop> tags = []
         TAGS.each {identity, params ->
-            tags.add new TagEnvelop(identity: identity, title: params.title)
+            tags.add new TagEnvelop(identity: identity, title: "twitter.tag."+identity, titleIsCode: true)
         }
         tags
     }

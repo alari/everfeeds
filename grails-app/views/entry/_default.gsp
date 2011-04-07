@@ -12,6 +12,6 @@
             |                        </g:if>
         <g:formatDate date="${entry.placedDate}"/>
             |
-        <a href="${entry.sourceUrl}" target="_blank">Link</a>
+        <a href="${entry.sourceUrl}" target="_blank">${I18n."entry.link"()}</a>
             |
-        ${I18n."entry.tags"}: ${entry.tags*.title.join(", ")}
+        ${I18n."entry.tags"()}: ${entry.tags.join(", ")}

@@ -37,13 +37,14 @@ abstract class AAccessor {
                 access.removeFromTags t
                 t.delete()
             } else {
+                if(t.titleIsCode) return;
                 t.title = tag.title
                 t.save()
                 actualTags.remove(tag)
             }
         }
         actualTags.each { t ->
-            access.addToTags new Tag(identity: t.identity, title: t.title, access: access).save()
+            access.addToTags new Tag(identity: t.identity, title: t.title, access: access, titleIsCode: t.titleIsCode).save()
         }
 
         currentCategories.each { c ->
@@ -52,13 +53,14 @@ abstract class AAccessor {
                 access.removeFromCategories c
                 c.delete()
             } else {
+                if(c.titleIsCode) return;
                 c.title = category.title
                 c.save()
                 actualCategories.remove(category)
             }
         }
         actualCategories.each { c ->
-            access.addToCategories new Category(identity: c.identity, title: c.title, access: access).save()
+            access.addToCategories new Category(identity: c.identity, title: c.title, access: access, titleIsCode: c.titleIsCode).save()
         }
 
         access.lastSync = new Date()

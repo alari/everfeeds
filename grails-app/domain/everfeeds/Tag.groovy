@@ -5,6 +5,7 @@ import everfeeds.access.ITag
 class Tag implements ITag, Comparable{
     String identity
     String title
+    boolean titleIsCode = false
 
     Access access
 
@@ -21,7 +22,8 @@ class Tag implements ITag, Comparable{
     }
 
     String toString(){
-        "[${identity} -> ${title}]"
+        if(titleIsCode) return I18n."${title}"()
+        title
     }
 
     public int compareTo(def other) {

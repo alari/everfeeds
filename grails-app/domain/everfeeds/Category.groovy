@@ -6,6 +6,7 @@ class Category implements ICategory,Comparable{
 
     String identity
     String title
+    boolean titleIsCode = false
 
     Access access
 
@@ -23,7 +24,8 @@ class Category implements ICategory,Comparable{
     }
 
     String toString(){
-        "[${identity} -> ${title}]"
+        if(titleIsCode) return I18n."${title}"()
+        title
     }
 
     public int compareTo(def other) {

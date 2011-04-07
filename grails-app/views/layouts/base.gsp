@@ -26,6 +26,10 @@
         <div id="message"><p>${flash.message}</p></div>
         <jq:jquery>$("#message").dialog();</jq:jquery>
     </g:if>
+    <g:if test="${flash.error}">
+        <div id="error"><p>${flash.error}</p></div>
+        <jq:jquery>$("#error").dialog();</jq:jquery>
+    </g:if>
 
         <g:layoutBody />
 

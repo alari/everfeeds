@@ -50,9 +50,18 @@ class GreaderAccessor extends AAccessor {
     List<TagEnvelop> getTags() {
         List<TagEnvelop> tags = []
 
+        String title
+        boolean titleIsCode = false
+
         apiGet(_TAG_LIST_URL)?.tags?.each {
             // TODO: add localized tag names
-            tags.add new TagEnvelop(identity: it.id, title: it.id.substring(it.id.lastIndexOf("/") + 1), original: it)
+            title = it.id.substring(it.id.lastIndexOf("/") + 1)
+
+            if(title in ["starred","blogger-following","broadcast"]) {
+                title = "greader.tag."+title
+                titleIsCode = true
+            }
+            tags.add new TagEnvelop(identity: it.id, title: title, original: it, titleIsCode: titleIsCode)
         }
 
         tags

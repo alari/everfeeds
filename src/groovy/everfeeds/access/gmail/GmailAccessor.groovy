@@ -21,7 +21,7 @@ class GmailAccessor extends AAccessor {
 
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
-        categories.add new CategoryEnvelop(identity: "inbox-unread", title: "Inbox Unread")
+        categories.add new CategoryEnvelop(identity: "inbox-unread", title: "gmail.category.inbox", titleIsCode: true)
         categories
     }
 

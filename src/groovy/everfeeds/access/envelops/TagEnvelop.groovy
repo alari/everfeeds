@@ -8,6 +8,7 @@ import everfeeds.access.ITag
 class TagEnvelop implements ITag {
     String identity
     String title
+    boolean titleIsCode = false
     def original
 
     String toString() {

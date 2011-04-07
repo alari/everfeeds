@@ -20,11 +20,11 @@ class Manager {
     static private Map accessorClassCache = [:]
 
     static Map getConfig(String type){
-        if(configCache[type]) {
+        if(configCache.containsKey(type)) {
             return configCache[type]
         }
         configCache[type] = config."${type}" as Map
-        if(configCache[type].extend) {
+        if(configCache[type].containsKey("extend")) {
             configCache[type] = mergeRecursive( getConfig(configCache[type].extend) , configCache[type])
         }
         return configCache[type]
@@ -36,10 +36,13 @@ class Manager {
     base.each {k,v->
         // If current value is a map, we should replace or merge it
         if(v instanceof Map && over.containsKey(k) && over[k] instanceof Map) {
-            result[k] = mergeRecursive(v, over[k]);
+            result[k] = mergeRecursive(v, over.remove(k) as Map);
         } else {
-          result[k] = over.containsKey(k) ? over[k] : v
+          result[k] = over.containsKey(k) ? over.remove(k) : v
         }
+      }
+      over.each {k,v->
+          result[k] = v
       }
     result
   }

@@ -8,6 +8,7 @@ import everfeeds.access.ICategory
 class CategoryEnvelop implements ICategory {
     String identity
     String title
+    boolean titleIsCode = false
 
     def original
 

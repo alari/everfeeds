@@ -11,7 +11,7 @@
             <li
                     class="${testClass(category, withCategories, withoutCategories)}"
                     id="cat-${category.id}"
-                    onclick="loadTab(this)">${category.title}</li>
+                    onclick="loadTab(this)">${category}</li>
         </g:each>
     </ul></b></p>
 
@@ -20,7 +20,7 @@
             <li
                     class="${testClass(tag, withTags, withoutTags)}"
                     id="tag-${tag.id}"
-                    onclick="loadTab(this)">${tag.title}</li>
+                    onclick="loadTab(this)">${tag}</li>
         </g:each>
     </ul></b></p>
 </div>

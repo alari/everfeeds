@@ -11,4 +11,8 @@ public interface ICategory {
     String getTitle()
 
     void setTitle(String s)
+
+    void setTitleIsCode(boolean b)
+
+    boolean getTitleIsCode()
 }
