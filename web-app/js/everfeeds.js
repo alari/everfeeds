@@ -28,6 +28,11 @@ function cacheTabData(){
     tabDataCache[tabId] = tabData;
 }
 
+function pageTab(currPage, a){
+    tabData.page = currPage+1;
+    $(a).parent().removeClass("load-more").load(entriesUrl, tabData);
+}
+
 function loadTab(li) {
     var t = $(li).attr("id").split("-");
     var i = t[1];

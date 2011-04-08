@@ -4,21 +4,21 @@
     .without{background:#ffc0cb}
 </style>
 <div class="filterAside" style="display:none">
-    <p><b>${I18n."entry.filter.access"()}: ${access.title}</b></p>
+    <p><b>${I18n."entry.filter.access"()}: ${filter.access.title}</b></p>
 
     <p><b>${I18n."entry.filter.categories"()}: <ul>
-        <g:each in="${access.categories}" var="category">
+        <g:each in="${filter.access.categories}" var="category">
             <li
-                    class="${testClass(category, withCategories, withoutCategories)}"
+                    class="<g:filterCls obj="${category}" with="${filter.withCategories}" without="${filter.withoutCategories}"/>"
                     id="cat-${category.id}"
                     onclick="loadTab(this)">${category}</li>
         </g:each>
     </ul></b></p>
 
     <p><b>${I18n."entry.filter.tags"()}: <ul>
-        <g:each in="${access.tags}" var="tag">
+        <g:each in="${filter.access.tags}" var="tag">
             <li
-                    class="${testClass(tag, withTags, withoutTags)}"
+                    class="<g:filterCls obj="${tag}" with="${filter.withTags}" without="${filter.withoutTags}"/>"
                     id="tag-${tag.id}"
                     onclick="loadTab(this)">${tag}</li>
         </g:each>
@@ -26,11 +26,11 @@
 </div>
 <script type="text/javascript">
     tabData = {
-        access: ${access.id},
-        wtag: ${withTags*.id.encodeAsJavaScript()},
-        wotag: ${withoutTags*.id.encodeAsJavaScript()},
-        wcat: ${withCategories*.id.encodeAsJavaScript()},
-        wocat: ${withoutCategories*.id.encodeAsJavaScript()},
+        access: ${filter.access.id},
+        wtag: ${filter.withTags*.id.encodeAsJavaScript()},
+        wotag: ${filter.withoutTags*.id.encodeAsJavaScript()},
+        wcat: ${filter.withCategories*.id.encodeAsJavaScript()},
+        wocat: ${filter.withoutCategories*.id.encodeAsJavaScript()},
     };
     cacheTabData();
 </script>

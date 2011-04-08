@@ -113,3 +113,6 @@ input {
     margin: 10px;
     border: 1px solid gray;
 }
+.load-more {
+    padding:10px; text-align:center;
+}

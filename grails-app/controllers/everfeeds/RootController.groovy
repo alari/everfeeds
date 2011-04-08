@@ -1,6 +1,7 @@
 package everfeeds
 
 import grails.plugins.springsecurity.Secured
+import everfeeds.access.envelops.FilterEnvelop
 
 class RootController {
     def syncService
@@ -15,33 +16,39 @@ class RootController {
     @Secured(['ROLE_ACCOUNT'])
     def entries = {
         Access access = Access.findByIdAndAccount(params.access, authenticatedUser)
-        def entries
-        Map filterParams = [
-                access: access,
-                withTags: [],
-                withoutTags: [],
-                withCategories: [],
-                withoutCategories: [],
-        ]
+        List<Entry> entries
+        FilterEnvelop filter = new FilterEnvelop()
+        filter.account = authenticatedUser
+        def max = 10
+        def page = params.page ? params.int("page") : 0
+
         if (access) {
-            Closure filterParam = {what, param ->
-                params.list(param + "[]").collect {p -> access."${what}".find {i -> i.id == Long.parseLong(p.toString())}}
-            }
-            filterParams.withTags = filterParam("tags", "wtag")
-            filterParams.withoutTags = filterParam("tags", "wotag")
-
-            filterParams.withCategories = filterParam("categories", "wcat")
-            filterParams.withoutCategories = filterParam("categories", "wocat")
-
-            entries = Entry.findAllFiltered(filterParams).list()
-        } else {
-            entries = Entry.findAllByAccount(authenticatedUser, [sort: "placedDate", order: "desc"])
+            setFilterParams filter, access
         }
+
+        entries = filter.findEntries(max: max, offset: page*max)
+
         render template: "entries", model: [entries: entries]
+
         if (access) {
-            filterParams.random = new Random().nextInt().toString()
-            filterParams.testClass = {obj, with, without -> with.contains(obj) ? "with" : (without.contains(obj) ? "without" : "")}
-            render template: "filterAside", model: filterParams
+            render template: "filterAside", model: [filter:filter]
         }
+
+        if(entries.size() >= max-1) {
+            render template: "loadMore", model: [page: page]
+        }
+    }
+
+    private setFilterParams(FilterEnvelop filter, Access access) {
+            filter.access = access
+            filter.withTags = filterParam("tags", "wtag", access)
+            filter.withoutTags = filterParam("tags", "wotag", access)
+
+            filter.withCategories = filterParam("categories", "wcat", access)
+            filter.withoutCategories = filterParam("categories", "wocat", access)
+    }
+
+    private List filterParam(what, param, access){
+        params.list(param + "[]").collect {p -> access."${what}".find {i -> i.id == Long.parseLong(p.toString())}}
     }
 }
