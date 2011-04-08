@@ -4,7 +4,7 @@
     .without{background:#ffc0cb}
 </style>
 <div class="filterAside" style="display:none">
-    <p><b>${I18n."entry.filter.access"()}: ${filter.access.title}</b></p>
+    <p><b>${I18n."entry.filter.access"()}: ${filter.access.title.encodeAsHTML()}</b></p>
 
     <p><b>${I18n."entry.filter.categories"()}: <ul>
         <g:each in="${filter.access.categories}" var="category">

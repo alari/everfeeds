@@ -24,7 +24,7 @@ abstract class GoogleAuth extends AOAuthAuth {
         if (!email) return null
 
         [
-                screen: email
+                id: email
         ]
     }
 }

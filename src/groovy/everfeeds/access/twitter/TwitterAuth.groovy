@@ -11,15 +11,14 @@ import everfeeds.OAuthHelper
 class TwitterAuth extends AOAuthAuth {
     public Map authCallback(String verifierStr, Object session) {
         authCallbackHelper(verifierStr, session) {Token accessToken ->
-            def screen_name = OAuthHelper.callJsonApi(
+            def params = OAuthHelper.callJsonApi(
                     config.oauth,
                     "http://api.twitter.com/1/account/verify_credentials.json",
-                    accessToken.token, accessToken.secret)?.screen_name
-
-            if (!screen_name) return null
+                    accessToken.token, accessToken.secret)
 
             [
-                    screen: screen_name
+                    id: params?.id,
+                    title: params?.screen_name
             ]
         }
     }

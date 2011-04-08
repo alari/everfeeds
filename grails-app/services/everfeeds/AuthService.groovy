@@ -22,12 +22,13 @@ class AuthService {
     }
 
     Access getAccess(Map params) {
-        if (!params.type || !params.screen) {
-            throw new IllegalArgumentException("Cannot get access without type/screen")
+        if (!params.type || !params.id) {
+            throw new IllegalArgumentException("Cannot get access without type/id")
         }
 
-        Access access = Access.findByIdentity(params.type + ":" + params.screen) ?: new Access(
-                identity: params.type + ":" + params.screen,
+        Access access = Access.findByIdentity(params.type + ":" + params.id) ?: new Access(
+                identity: params.type + ":" + params.id,
+                title: params.title,
                 type: params.type
         )
         if (params.token) {

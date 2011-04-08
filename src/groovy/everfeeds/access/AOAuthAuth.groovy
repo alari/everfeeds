@@ -20,8 +20,11 @@ abstract class AOAuthAuth extends AAuth {
         session."${type}" = null
 
         Map params = closure.call(accessToken)
-        if (!params?.screen) {
+        if (!params?.id) {
             return null
+        }
+        if(!params?.title) {
+            params.title = params.id
         }
         params.type = type
         params.token = accessToken.token

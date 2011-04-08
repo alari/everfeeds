@@ -4,6 +4,7 @@ import everfeeds.access.*
 
 class Access {
     String identity
+    String title
     String type
     String token
     String secret
@@ -22,7 +23,7 @@ class Access {
     static belongsTo = Account
     static hasMany = [tags:Tag, categories:Category, entries:Entry]
 
-    static transients = ["accessor", "cachedAccessor", "title"]
+    static transients = ["accessor", "cachedAccessor"]
 
     static constraints = {
         identity unique: true
@@ -43,10 +44,6 @@ class Access {
             log.debug "Access | ${type} already has ${cachedAccessor.class.canonicalName}"
         }
         cachedAccessor
-    }
-
-    String getTitle(){
-        identity.substring(identity.indexOf(":")+1)
     }
 
     String toString() {

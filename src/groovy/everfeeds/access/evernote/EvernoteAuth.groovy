@@ -25,7 +25,8 @@ class EvernoteAuth extends AOAuthAuth {
             if (!user) return null
 
             [
-                    screen: user.username,
+                    id: user.username,
+                    title: user.username,
                     shard: user.shardId
             ]
         }

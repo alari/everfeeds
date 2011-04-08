@@ -13,8 +13,8 @@
         <g:each in="${account.accesses}" var="access">
             <li>
                 <g:link action="entries" params="[access:access.id]">
-                    <img src="${resource(dir: "images/social", file: access.type + ".jpg")}" with="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title}"/>
-                    ${access.title}</g:link></li>
+                    <img src="${resource(dir: "images/social", file: access.type + ".jpg")}" with="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
+                    ${access.title.encodeAsHTML()}</g:link></li>
         </g:each>
     </ul>
 

@@ -18,7 +18,7 @@ class FacebookAuth extends AOAuthAuth {
             if (!screen_name) return null
 
             [
-                    screen: screen_name
+                    id: screen_name
             ]
         }
     }
