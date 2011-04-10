@@ -10,6 +10,7 @@ import everfeeds.access.envelops.TagEnvelop
 import java.text.SimpleDateFormat
 import everfeeds.OAuthHelper
 import everfeeds.access.Manager
+import everfeeds.annotations.Reconnectable
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -85,6 +86,7 @@ class TwitterAccessor extends AAccessor {
         true
     }
 
+    @Reconnectable
     public List<EntryEnvelop> pull(Map params = [:]) {
         // Max count
         int num = params.num ?: Manager.NUM
