@@ -17,6 +17,9 @@ class Entry implements EntryFace {
     Account account
     Access access
 
+    Date dateCreated
+    Date lastUpdated
+
     private String type
 
     static hasMany = [tags: Tag]
@@ -27,6 +30,7 @@ class Entry implements EntryFace {
 
     static constraints = {
         placedDate index: "placedDateIndex"
+        dateCreated index: "dateCreatedIndex"
         content maxSize: 1024 * 1024
         author nullable: true
         sourceUrl nullable: true
@@ -37,6 +41,7 @@ class Entry implements EntryFace {
         findAllFiltered { params ->
             and {
                 eq("access", params.access)
+                "${params.getNew ? 'gt' : 'lt'}"("dateCreated", params.splitDate)
                 if(params.withCategories?.size()) {
                     'in'("category", params.withCategories)
                 }

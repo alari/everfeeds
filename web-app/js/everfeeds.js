@@ -33,6 +33,15 @@ function pageTab(currPage, a){
     $(a).parent().removeClass("load-more").load(entriesUrl, tabData);
 }
 
+function tabCheckNew(a){
+    var data = $.extend({}, tabData);
+    var o = $(a).parent();
+    o.html(".......");
+    data.page = 0;
+    data.getNew = true;
+    o.removeClass("load-more").load(entriesUrl, data);
+}
+
 function loadTab(li) {
     var t = $(li).attr("id").split("-");
     var i = t[1];

@@ -25,8 +25,13 @@ class RootController {
         if (access) {
             setFilterParams filter, access
         }
+        setFilterSplitDate filter
 
         entries = filter.findEntries(max: max, offset: page*max)
+
+        if(!page) {
+            render template: "checkNew"
+        }
 
         render template: "entries", model: [entries: entries]
 
@@ -36,6 +41,15 @@ class RootController {
 
         if(entries.size() >= max-1) {
             render template: "loadMore", model: [page: page]
+        }
+    }
+
+    private setFilterSplitDate(FilterEnvelop filter){
+        if(params?.getNew) {
+            filter.getNew = true
+            filter.splitDate = new Date(params.long("newTime") ?: (params.long("listTime") ?: System.currentTimeMillis()))
+        } else {
+            filter.splitDate = new Date(params.listTime ? params.long("listTime") : System.currentTimeMillis())
         }
     }
 

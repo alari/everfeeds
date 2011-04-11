@@ -13,13 +13,25 @@ class FilterEnvelop implements FilterFace{
     Category[] withoutCategories = []
     Account account
 
+    Date splitDate
+    boolean getNew
+
     List<Entry> findEntries(Map listParams = [:]) {
         if(!listParams.containsKey("sort")) listParams["sort"] = "placedDate"
         if(!listParams.containsKey("order")) listParams["order"] = "desc"
+
+        def criteria
+
         if(access){
             Entry.findAllFiltered(this).list(listParams)
         } else {
-            Entry.findAllByAccount(account, listParams ?: [sort: "placedDate", order: "desc"])
+            def c = Entry.createCriteria()
+            c.list(listParams){
+                and {
+                    eq "account", account
+                    "${getNew ? 'gt' : 'lt'}"("dateCreated", splitDate)
+                }
+            }
         }
     }
 }
