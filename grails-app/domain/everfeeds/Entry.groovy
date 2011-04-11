@@ -1,9 +1,9 @@
 package everfeeds
 
-import everfeeds.access.IEntry
+import everfeeds.envelops.EntryFace
 import org.hibernate.transform.DistinctRootEntityResultTransformer
 
-class Entry implements IEntry {
+class Entry implements EntryFace {
 
     String identity
     String title

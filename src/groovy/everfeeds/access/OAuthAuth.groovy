@@ -8,7 +8,7 @@ import everfeeds.OAuthHelper
 /**
  * Created by alari @ 02.04.11 13:01
  */
-abstract class AOAuthAuth extends AAuth {
+abstract class OAuthAuth extends Auth {
 
     private static final Token EMPTY_TOKEN = null;
 

@@ -2,7 +2,6 @@ package everfeeds.access
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import everfeeds.Access
-import everfeeds.I18n
 
 /**
  * Created by alari @ 02.04.11 23:34
@@ -53,7 +52,7 @@ class Manager {
       configCache
     }
 
-    static AAuth getAuth(String type){
+    static Auth getAuth(String type){
         if(authCache[type]) {
             return authCache[type]
         }
@@ -62,7 +61,7 @@ class Manager {
         return authCache[type]
     }
 
-    static AAccessor getAccessor(String type, Access access) {
+    static Accessor getAccessor(String type, Access access) {
         if(!accessorClassCache[type]) {
             Class accessClass = classForSuffix(type, "Accessor")
             if(!accessClass) return null

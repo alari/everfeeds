@@ -2,12 +2,12 @@ package everfeeds.access.facebook
 
 import everfeeds.OAuthHelper
 import org.scribe.model.Token
-import everfeeds.access.AOAuthAuth
+import everfeeds.access.OAuthAuth
 
 /**
  * Created by alari @ 02.04.11 13:15
  */
-class FacebookAuth extends AOAuthAuth {
+class FacebookAuth extends OAuthAuth {
     public Map authCallback(String verifierStr, Object session) {
         authCallbackHelper(verifierStr, session) {Token accessToken ->
             def screen_name = OAuthHelper.callJsonApi(

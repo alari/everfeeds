@@ -1,17 +1,17 @@
 package everfeeds.access.gmail
 
 import everfeeds.Access
-import everfeeds.access.AAccessor
-import everfeeds.access.IEntry
-import everfeeds.access.envelops.CategoryEnvelop
-import everfeeds.access.envelops.EntryEnvelop
-import everfeeds.access.envelops.TagEnvelop
+import everfeeds.access.Accessor
+import everfeeds.envelops.EntryFace
+import everfeeds.envelops.CategoryEnvelop
+import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.TagEnvelop
 import everfeeds.OAuthHelper
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class GmailAccessor extends AAccessor {
+class GmailAccessor extends Accessor {
 
     private static final String _FEED_URL = "https://mail.google.com/mail/feed/atom/";
 
@@ -40,7 +40,7 @@ class GmailAccessor extends AAccessor {
 
     public List<EntryEnvelop> pull(Map params = [:]) {
         List<EntryEnvelop> entries = []
-        IEntry entry
+        EntryFace entry
 
         new XmlSlurper().parseText(apiGet(_FEED_URL).toString())?.entry?.each {
             entry = new EntryEnvelop(
@@ -63,7 +63,7 @@ class GmailAccessor extends AAccessor {
         entries
     }
 
-    void push(IEntry entry) {
+    void push(EntryFace entry) {
         void
     }
 

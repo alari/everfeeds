@@ -1,23 +1,21 @@
 package everfeeds.access.greader
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
-
 import everfeeds.Access
-import everfeeds.OAuthSession
-import everfeeds.access.AAccessor
-import everfeeds.access.ICategory
-import everfeeds.access.IEntry
-import everfeeds.access.envelops.CategoryEnvelop
-import everfeeds.access.envelops.EntryEnvelop
-import everfeeds.access.envelops.TagEnvelop
-import grails.converters.deep.JSON
+
+import everfeeds.access.Accessor
+import everfeeds.envelops.CategoryFace
+import everfeeds.envelops.EntryFace
+import everfeeds.envelops.CategoryEnvelop
+import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.TagEnvelop
+
 import everfeeds.OAuthHelper
 import everfeeds.access.Manager
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class GreaderAccessor extends AAccessor {
+class GreaderAccessor extends Accessor {
 
     private static final String _READER_BASE_URL = "http://www.google.com/reader/";
     private static final String _API_URL = _READER_BASE_URL + "api/0/";
@@ -78,8 +76,8 @@ class GreaderAccessor extends AAccessor {
     public List<EntryEnvelop> pull(Map params = [:]) {
         String url
         // Category
-        if (params.category && params.category instanceof ICategory) {
-            ICategory category = params.category
+        if (params.category && params.category instanceof CategoryFace) {
+            CategoryFace category = params.category
             url = _CONTENT_BASE_URL + category.identity
         } else {
             url = _CONTENT_READER_LIST
@@ -94,7 +92,7 @@ class GreaderAccessor extends AAccessor {
         url += "&n=" + num
 
         List<EntryEnvelop> entries = []
-        IEntry entry
+        EntryFace entry
 
         apiGet(url)?.items?.each {
             entry = new EntryEnvelop(
@@ -118,7 +116,7 @@ class GreaderAccessor extends AAccessor {
         entries
     }
 
-    void push(IEntry entry) {
+    void push(EntryFace entry) {
         void
     }
 

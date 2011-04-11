@@ -2,11 +2,11 @@ package everfeeds.access.twitter
 
 import com.twitter.Autolink
 import everfeeds.Access
-import everfeeds.access.AAccessor
-import everfeeds.access.IEntry
-import everfeeds.access.envelops.CategoryEnvelop
-import everfeeds.access.envelops.EntryEnvelop
-import everfeeds.access.envelops.TagEnvelop
+import everfeeds.access.Accessor
+import everfeeds.envelops.EntryFace
+import everfeeds.envelops.CategoryEnvelop
+import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.TagEnvelop
 import java.text.SimpleDateFormat
 import everfeeds.OAuthHelper
 import everfeeds.access.Manager
@@ -15,7 +15,7 @@ import everfeeds.annotations.Reconnectable
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class TwitterAccessor extends AAccessor {
+class TwitterAccessor extends Accessor {
 
     static final Map CATEGORIES = [
             timeline: "http://api.twitter.com/1/statuses/home_timeline.json",
@@ -98,7 +98,7 @@ class TwitterAccessor extends AAccessor {
 
         String screenName
         List tags
-        IEntry entry
+        EntryFace entry
 
         CATEGORIES.each {catIdx, cat ->
             OAuthHelper.callJsonApi(config.oauth, cat + "?count=${num}&include_entities=1", access.token, access.secret)?.each {
@@ -131,7 +131,7 @@ class TwitterAccessor extends AAccessor {
         entries
     }
 
-    void push(IEntry entry) {
+    void push(EntryFace entry) {
 
     }
 }

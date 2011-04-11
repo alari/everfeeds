@@ -1,13 +1,13 @@
 package everfeeds.access.linkedin
 
 import everfeeds.OAuthHelper
-import everfeeds.access.AOAuthAuth
+import everfeeds.access.OAuthAuth
 import org.scribe.model.Token
 
 /**
  * Created by alari @ 02.04.11 13:15
  */
-class LinkedinAuth extends AOAuthAuth {
+class LinkedinAuth extends OAuthAuth {
     public Map authCallback(String verifierStr, Object session) {
         authCallbackHelper(verifierStr, session) {Token accessToken ->
             def screen_name = OAuthHelper.callXmlApi(

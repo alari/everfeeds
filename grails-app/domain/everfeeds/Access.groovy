@@ -36,7 +36,7 @@ class Access {
         categories sort: "title", order: 1
     }
 
-    AAccessor getAccessor() {
+    Accessor getAccessor() {
         if(!cachedAccessor) {
             log.debug "Access | ${type}"
             cachedAccessor = Manager.getAccessor(type, this)

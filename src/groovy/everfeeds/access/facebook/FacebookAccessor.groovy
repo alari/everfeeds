@@ -1,19 +1,17 @@
 package everfeeds.access.facebook
 
-import com.twitter.Autolink
 import everfeeds.Access
-import everfeeds.OAuthHelper
-import everfeeds.access.AAccessor
-import everfeeds.access.IEntry
-import everfeeds.access.envelops.CategoryEnvelop
-import everfeeds.access.envelops.EntryEnvelop
-import everfeeds.access.envelops.TagEnvelop
-import java.text.SimpleDateFormat
+
+import everfeeds.access.Accessor
+import everfeeds.envelops.EntryFace
+import everfeeds.envelops.CategoryEnvelop
+import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.TagEnvelop
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class FacebookAccessor extends AAccessor {
+class FacebookAccessor extends Accessor {
 
     FacebookAccessor(Access access) {
         this.access = access
@@ -44,7 +42,7 @@ class FacebookAccessor extends AAccessor {
         return entries
     }
 
-    void push(IEntry entry) {
+    void push(EntryFace entry) {
 
     }
 }

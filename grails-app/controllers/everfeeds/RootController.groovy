@@ -1,7 +1,7 @@
 package everfeeds
 
 import grails.plugins.springsecurity.Secured
-import everfeeds.access.envelops.FilterEnvelop
+import everfeeds.envelops.FilterEnvelop
 
 class RootController {
     def syncService

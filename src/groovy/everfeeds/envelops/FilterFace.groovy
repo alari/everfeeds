@@ -1,4 +1,4 @@
-package everfeeds.access
+package everfeeds.envelops
 
 import everfeeds.*
 import org.codehaus.groovy.grails.orm.hibernate.cfg.NamedCriteriaProxy
@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.orm.hibernate.cfg.NamedCriteriaProxy
 /**
  * Created by alari @ 08.04.11 13:07
  */
-public interface IFilter {
+public interface FilterFace {
     public Access getAccess()
 
     //public NamedCriteriaProxy findEntries()

@@ -1,8 +1,8 @@
 package everfeeds
 
-import everfeeds.access.ITag
+import everfeeds.envelops.TagFace
 
-class Tag implements ITag, Comparable{
+class Tag implements TagFace, Comparable{
     String identity
     String title
     boolean titleIsCode = false

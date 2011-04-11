@@ -1,8 +1,8 @@
 package everfeeds
 
-import everfeeds.access.ICategory
+import everfeeds.envelops.CategoryFace
 
-class Category implements ICategory,Comparable{
+class Category implements CategoryFace,Comparable{
 
     String identity
     String title

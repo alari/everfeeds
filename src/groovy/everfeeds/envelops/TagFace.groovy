@@ -1,9 +1,9 @@
-package everfeeds.access
+package everfeeds.envelops
 
 /**
  * Created by alari @ 18.03.11 17:51
  */
-public interface ITag {
+public interface TagFace {
     String getIdentity()
 
     void setIdentity(String s)

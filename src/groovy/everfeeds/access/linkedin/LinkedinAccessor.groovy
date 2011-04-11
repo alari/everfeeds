@@ -1,16 +1,16 @@
 package everfeeds.access.linkedin
 
 import everfeeds.Access
-import everfeeds.access.AAccessor
-import everfeeds.access.IEntry
-import everfeeds.access.envelops.CategoryEnvelop
-import everfeeds.access.envelops.EntryEnvelop
-import everfeeds.access.envelops.TagEnvelop
+import everfeeds.access.Accessor
+import everfeeds.envelops.EntryFace
+import everfeeds.envelops.CategoryEnvelop
+import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.TagEnvelop
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class LinkedinAccessor extends AAccessor {
+class LinkedinAccessor extends Accessor {
 
     LinkedinAccessor(Access access) {
         this.access = access
@@ -41,7 +41,7 @@ class LinkedinAccessor extends AAccessor {
         return entries
     }
 
-    void push(IEntry entry) {
+    void push(EntryFace entry) {
 
     }
 }

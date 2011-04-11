@@ -1,14 +1,13 @@
-package everfeeds.access.envelops
+package everfeeds.envelops
 
 import everfeeds.Access
 import everfeeds.Category
 import everfeeds.Entry
-import everfeeds.access.IEntry
 
 /**
  * Created by alari @ 14.03.11 17:21
  */
-class EntryEnvelop implements IEntry {
+class EntryEnvelop implements EntryFace {
     String identity
     String title
     String imageUrl

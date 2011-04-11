@@ -1,15 +1,12 @@
-package everfeeds.access.envelops
-
-import everfeeds.access.ICategory
+package everfeeds.envelops
 
 /**
- * Created by alari @ 14.03.11 16:34
+ * Created by alari @ 14.03.11 16:47
  */
-class CategoryEnvelop implements ICategory {
+class TagEnvelop implements TagFace {
     String identity
     String title
     boolean titleIsCode = false
-
     def original
 
     String toString() {

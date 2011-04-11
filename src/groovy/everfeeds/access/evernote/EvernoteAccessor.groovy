@@ -6,13 +6,13 @@ import com.evernote.edam.type.User
 import com.evernote.edam.userstore.UserStore
 
 import everfeeds.Access
-import everfeeds.access.AAccessor
-import everfeeds.access.ICategory
-import everfeeds.access.IEntry
-import everfeeds.access.ITag
-import everfeeds.access.envelops.CategoryEnvelop
-import everfeeds.access.envelops.EntryEnvelop
-import everfeeds.access.envelops.TagEnvelop
+import everfeeds.access.Accessor
+import everfeeds.envelops.CategoryFace
+import everfeeds.envelops.EntryFace
+import everfeeds.envelops.TagFace
+import everfeeds.envelops.CategoryEnvelop
+import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.TagEnvelop
 
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
@@ -24,7 +24,7 @@ import everfeeds.access.Manager
 /**
  * Created by alari @ 14.03.11 14:55
  */
-class EvernoteAccessor extends AAccessor {
+class EvernoteAccessor extends Accessor {
     private final String userStoreUrl = "https://" + config.host + "/edam/user"
     private String noteStoreUrl
 
@@ -77,13 +77,13 @@ class EvernoteAccessor extends AAccessor {
     public List<EntryEnvelop> pull(Map params = [:]) {
         NoteFilter filter = new NoteFilter()
         // Categories
-        if (params.category && params.category instanceof ICategory) {
-            ICategory category = params.category
+        if (params.category && params.category instanceof CategoryFace) {
+            CategoryFace category = params.category
             filter.setNotebookGuid category.identity
         }
         // Tags
-        if (params.tags && params.tags instanceof List<ITag>) {
-            List<ITag> tags = params.tags
+        if (params.tags && params.tags instanceof List<TagFace>) {
+            List<TagFace> tags = params.tags
             filter.setTagGuids tags*.identity
         }
         // Words
@@ -94,7 +94,7 @@ class EvernoteAccessor extends AAccessor {
         int num = params.num ?: Manager.NUM
 
         List<EntryEnvelop> entries = []
-        IEntry entry
+        EntryFace entry
 
         noteStore.findNotes(access.token, filter, 0, num).notes.each {
             entry = new EntryEnvelop(
@@ -117,7 +117,7 @@ class EvernoteAccessor extends AAccessor {
         entries
     }
 
-    void push(IEntry entry) {
+    void push(EntryFace entry) {
 
     }
 

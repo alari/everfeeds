@@ -1,12 +1,11 @@
-package everfeeds.access.envelops
+package everfeeds.envelops
 
-import everfeeds.access.IFilter
 import everfeeds.*
 
 /**
  * Created by alari @ 08.04.11 13:14
  */
-class FilterEnvelop implements IFilter{
+class FilterEnvelop implements FilterFace{
     Access access
     Tag[] withTags = []
     Tag[] withoutTags = []

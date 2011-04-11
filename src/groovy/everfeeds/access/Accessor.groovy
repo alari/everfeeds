@@ -3,14 +3,15 @@ package everfeeds.access
 import everfeeds.Access
 import everfeeds.Category
 import everfeeds.Tag
-import everfeeds.access.envelops.CategoryEnvelop
-import everfeeds.access.envelops.EntryEnvelop
-import everfeeds.access.envelops.TagEnvelop
+import everfeeds.envelops.CategoryEnvelop
+import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.TagEnvelop
+import everfeeds.envelops.EntryFace
 
 /**
  * Created by alari @ 14.03.11 15:00
  */
-abstract class AAccessor {
+abstract class Accessor {
     protected Access access
 
     private String typeCache
@@ -83,5 +84,5 @@ abstract class AAccessor {
 
     abstract public List<EntryEnvelop> pull(Map params = [:])
 
-    abstract public void push(IEntry entry)
+    abstract public void push(EntryFace entry)
 }
