@@ -37,4 +37,6 @@ interface EntryFace {
     List<String> getTagIdentities()
 
     String getCategoryIdentity()
+
+    String getType()
 }

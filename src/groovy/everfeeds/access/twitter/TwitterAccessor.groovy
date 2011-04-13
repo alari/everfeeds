@@ -107,7 +107,7 @@ class TwitterAccessor extends Accessor {
             OAuthHelper.callJsonApi(config.oauth, cat + "?count=${num}&include_entities=1", access.token, access.secret)?.each {
                 // Preparing strings which are different for PMs and regular twits
                 screenName = it?.user?.screen_name ?: it.sender.screen_name
-                kind = catIdx == "messages" ? "pm" : "twit"
+                kind = catIdx == "messages" ? "DM" : "twit"
                 sourceUrl = kind == "pm" ? "" : "http://twitter.com/${screenName}/status/${it.id}"
 
 
@@ -115,7 +115,7 @@ class TwitterAccessor extends Accessor {
                 TAGS.each {tagId, tagData ->
                     if (tagData.check(it)) tags.add tagId
                 }
-                // TODO: direct messages should be handled separately
+
                 entry = new EntryEnvelop(
                         title: it.text,
                         content: autolink.autoLink(it.text),

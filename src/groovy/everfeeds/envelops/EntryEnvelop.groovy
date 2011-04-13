@@ -60,4 +60,8 @@ class EntryEnvelop implements EntryFace {
         }
         entry.save(flush: true)
     }
+
+    String getType() {
+         Access.get(accessId)?.type
+    }
 }
