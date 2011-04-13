@@ -119,5 +119,6 @@ input {
 .entry-content {
     display: none;
     border: 1px solid silver;
-    padding: 5px;
+    padding: 20px;
+    background: white;
 }
