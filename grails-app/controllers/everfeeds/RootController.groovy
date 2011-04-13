@@ -15,6 +15,14 @@ class RootController {
 
     @Secured(['ROLE_ACCOUNT'])
     def entries = {
+        // TODO: move it to separate action
+        if(params.content) {
+            Entry e = Entry.findByIdAndAccount(params.content, authenticatedUser)
+            if(!e) return;
+            render e.content
+            return;
+        }
+
         Access access = Access.findByIdAndAccount(params.access, authenticatedUser)
         List<Entry> entries
         FilterEnvelop filter = new FilterEnvelop()

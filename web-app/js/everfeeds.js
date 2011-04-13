@@ -24,6 +24,11 @@ var tabData = {};
 var tabDataCache = {};
 var entriesUrl;
 
+function showFullEntry(a, id){
+    var o = $('.entry-content', $(a).parent());
+    o.load(entriesUrl, {content: id}, function(){o.slideDown();});
+}
+
 function cacheTabData(){
     tabDataCache[tabId] = tabData;
 }

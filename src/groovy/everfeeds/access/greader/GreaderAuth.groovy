@@ -7,6 +7,6 @@ import everfeeds.access.google.GoogleAuth
  */
 class GreaderAuth extends GoogleAuth {
     public Map authCallback(String verifierStr, Object session) {
-        authCallbackHelper(verifierStr, session, super.&authCallback)
+        authCallbackHelper(verifierStr, session, callbackClosure)
     }
 }

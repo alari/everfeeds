@@ -8,7 +8,7 @@ import everfeeds.OAuthHelper
  * Created by alari @ 02.04.11 12:59
  */
 abstract class GoogleAuth extends OAuthAuth {
-    public Map authCallback(Token accessToken) {
+    protected callbackClosure = {Token accessToken ->
         String email = OAuthHelper.callApi(
                 config.oauth,
                 config.emailUrl,

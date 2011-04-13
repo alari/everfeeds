@@ -2,6 +2,7 @@ package everfeeds
 
 import everfeeds.envelops.EntryFace
 import org.hibernate.transform.DistinctRootEntityResultTransformer
+import org.hibernate.FetchMode
 
 class Entry implements EntryFace {
 
@@ -64,7 +65,8 @@ class Entry implements EntryFace {
                     }
                 }
             }
-            fetchMode("tags", org.hibernate.FetchMode.EAGER)
+            fetchMode("tags", FetchMode.EAGER)
+            fetchMode("content", FetchMode.LAZY)
             resultTransformer(new DistinctRootEntityResultTransformer())
             order "placedDate", "desc"
         }
