@@ -1,0 +1,5 @@
+package everfeeds
+
+class EntryTagLib {
+
+}

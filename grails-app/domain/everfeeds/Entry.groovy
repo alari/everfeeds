@@ -7,6 +7,7 @@ class Entry implements EntryFace {
 
     String identity
     String title
+    String kind = ''
     String imageUrl
     String content
     String author

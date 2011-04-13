@@ -97,13 +97,21 @@ class TwitterAccessor extends Accessor {
         Autolink autolink = new Autolink()
 
         String screenName
+        String kind
+        String sourceUrl
+
         List tags
         EntryFace entry
 
         CATEGORIES.each {catIdx, cat ->
             OAuthHelper.callJsonApi(config.oauth, cat + "?count=${num}&include_entities=1", access.token, access.secret)?.each {
-                tags = []
+                // Preparing strings which are different for PMs and regular twits
                 screenName = it?.user?.screen_name ?: it.sender.screen_name
+                kind = catIdx == "messages" ? "pm" : "twit"
+                sourceUrl = kind == "pm" ? "" : "http://twitter.com/${screenName}/status/${it.id}"
+
+
+                tags = []
                 TAGS.each {tagId, tagData ->
                     if (tagData.check(it)) tags.add tagId
                 }
@@ -112,11 +120,12 @@ class TwitterAccessor extends Accessor {
                         title: it.text,
                         content: autolink.autoLink(it.text),
                         imageUrl: it?.user?.profile_image_url ?: it.sender.profile_image_url,
-                        identity: (catIdx == "messages" ? catIdx : "") + it.id,
+                        identity: it.id,
+                        kind: kind,
                         author: screenName,
                         tagIdentities: tags,
                         categoryIdentity: catIdx,
-                        sourceUrl: "http://twitter.com/${screenName}/status/${it.id}",
+                        sourceUrl: sourceUrl,
                         placedDate: simpleDateFormat.parse(it?.created_at ?: it.sender.created_at),
                         accessId: access.id
                 )

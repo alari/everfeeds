@@ -10,6 +10,7 @@ import everfeeds.Entry
 class EntryEnvelop implements EntryFace {
     String identity
     String title
+    String kind = ''
     String imageUrl
     String content
     String author
@@ -24,10 +25,18 @@ class EntryEnvelop implements EntryFace {
     Entry store() {
         Access access = Access.get(accessId)
         // Check uniqueness
-        if (Entry.countByAccessAndIdentity(access, identity)) return;
+        if (Entry.createCriteria().count{
+            and{
+                eq "access", access
+                eq "identity", identity
+                eq "kind", kind
+            }
+        }) return;
+
         Entry entry = new Entry(
                 identity: identity,
                 title: title,
+                kind: kind,
                 imageUrl: imageUrl,
                 content: content,
                 author: author,
@@ -37,13 +46,13 @@ class EntryEnvelop implements EntryFace {
                 access: access,
                 category: Category.findByAccessAndIdentity(access, categoryIdentity)
         )
-        if (!entry.validate()) {
 
+        if (!entry.validate()) {
             System.err << "Failed entry validation: ${entry.errors}\n"
             return null
         }
-
         entry.save(flush: true)
+
         if (tagIdentities?.size()) access.tags.findAll {it.identity in tagIdentities}.each {
             entry.addToTags it
             it.addToEntries entry

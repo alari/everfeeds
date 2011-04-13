@@ -12,6 +12,10 @@ interface EntryFace {
 
     void setTitle(String s)
 
+    String getKind()
+
+    void setKind(String s)
+
     String getImageUrl()
 
     void setImageUrl(String s)
