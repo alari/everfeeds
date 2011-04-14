@@ -172,6 +172,9 @@ grails.plugins.springsecurity.failureHandler.defaultFailureUrl = '/'
 grails.plugins.springsecurity.auth.loginFormUrl = '/'
 
 grails.camel.camelContextId = appName
+if (environment == "production") {
+    org.apache.activemq.default.directory.prefix = '/home/tomcat/'
+}
 
 access {
   google {
@@ -204,7 +207,8 @@ access {
       if (environment == "production") {
         key = "name_alari"
         secret = "f3ea2d71d1647525"
-        provider = org.scribe.builder.api.EvernoteApi
+        //provider = org.scribe.builder.api.EvernoteApi
+        provider = everfeeds.EvernoteSandboxApi
       } else {
         key = "name_alari"
         secret = "f3ea2d71d1647525"
