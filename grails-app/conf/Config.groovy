@@ -170,6 +170,8 @@ grails.plugins.springsecurity.requestMap.className = 'everfeeds.AccountRole'
 grails.plugins.springsecurity.failureHandler.defaultFailureUrl = '/'
 grails.plugins.springsecurity.auth.loginFormUrl = '/'
 
+grails.camel.camelContextId = appName
+
 access {
   google {
     oauth {
