@@ -53,11 +53,15 @@ class Manager {
     }
 
     static Auth getAuth(String type){
-        if(authCache[type]) {
+        if(authCache.containsKey(type)) {
             return authCache[type]
         }
         if(getConfig(type)?.auth == false) return null
-        authCache[type] = classForSuffix(type, "Auth").newInstance()
+        try {
+            authCache[type] = classForSuffix(type, "Auth").newInstance()
+        } catch(ClassNotFoundException e) {
+            authCache[type] = null
+        }
         return authCache[type]
     }
 
