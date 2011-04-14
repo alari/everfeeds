@@ -24,9 +24,13 @@ var tabData = {};
 var tabDataCache = {};
 var entriesUrl;
 
+var aTargetBlank = function(){
+    $('.target-blank a').attr("target", "_blank");
+};
+
 function showFullEntry(a, id){
     var o = $('.entry-content', $(a).parent());
-    o.load(entriesUrl, {content: id}, function(){o.slideDown();});
+    o.load(entriesUrl, {content: id}, function(){$("a", o).attr('target', '_blank'); o.slideDown();});
 }
 
 function cacheTabData(){
@@ -35,7 +39,7 @@ function cacheTabData(){
 
 function pageTab(currPage, a){
     tabData.page = currPage+1;
-    $(a).parent().removeClass("load-more").load(entriesUrl, tabData);
+    $(a).parent().removeClass("load-more").load(entriesUrl, tabData, aTargetBlank);
 }
 
 function tabCheckNew(a){
@@ -44,7 +48,7 @@ function tabCheckNew(a){
     o.html(".......");
     data.page = 0;
     data.getNew = true;
-    o.removeClass("load-more").load(entriesUrl, data);
+    o.removeClass("load-more").load(entriesUrl, data, aTargetBlank);
 }
 
 function loadTab(li) {
@@ -76,7 +80,7 @@ function loadTab(li) {
         }
         $(li).attr("class", "");
     }
-    $("#" + tabId).load(entriesUrl, tabData);
+    $("#" + tabId).load(entriesUrl, tabData, aTargetBlank);
 }
 
 $(function() {
@@ -97,6 +101,7 @@ $(function() {
             tabId = ui.panel.id;
             $("#asideBox").html($(".filterAside", ui.panel).html());
             if(tabDataCache[tabId]) tabData = tabDataCache[tabId];
+            aTargetBlank();
         },
         cache: true
     });

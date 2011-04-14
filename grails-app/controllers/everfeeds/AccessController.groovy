@@ -14,14 +14,14 @@ class AccessController {
 
     def index = {
         flash.error = I18n."access.error.index"()
-        redirect controller: "root"
+        redirect controller: "root", action: "index"
     }
 
     def auth = {
         log.debug "AUTH for ${params.id}"
         if (!ConfigurationHolder.config.access."${params.id}"?.auth instanceof Class) {
             flash.error = I18n."access.error.unknownprovider"([params.id])
-            redirect controller: "root"
+            redirect controller: "root", action: "index"
         } else {
             redirect url: authService.getAuthUrl(params.id)
         }
@@ -32,7 +32,7 @@ class AccessController {
         if (!Manager.getAuth(params.id)) {
             log.error "Unknown auth provider: ${params.id}"
             flash.error = I18n."access.error.unknownprovider"([params.id])
-            redirect controller: "root"
+            redirect controller: "root", action: "index"
             return
         }
 
@@ -43,7 +43,7 @@ class AccessController {
 
         if (!access) {
             flash.error = I18n."access.error.denied"([params.id])
-            redirect controller: "root"
+            redirect controller: "root", action: "index"
             return
         }
 

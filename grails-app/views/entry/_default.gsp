@@ -24,5 +24,5 @@
 </g:if>
 <a href="javascript:void(0)" onclick="showFullEntry(this, ${entry.id})">${I18n."entry.fulltext"()}</a>
 
-<div class="entry-content">
+<div class="entry-content target-blank">
 </div>
