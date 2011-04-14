@@ -173,7 +173,7 @@ grails.plugins.springsecurity.auth.loginFormUrl = '/'
 
 grails.camel.camelContextId = appName
 if (environment == "production") {
-    org.apache.activemq.default.directory.prefix = '/home/tomcat/'
+    System.setProperty("org.apache.activemq.default.directory.prefix", '/home/tomcat/')
 }
 
 access {
