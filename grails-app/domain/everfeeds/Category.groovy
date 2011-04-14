@@ -1,8 +1,13 @@
 package everfeeds
 
 import everfeeds.envelops.CategoryFace
+import org.bson.types.ObjectId
 
 class Category implements CategoryFace,Comparable{
+
+    static mapWith = "mongo"
+
+    ObjectId id
 
     String identity
     String title

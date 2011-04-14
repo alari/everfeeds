@@ -3,8 +3,13 @@ package everfeeds
 import everfeeds.envelops.EntryFace
 import org.hibernate.transform.DistinctRootEntityResultTransformer
 import org.hibernate.FetchMode
+import org.bson.types.ObjectId
 
 class Entry implements EntryFace {
+
+    static mapWith = "mongo"
+
+    ObjectId id
 
     String identity
     String title

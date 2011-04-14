@@ -1,4 +1,4 @@
-import org.codehaus.groovy.grails.orm.hibernate.cfg.GrailsAnnotationConfiguration
+/*import org.codehaus.groovy.grails.orm.hibernate.cfg.GrailsAnnotationConfiguration
 
 dataSource {
     pooled = true
@@ -40,3 +40,4 @@ environments {
     }
   }
 }
+*/

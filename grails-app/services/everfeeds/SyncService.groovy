@@ -1,11 +1,11 @@
 package everfeeds
 
 class SyncService {
-    static transactional = true
+    static transactional = "mongo"
 
     void addToQueue(Access access, Map params = [:]) {
         log.debug "Adding access ${access} to queue, pull=${params.pull}"
-        params.id = access.id
+        params.id = access.id.toString()
         sendMessage("activemq:sync.access", params)
     }
 

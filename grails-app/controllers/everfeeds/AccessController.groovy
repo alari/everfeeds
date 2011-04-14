@@ -37,9 +37,9 @@ class AccessController {
         }
 
         Access access = null
-        try {
+        //try {
             access = authService.processCallback(params.id, params.oauth_verifier)
-        } catch(ignore){}
+        //} catch(ignore){log.debug ignore}
 
         if (!access) {
             flash.error = I18n."access.error.denied"([params.id])

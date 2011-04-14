@@ -1,8 +1,14 @@
 package everfeeds
 
 import everfeeds.envelops.TagFace
+import org.bson.types.ObjectId
 
 class Tag implements TagFace, Comparable{
+
+    static mapWith = "mongo"
+
+    ObjectId id
+
     String identity
     String title
     boolean titleIsCode = false

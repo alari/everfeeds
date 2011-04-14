@@ -1,52 +1,55 @@
 package everfeeds
 
 import org.apache.commons.lang.builder.HashCodeBuilder
+import org.bson.types.ObjectId
 
 class AccountRole implements Serializable {
 
-	Account account
-	Role role
+    static mapWith = "mongo"
 
-	boolean equals(other) {
-		if (!(other instanceof AccountRole)) {
-			return false
-		}
+    ObjectId id
 
-		other.account?.id == account?.id &&
-			other.role?.id == role?.id
-	}
+    Account account
+    Role role
 
-	int hashCode() {
-		def builder = new HashCodeBuilder()
-		if (account) builder.append(account.id)
-		if (role) builder.append(role.id)
-		builder.toHashCode()
-	}
+    boolean equals(other) {
+        if (!(other instanceof AccountRole)) {
+            return false
+        }
 
-	static AccountRole get(long accountId, long roleId) {
-		find 'from AccountRole where account.id=:accountId and role.id=:roleId',
-			[accountId: accountId, roleId: roleId]
-	}
+        other.account?.id == account?.id &&
+                other.role?.id == role?.id
+    }
 
-	static AccountRole create(Account account, Role role, boolean flush = false) {
-        get(account.id, role.id) ?: new AccountRole(account: account, role: role).save(flush: flush, insert: true)
-	}
+    int hashCode() {
+        def builder = new HashCodeBuilder()
+        if (account) builder.append(account.id)
+        if (role) builder.append(role.id)
+        builder.toHashCode()
+    }
 
-	static boolean remove(Account account, Role role, boolean flush = false) {
-		AccountRole instance = AccountRole.findByAccountAndRole(account, role)
-		instance ? instance.delete(flush: flush) : false
-	}
+    static AccountRole get(ObjectId userId, ObjectId roleId) {
+        AccountRole.collection.findOne([user: userId, role: roleId])
+    }
 
-	static void removeAll(Account account) {
-		executeUpdate 'DELETE FROM AccountRole WHERE account=:account', [account: account]
-	}
+    static AccountRole create(Account user, Role role, boolean flush = false) {
+        new AccountRole(account: user, role: role).save(flush: flush, insert: true)
+    }
 
-	static void removeAll(Role role) {
-		executeUpdate 'DELETE FROM AccountRole WHERE role=:role', [role: role]
-	}
+    static boolean remove(Account account, Role role, boolean flush = false) {
+        AccountRole instance = AccountRole.findByAccountAndRole(account, role)
+        instance ? instance.delete(flush: flush) : false
+    }
 
-	static mapping = {
-		id composite: ['role', 'account']
-		version false
-	}
+    static void removeAll(Account account) {
+        AccountRole.collection.remove([account: account.id])
+    }
+
+    static void removeAll(Role role) {
+        AccountRole.collection.remove([role: role.id])
+    }
+
+    static mapping = {
+        version false
+    }
 }

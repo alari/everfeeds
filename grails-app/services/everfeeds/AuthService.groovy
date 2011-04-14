@@ -7,7 +7,7 @@ class AuthService {
 
     def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 
-    static transactional = true
+    static transactional = "mongo"
 
     def getSession() {
         return RequestContextHolder.currentRequestAttributes().getSession()
@@ -26,8 +26,10 @@ class AuthService {
             throw new IllegalArgumentException("Cannot get access without type/id")
         }
 
-        Access access = Access.findByIdentity(params.type + ":" + params.id) ?: new Access(
-                identity: params.type + ":" + params.id,
+        String identity = params.type + ":" + params.id
+
+        Access access = Access.findByIdentity(identity) ?: new Access(
+                identity: identity,
                 title: params.title,
                 type: params.type
         )

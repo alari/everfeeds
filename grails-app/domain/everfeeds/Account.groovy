@@ -1,6 +1,12 @@
 package everfeeds
 
+import org.bson.types.ObjectId
+
 class Account {
+
+    static mapWith = "mongo"
+
+    ObjectId id
 
 	String username
 	String password
@@ -19,6 +25,8 @@ class Account {
 	static mapping = {
 		password column: '`password`'
 	}
+
+    static transients = ["authorities"]
 
 	Set<Role> getAuthorities() {
 		AccountRole.findAllByAccount(this).collect { it.role } as Set

@@ -1,9 +1,12 @@
 package everfeeds
 
 import everfeeds.access.*
+import org.bson.types.ObjectId
 
 class Access {
     static mapWith = "mongo"
+
+    ObjectId id
 
     String identity
     String title
@@ -28,7 +31,7 @@ class Access {
     static transients = ["accessor", "cachedAccessor"]
 
     static constraints = {
-        identity unique: true
+        identity index: true, indexAttributes: [unique: true, dropDups: true]
         secret nullable: true
         shard nullable: true
         account nullable: true
