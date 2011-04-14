@@ -47,7 +47,7 @@ class RootController {
             render template: "filterAside", model: [filter:filter]
         }
 
-        if(entries.size() >= max-1) {
+        if(entries.size()) {
             render template: "loadMore", model: [page: page]
         }
     }

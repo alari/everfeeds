@@ -18,7 +18,7 @@ class AccessController {
     }
 
     def auth = {
-        log.error "AUTH for ${params.id}"
+        log.debug "AUTH for ${params.id}"
         if (!ConfigurationHolder.config.access."${params.id}"?.auth instanceof Class) {
             flash.error = I18n."access.error.unknownprovider"([params.id])
             redirect controller: "root"
@@ -28,20 +28,20 @@ class AccessController {
     }
 
     def callback = {
-        log.error "CALLBACK for ${params.id}"
+        log.debug "CALLBACK for ${params.id}"
         if (!Manager.getAuth(params.id)) {
             log.error "Unknown auth provider: ${params.id}"
             flash.error = I18n."access.error.unknownprovider"([params.id])
             redirect controller: "root"
             return
         }
-             System.err << "Known provider: ${params.id}\n"
+
         Access access = null
         try {
             access = authService.processCallback(params.id, params.oauth_verifier)
-        } catch(ignore){System.err << ignore}
+        } catch(ignore){}
 
-        if (!access) {System.err << "No access\n"
+        if (!access) {
             flash.error = I18n."access.error.denied"([params.id])
             redirect controller: "root"
             return
@@ -51,9 +51,9 @@ class AccessController {
         authService.setAccountRole(access.account, params.id)
         access.expired = false
         access.save()
-                            System.err << "Ready to make final redirect"
+
         flash.message = I18n."access.loggedin"([I18n."${params.id}.title"()])
-        redirect controller: "root"
+        redirect controller: "root", action: "index"
     }
 
     private Account createAccessAccount(Access access) {
