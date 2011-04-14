@@ -21,7 +21,11 @@ class SyncService {
         def pull = params.pull
         def num = params.num
         log.debug "Processing syncAccess(${id})"
+//        log.debug Access.list()*.authenticity.join(" ")
+
+        System.err << Access.list()
         Access access = Access.get(id)
+        log.debug access
         access.accessor.sync()
         access.lastSync = new Date()
         access.save()

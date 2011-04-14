@@ -15,6 +15,8 @@ class Account {
 	boolean accountLocked
 	boolean passwordExpired
 
+    List<Access> accesses
+
     static hasMany = [accesses:Access, entries:Entry]
 
 	static constraints = {

@@ -4,9 +4,9 @@ package everfeeds.envelops
  * Created by alari @ 18.03.11 17:51
  */
 interface EntryFace {
-    String getIdentity()
+    String getAuthenticity()
 
-    void setIdentity(String s)
+    void setAuthenticity(String s)
 
     String getTitle()
 
@@ -34,9 +34,9 @@ interface EntryFace {
 
     Date placedDate
 
-    List<String> getTagIdentities()
+    List<String> getTagAuthenticities()
 
-    String getCategoryIdentity()
+    String getCategoryAuthenticity()
 
     String getType()
 }

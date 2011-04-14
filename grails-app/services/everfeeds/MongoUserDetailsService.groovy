@@ -12,8 +12,6 @@ class MongoUserDetailsService implements GrailsUserDetailsService {
 
   static transactional = "mongo"
 
-    private Logger log = Logger.getLogger(getClass())
-
     /**
      * Some Spring Security classes (e.g. RoleHierarchyVoter) expect at least one role, so
      * we give a user with no granted roles this one which gets past that restriction but

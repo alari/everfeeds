@@ -42,7 +42,7 @@ class EvernoteAccessor extends Accessor {
 
         try {
             noteStore.listNotebooks(access.token).each {
-                categories.add new CategoryEnvelop(identity: it.guid, title: it.name, original: it)
+                categories.add new CategoryEnvelop(authenticity: it.guid, title: it.name, original: it)
             }
         } catch (e) {
             access.expired = true
@@ -56,7 +56,7 @@ class EvernoteAccessor extends Accessor {
 
         try {
             noteStore.listTags(access.token).each {
-                tags.add new TagEnvelop(identity: it.guid, title: it.name, original: it)
+                tags.add new TagEnvelop(authenticity: it.guid, title: it.name, original: it)
             }
         } catch (e) {
             access.expired = true
@@ -79,12 +79,12 @@ class EvernoteAccessor extends Accessor {
         // Categories
         if (params.category && params.category instanceof CategoryFace) {
             CategoryFace category = params.category
-            filter.setNotebookGuid category.identity
+            filter.setNotebookGuid category.authenticity
         }
         // Tags
         if (params.tags && params.tags instanceof List<TagFace>) {
             List<TagFace> tags = params.tags
-            filter.setTagGuids tags*.identity
+            filter.setTagGuids tags*.authenticity
         }
         // Words
         if (params.search) {
@@ -100,10 +100,10 @@ class EvernoteAccessor extends Accessor {
             entry = new EntryEnvelop(
                     title: it.title,
                     content: getNoteContent(it.guid),
-                    identity: it.guid,
+                    authenticity: it.guid,
                     author: it.attributes.author,
-                    tagIdentities: it.tagGuids,
-                    categoryIdentity: it.notebookGuid,
+                    tagAuthenticities: it.tagGuids,
+                    categoryAuthenticity: it.notebookGuid,
                     sourceUrl: it.attributes.sourceURL,
                     placedDate: new Date(it.created),
                     accessId: access.id

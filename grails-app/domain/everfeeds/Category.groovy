@@ -9,7 +9,7 @@ class Category implements CategoryFace,Comparable{
 
     ObjectId id
 
-    String identity
+    String authenticity
     String title
     boolean titleIsCode = false
 

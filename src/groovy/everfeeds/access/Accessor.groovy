@@ -33,7 +33,7 @@ abstract class Accessor {
         CategoryEnvelop category
 
         currentTags.each { t ->
-            tag = actualTags.find {it.identity == t.identity}
+            tag = actualTags.find {it.authenticity == t.authenticity}
             if (!tag) {
                 access.removeFromTags t
                 t.delete()
@@ -45,11 +45,11 @@ abstract class Accessor {
             }
         }
         actualTags.each { t ->
-            access.addToTags new Tag(identity: t.identity, title: t.title, access: access, titleIsCode: t.titleIsCode).save()
+            access.addToTags new Tag(authenticity: t.authenticity, title: t.title, access: access, titleIsCode: t.titleIsCode).save()
         }
 
         currentCategories.each { c ->
-            category = actualCategories.find {it.identity == c.identity}
+            category = actualCategories.find {it.authenticity == c.authenticity}
             if (!category) {
                 access.removeFromCategories c
                 c.delete()
@@ -61,7 +61,7 @@ abstract class Accessor {
             }
         }
         actualCategories.each { c ->
-            access.addToCategories new Category(identity: c.identity, title: c.title, access: access, titleIsCode: c.titleIsCode).save()
+            access.addToCategories new Category(authenticity: c.authenticity, title: c.title, access: access, titleIsCode: c.titleIsCode).save()
         }
 
         access.lastSync = new Date()

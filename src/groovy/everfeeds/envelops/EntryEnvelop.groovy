@@ -8,7 +8,7 @@ import everfeeds.Entry
  * Created by alari @ 14.03.11 17:21
  */
 class EntryEnvelop implements EntryFace {
-    String identity
+    String authenticity
     String title
     String kind = ''
     String imageUrl
@@ -17,8 +17,8 @@ class EntryEnvelop implements EntryFace {
     String sourceUrl
     Date placedDate
 
-    List<String> tagIdentities
-    String categoryIdentity
+    List<String> tagAuthenticities
+    String categoryAuthenticity
 
     int accessId
 
@@ -28,13 +28,13 @@ class EntryEnvelop implements EntryFace {
         if (Entry.createCriteria().count{
             and{
                 eq "access", access
-                eq "identity", identity
+                eq "authenticity", authenticity
                 eq "kind", kind
             }
         }) return;
 
         Entry entry = new Entry(
-                identity: identity,
+                authenticity: authenticity,
                 title: title,
                 kind: kind,
                 imageUrl: imageUrl,
@@ -44,7 +44,7 @@ class EntryEnvelop implements EntryFace {
                 placedDate: placedDate,
                 account: access.account,
                 access: access,
-                category: Category.findByAccessAndIdentity(access, categoryIdentity)
+                category: Category.findByAccessAndAuthenticity(access, this.categoryAuthenticity)
         )
 
         if (!entry.validate()) {
@@ -53,7 +53,7 @@ class EntryEnvelop implements EntryFace {
         }
         entry.save(flush: true)
 
-        if (tagIdentities?.size()) access.tags.findAll {it.identity in tagIdentities}.each {
+        if (this.tagAuthenticities()?.size()) access.tags.findAll {it.authenticity in this.tagAuthenticities}.each {
             entry.addToTags it
             it.addToEntries entry
             it.save()

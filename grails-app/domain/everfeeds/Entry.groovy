@@ -11,7 +11,7 @@ class Entry implements EntryFace {
 
     ObjectId id
 
-    String identity
+    String authenticity
     String title
     String kind = ''
     String imageUrl
@@ -33,7 +33,7 @@ class Entry implements EntryFace {
 
     static belongsTo = [Access, Account, Category, Tag]
 
-    static transients = ["tagIdentities", "categoryIdentity", "type"]
+    static transients = ["tagAuthenticitiesties", "categoryAuthenticitycity", "type"]
 
     static constraints = {
         placedDate index: "placedDateIndex"
@@ -77,12 +77,12 @@ class Entry implements EntryFace {
         }
     }
 
-    List<String> getTagIdentities() {
-        tags*.identity
+    List<String> getTagAuthenticities() {
+        tags*.authenticity
     }
 
-    String getCategoryIdentity() {
-        category.identity
+    String getCategoryAuthenticity() {
+        category.authenticity
     }
 
     String getType() {

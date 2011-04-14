@@ -4,9 +4,9 @@ package everfeeds.envelops
  * Created by alari @ 18.03.11 17:50
  */
 public interface CategoryFace {
-    String getIdentity()
+    String getAuthenticity()
 
-    void setIdentity(String s)
+    void setAuthenticity(String s)
 
     String getTitle()
 

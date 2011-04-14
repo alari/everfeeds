@@ -64,16 +64,16 @@ class TwitterAccessor extends Accessor {
 
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
-        categories.add new CategoryEnvelop(identity: "timeline", title: "twitter.category.timeline", titleIsCode: true)
-        categories.add new CategoryEnvelop(identity: "mentions", title: "twitter.category.mentions", titleIsCode: true)
-        categories.add new CategoryEnvelop(identity: "messages", title: "twitter.category.messages", titleIsCode: true)
+        categories.add new CategoryEnvelop(authenticity: "timeline", title: "twitter.category.timeline", titleIsCode: true)
+        categories.add new CategoryEnvelop(authenticity: "mentions", title: "twitter.category.mentions", titleIsCode: true)
+        categories.add new CategoryEnvelop(authenticity: "messages", title: "twitter.category.messages", titleIsCode: true)
         categories
     }
 
     List<TagEnvelop> getTags() {
         List<TagEnvelop> tags = []
         TAGS.each {identity, params ->
-            tags.add new TagEnvelop(identity: identity, title: "twitter.tag."+identity, titleIsCode: true)
+            tags.add new TagEnvelop(authenticity: identity, title: "twitter.tag."+identity, titleIsCode: true)
         }
         tags
     }
@@ -124,11 +124,11 @@ class TwitterAccessor extends Accessor {
                         title: it.text,
                         content: autolink.autoLink(it.text),
                         imageUrl: it?.user?.profile_image_url ?: it.sender.profile_image_url,
-                        identity: it.id,
+                        authenticity: it.id,
                         kind: kind,
                         author: screenName,
-                        tagIdentities: tags,
-                        categoryIdentity: catIdx,
+                        tagAuthenticities: tags,
+                        categoryAuthenticity: catIdx,
                         sourceUrl: sourceUrl,
                         placedDate: simpleDateFormat.parse(it?.created_at ?: it.sender.created_at),
                         accessId: access.id

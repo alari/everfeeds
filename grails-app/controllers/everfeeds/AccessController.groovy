@@ -58,8 +58,8 @@ class AccessController {
 
     private Account createAccessAccount(Access access) {
         Account account = new Account(
-                username: access.identity,
-                password: springSecurityService.encodePassword(access.identity + new Random().nextInt().toString()),
+                username: access.authenticity,
+                password: springSecurityService.encodePassword(access.authenticity + new Random().nextInt().toString()),
                 enabled: true,
                 accountExpired: false,
                 accountLocked: false,

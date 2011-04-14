@@ -28,8 +28,8 @@ class AuthService {
 
         String identity = params.type + ":" + params.id
 
-        Access access = Access.findByIdentity(identity) ?: new Access(
-                identity: identity,
+        Access access = Access.findByAuthenticity(identity) ?: new Access(
+                authenticity: identity,
                 title: params.title,
                 type: params.type
         )

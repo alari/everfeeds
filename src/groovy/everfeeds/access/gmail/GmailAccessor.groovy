@@ -21,7 +21,7 @@ class GmailAccessor extends Accessor {
 
     List<CategoryEnvelop> getCategories() {
         List<CategoryEnvelop> categories = []
-        categories.add new CategoryEnvelop(identity: "inbox-unread", title: "gmail.category.inbox", titleIsCode: true)
+        categories.add new CategoryEnvelop(authenticity: "inbox-unread", title: "gmail.category.inbox", titleIsCode: true)
         categories
     }
 
@@ -46,9 +46,9 @@ class GmailAccessor extends Accessor {
             entry = new EntryEnvelop(
                     title: it.title.text(),
                     content: it.summary.text(),
-                    identity: it.id,
+                    authenticity: it.id,
                     author: it.author.name.text() + " &lt;" + it.author.email.text() + "&gt;",
-                    categoryIdentity: "inbox-unread",
+                    categoryAuthenticity: "inbox-unread",
                     sourceUrl: it.link.@href,
                     placedDate: new Date(),
                     accessId: access.id

@@ -39,7 +39,7 @@ class GreaderAccessor extends Accessor {
         List<CategoryEnvelop> categories = []
 
         apiGet(_SUBSCRIPTION_LIST_URL)?.subscriptions?.each {
-            categories.add new CategoryEnvelop(identity: it.id, title: it.title, original: it)
+            categories.add new CategoryEnvelop(authenticity: it.id, title: it.title, original: it)
         }
 
         categories
@@ -59,7 +59,7 @@ class GreaderAccessor extends Accessor {
                 title = "greader.tag."+title
                 titleIsCode = true
             }
-            tags.add new TagEnvelop(identity: it.id, title: title, original: it, titleIsCode: titleIsCode)
+            tags.add new TagEnvelop(authenticity: it.id, title: title, original: it, titleIsCode: titleIsCode)
         }
 
         tags
@@ -78,7 +78,7 @@ class GreaderAccessor extends Accessor {
         // Category
         if (params.category && params.category instanceof CategoryFace) {
             CategoryFace category = params.category
-            url = _CONTENT_BASE_URL + category.identity
+            url = _CONTENT_BASE_URL + category.authenticity
         } else {
             url = _CONTENT_READER_LIST
         }
@@ -98,10 +98,10 @@ class GreaderAccessor extends Accessor {
             entry = new EntryEnvelop(
                     title: it.title,
                     content: it.content?.content ?: it.summary?.content?.replace("\n", "<br/>"),
-                    identity: it.id,
+                    authenticity: it.id,
                     author: it.author,
-                    tagIdentities: it.categories.collect {it.toString()},
-                    categoryIdentity: it.origin.streamId,
+                    tagAuthenticities: it.categories.collect {it.toString()},
+                    categoryAuthenticity: it.origin.streamId,
                     sourceUrl: it.alternate.find {it.type == "text/html"}?.href,
                     placedDate: new Date(((long) it.updated) * 1000),
                     accessId: access.id
