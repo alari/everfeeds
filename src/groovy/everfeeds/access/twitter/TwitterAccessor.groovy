@@ -106,10 +106,14 @@ class TwitterAccessor extends Accessor {
         CATEGORIES.each {catIdx, cat ->
             OAuthHelper.callJsonApi(config.oauth, cat + "?count=${num}&include_entities=1", access.token, access.secret)?.each {
                 // Preparing strings which are different for PMs and regular twits
-                screenName = it?.user?.screen_name ?: it.sender.screen_name
                 kind = catIdx == "messages" ? "DM" : "twit"
-                sourceUrl = kind == "pm" ? "" : "http://twitter.com/${screenName}/status/${it.id}"
-
+                if(kind == "DM") {
+                    screenName = it.sender.screen_name
+                    sourceUrl = ""
+                } else {
+                    screenName = it?.user?.screen_name
+                    sourceUrl = "http://twitter.com/${screenName}/status/${it.id}"
+                }
 
                 tags = []
                 TAGS.each {tagId, tagData ->
