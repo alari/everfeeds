@@ -3,6 +3,8 @@ package everfeeds
 import everfeeds.access.*
 
 class Access {
+    static mapWith = "mongo"
+
     String identity
     String title
     String type
