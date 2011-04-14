@@ -100,7 +100,7 @@ log4j = {
   }
 
   // This is for the built-in stuff and from the default Grails-1.2.1 config.
-  error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
+  debug 'org.codehaus.groovy.grails.web.servlet',  //  controllers
           'org.codehaus.groovy.grails.web.pages', //  GSP
           'org.codehaus.groovy.grails.web.sitemesh', //  layouts
           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
@@ -114,7 +114,7 @@ log4j = {
 
   warn 'org.mortbay.log' // Jetty
 
-    info 'everfeeds'
+    debug 'everfeeds'
 
   error 'grails.app' // Set the default log level for our app code.
   info 'grails.app.bootstrap' // Set the log level per type and per type.class
@@ -158,7 +158,6 @@ log4j = {
       debug 'grails.app.service.AssetCsvService'
       debug 'grails.app.service.PersonCsvService'
       debug 'grails.app.service.InventoryCsvService'
-      debug 'grails.app.service.AssetTreeService' /// @todo: remove after testing.
       break
   }
 }
