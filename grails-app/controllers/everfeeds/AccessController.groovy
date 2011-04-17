@@ -39,13 +39,13 @@ class AccessController {
 
         Access access = null
         try {
-            access = authService.processCallback(params.id, params.oauth_verifier)
+            access = authService.processCallback(params.id, params.oauth_verifier ?: params.code)
         } catch(ignore){
             log.error "Access denied", ignore
         }
 
         if (!access) {
-            flash.error = i18n."access.error.denied"([params.id])
+            flash.error = i18n."access.error.denied"([params.id]) + access
             redirect controller: "root", action: "index"
             return
         }

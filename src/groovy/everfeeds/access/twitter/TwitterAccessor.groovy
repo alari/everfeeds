@@ -11,11 +11,14 @@ import java.text.SimpleDateFormat
 import everfeeds.OAuthHelper
 import everfeeds.access.Manager
 import everfeeds.annotations.Reconnectable
+import org.apache.log4j.Logger
 
 /**
  * Created by alari @ 14.03.11 14:55
  */
 class TwitterAccessor extends Accessor {
+
+    static Logger log = Logger.getLogger(this)
 
     static final Map CATEGORIES = [
             timeline: "http://api.twitter.com/1/statuses/home_timeline.json",
