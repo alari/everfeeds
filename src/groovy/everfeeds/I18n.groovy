@@ -8,10 +8,13 @@ import org.springframework.context.i18n.LocaleContextHolder as LCH
  * @see everfeeds.bootstrap.I18nBoot
  */
 class I18n {
-  static messageSource = SpringUtil.getBean("messageSource")
 
-  // Usage: I18n."code(:locale)?"([value, value?, ...]?, "Default message"?, "encode as"?)
-  static m = { String code, args ->
+    static I18n get_(){
+        SpringUtil.getBean("i18n")
+    }
+
+  // Usage: i18n."code(:locale)?"([value, value?, ...]?, "Default message"?, "encode as"?)
+  def methodMissing(String code, args) {
 
       // Defining locale and message code
       def locale = LCH.getLocale()
@@ -45,7 +48,7 @@ class I18n {
         }
       }
 
-      String text = I18n.messageSource.getMessage(code, args as Object[],
+      String text = SpringUtil.getBean("messageSource").getMessage(code, args as Object[],
               defaultMessage, locale) ?: defaultMessage
 
       if (text) {
@@ -53,4 +56,8 @@ class I18n {
       }
       ''
   }
+
+    def propertyMissing(String code){
+        methodMissing(code, [])
+    }
 }

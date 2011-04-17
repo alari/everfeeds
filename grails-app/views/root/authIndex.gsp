@@ -1,19 +1,19 @@
 <%@ page import="everfeeds.I18n" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>${I18n."index.title"()}</title>
+    <title>${I18n._."index.title"}</title>
     <meta name="layout" content="duo"/>
 </head>
 <body>
 
 <div id="tabss">
     <ul>
-        <li><a href="#tab-root">${I18n."index.tab.root"()}</a></li>
-        <li><g:link action="entries">${I18n."index.tab.mash"()}</g:link></li>
+        <li><a href="#tab-root">${I18n._."index.tab.root"}</a></li>
+        <li><g:link action="entries">${I18n._."index.tab.mash"}</g:link></li>
         <g:each in="${account.accesses}" var="access">
             <li>
                 <g:link action="entries" params="[access:access.id]">
-                    <img src="${resource(dir: "images/social", file: access.type + ".jpg")}" with="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
+                    <img src="${resource(dir: "images/social", file: access.type + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
                     ${access.title.encodeAsHTML()}</g:link></li>
         </g:each>
     </ul>

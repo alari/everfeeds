@@ -4,9 +4,9 @@
     .without{background:#ffc0cb}
 </style>
 <div class="filterAside" style="display:none">
-    <p><b>${I18n."entry.filter.access"()}: ${filter.access.title.encodeAsHTML()}</b></p>
+    <p><b>${I18n._."entry.filter.access"}: ${filter.access.title.encodeAsHTML()}</b></p>
 
-    <p><b>${I18n."entry.filter.categories"()}: <ul>
+    <p><b>${I18n._."entry.filter.categories"}: <ul>
         <g:each in="${filter.access.categories}" var="category">
             <li
                     class="<g:filterCls obj="${category}" with="${filter.withCategories}" without="${filter.withoutCategories}"/>"
@@ -15,7 +15,7 @@
         </g:each>
     </ul></b></p>
 
-    <p><b>${I18n."entry.filter.tags"()}: <ul>
+    <p><b>${I18n._."entry.filter.tags"}: <ul>
         <g:each in="${filter.access.tags}" var="tag">
             <li
                     class="<g:filterCls obj="${tag}" with="${filter.withTags}" without="${filter.withoutTags}"/>"

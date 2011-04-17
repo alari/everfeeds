@@ -18,8 +18,8 @@
 <div id="wrapper">
 
 	<header id="header">
-		<g:link controller="root">${I18n."layout.title"()}</g:link>
-        <sec:ifLoggedIn><g:link controller="logout">${I18n."layout.logout"()}</g:link> </sec:ifLoggedIn>
+		<g:link controller="root">${I18n._."layout.title"}</g:link>
+        <sec:ifLoggedIn><g:link controller="logout">${I18n._."layout.logout"}</g:link> </sec:ifLoggedIn>
 	</header><!-- #header-->
 
     <g:if test="${flash.message}">
@@ -36,7 +36,7 @@
 </div><!-- #wrapper -->
 
 <footer id="footer">
-	&copy; ${I18n."layout.footer.copyright"()}
+	&copy; ${I18n._."layout.footer.copyright"}
 </footer><!-- #footer -->
 
 <script type="text/javascript">

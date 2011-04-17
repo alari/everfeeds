@@ -14,15 +14,15 @@
 |
 
 <g:if test="${entry.sourceUrl}">
-    <a href="${entry.sourceUrl}" target="_blank">${I18n."entry.link"()}</a>
+    <a href="${entry.sourceUrl}" target="_blank">${I18n._."entry.link"}</a>
     |
 </g:if>
 
 <g:if test="${entry.tags.size()}">
-    ${I18n."entry.tags"()}: ${entry.tags.join(", ")}
+    ${I18n._."entry.tags"}: ${entry.tags.join(", ")}
     |
 </g:if>
-<a href="javascript:void(0)" onclick="showFullEntry(this, ${entry.id})">${I18n."entry.fulltext"()}</a>
+<a href="javascript:void(0)" onclick="showFullEntry(this, ${entry.id})">${I18n._."entry.fulltext"}</a>
 
 <div class="entry-content target-blank">
 </div>

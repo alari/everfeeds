@@ -22,7 +22,7 @@ class Tag implements TagFace, Comparable{
     }
 
     String toString(){
-        if(titleIsCode) return I18n."${title}"()
+        if(titleIsCode) return I18n._."${title}"
         title
     }
 

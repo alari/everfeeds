@@ -24,7 +24,7 @@ class Category implements CategoryFace,Comparable{
     }
 
     String toString(){
-        if(titleIsCode) return I18n."${title}"()
+        if(titleIsCode) return I18n._."${title}"
         title
     }
 

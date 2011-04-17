@@ -5,6 +5,7 @@ import everfeeds.envelops.FilterEnvelop
 
 class RootController {
     def syncService
+    def i18n
 
     def index = {
         if (loggedIn) {

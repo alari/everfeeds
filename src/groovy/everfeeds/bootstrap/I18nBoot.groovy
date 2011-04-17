@@ -7,6 +7,9 @@ import everfeeds.I18n
  */
 class I18nBoot {
   static run() {
-    I18n.metaClass.'static'.invokeMethod = { String code, args -> I18n.m.call(code, args)}
+    I18n.metaClass.'static'.invokeMethod = {String code, args ->
+        System.err << "Deprecated: I18n.\"${code}\"\n"
+        I18n._.methodMissing(code, args)
+    }
   }
 }
