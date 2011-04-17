@@ -1,11 +1,14 @@
 import everfeeds.Package
+import org.apache.commons.lang.StringUtils
+
 class BootStrap {
 
-    def init = { servletContext ->
-      Package.getClasses("everfeeds.bootstrap").each{
-        it.run()
-      }
+  def init = { servletContext ->
+    String.metaClass.mixin StringUtils
+    Package.getClasses("everfeeds.bootstrap").each {
+      it.run()
     }
-    def destroy = {
-    }
+  }
+  def destroy = {
+  }
 }

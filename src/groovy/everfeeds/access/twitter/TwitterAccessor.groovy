@@ -18,7 +18,7 @@ import org.apache.log4j.Logger
  */
 class TwitterAccessor extends Accessor {
 
-    static Logger log = Logger.getLogger(this)
+    static Logger log = Logger.getLogger(this.class)
 
     static final Map CATEGORIES = [
             timeline: "http://api.twitter.com/1/statuses/home_timeline.json",

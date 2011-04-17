@@ -29,7 +29,7 @@ class AccountRole implements Serializable {
 	}
 
 	static AccountRole create(Account account, Role role, boolean flush = false) {
-        get(account.id, role.id) ?: new AccountRole(account: account, role: role).save(flush: flush, insert: true)
+        get(account.id?:0, role.id?:0) ?: new AccountRole(account: account, role: role).save(flush: flush, insert: true)
 	}
 
 	static boolean remove(Account account, Role role, boolean flush = false) {

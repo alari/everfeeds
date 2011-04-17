@@ -52,6 +52,7 @@ grails.views.javascript.library = "jquery"
 
 // set per-environment serverURL stem for creating absolute links
 environments {
+<<<<<<< HEAD
     production {
         grails.serverURL = "http://everfeeds.com"
     }
@@ -61,6 +62,17 @@ environments {
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
     }
+=======
+  production {
+    grails.serverURL = "http://everfeeds.com"
+  }
+  development {
+    grails.serverURL = "http://everfeeds.com/everfeeds"
+  }
+  test {
+    grails.serverURL = "http://localhost:8080/${appName}"
+  }
+>>>>>>> initially implemented facebook feeds
 
 }
 
@@ -224,13 +236,12 @@ access {
             provider = org.scribe.builder.api.TwitterApi
         }
     }
-    facebook {
-        oauth {
-            key = "118265721567840"
-            secret = "9d43b1e1ce985e1b3f81d44e51e8cd0f"
-            provider = org.scribe.builder.api.FacebookApi
-            scope = "read_stream"
-        }
+  }
+  facebook {
+    oauth {
+      key = "118265721567840"
+      secret = "9d43b1e1ce985e1b3f81d44e51e8cd0f"
+      provider = org.scribe.builder.api.FacebookApi
     }
     linkedin {
         oauth {
