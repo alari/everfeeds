@@ -71,6 +71,7 @@ environments {
  * Pickup the Tomcat/Catalina directory else use the target or current dir.
  */
 def fs = File.separator // Local variable.
+def globalDirs = [:]
 globalDirs.targetDir = new File("target${fs}").isDirectory() ? "target${fs}" : ''
 globalDirs.catalinaBase = System.properties.getProperty('catalina.base')
 globalDirs.logDirectory = globalDirs.catalinaBase ? "${globalDirs.catalinaBase}${fs}logs${fs}" : globalDirs.targetDir
