@@ -117,10 +117,10 @@ log4j = {
 
   warn 'org.mortbay.log' // Jetty
 
-  info 'everfeeds'
+  all 'everfeeds'
   warn 'net.bull.javamelody'
 
-  info 'grails.app' // Set the default log level for our app code.
+  all 'grails.app' // Set the default log level for our app code.
   //error 'grails.app.bootstrap' // Set the log level per type and per type.class
   //error 'grails.app.service.AuthService'
   //error 'grails.app.service.NavigationService'
