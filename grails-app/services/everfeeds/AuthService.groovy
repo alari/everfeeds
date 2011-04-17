@@ -26,8 +26,10 @@ class AuthService {
             throw new IllegalArgumentException("Cannot get access without type/id")
         }
 
-        Access access = Access.findByIdentity(params.type + ":" + params.id) ?: new Access(
-                identity: params.type + ":" + params.id,
+        String identity = params.type + ":" + params.id
+        log.debug "Getting access for ${identity} (${params})"
+        Access access = Access.findByIdentity(identity) ?: new Access(
+                identity: identity,
                 title: params.title,
                 type: params.type
         )

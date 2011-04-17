@@ -117,15 +117,15 @@ log4j = {
   info 'everfeeds'
   warn 'net.bull.javamelody'
 
-  error 'grails.app' // Set the default log level for our app code.
-  error 'grails.app.bootstrap' // Set the log level per type and per type.class
-  error 'grails.app.service.AuthService'
-  error 'grails.app.service.NavigationService'
-  error 'grails.app.service.com.zeddware.grails.plugins.filterpane.FilterService'
-  info 'org.codehaus.groovy.grails.plugins.searchable'
+  info 'grails.app' // Set the default log level for our app code.
+  //error 'grails.app.bootstrap' // Set the log level per type and per type.class
+  //error 'grails.app.service.AuthService'
+  //error 'grails.app.service.NavigationService'
+  //error 'grails.app.service.com.zeddware.grails.plugins.filterpane.FilterService'
+  //info 'org.codehaus.groovy.grails.plugins.searchable'
   //info 'org.compass'
-  error 'grails.app.task' // Quartz jobs.
-  info 'grails.app.task.InventoryIndexJob'
+  //error 'grails.app.task' // Quartz jobs.
+  //info 'grails.app.task.InventoryIndexJob'
 
   // Move anything that should behave differently into this section.
   switch (environment) {
@@ -136,8 +136,8 @@ log4j = {
         additivity = true
       }
       //debug "org.hibernate.SQL"
-      debug 'grails.app.service'
-      debug 'grails.app.controller'
+      //debug 'grails.app.service'
+      //debug 'grails.app.controller'
       break
     case 'test':
       // Configure the root logger to only output to appLog appender.
@@ -145,8 +145,8 @@ log4j = {
         error 'stdout', 'appLog'
         additivity = true
       }
-      debug 'grails.app.service'
-      debug 'grails.app.controller'
+      //debug 'grails.app.service'
+      //debug 'grails.app.controller'
       break
     case 'production':
       // Configure the root logger to only output to appLog appender.
@@ -154,11 +154,8 @@ log4j = {
         error 'appLog'
         additivity = true
       }
-      warn 'grails.app.service'
-      warn 'grails.app.controller'
-      debug 'grails.app.service.AssetCsvService'
-      debug 'grails.app.service.PersonCsvService'
-      debug 'grails.app.service.InventoryCsvService'
+      //warn 'grails.app.service'
+      //warn 'grails.app.controller'
       break
   }
 }
