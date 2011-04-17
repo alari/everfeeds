@@ -18,9 +18,9 @@ class RootController {
     def entries = {
         // TODO: move it to separate action
         if(params.content) {
+            System.err << "Requesting full entry content...\n"
             Entry e = Entry.findByIdAndAccount(params.content, authenticatedUser)
-            if(!e) return;
-            render e.content
+            render e?.content ?: "E not found for ${params.content}, ${authenticatedUser}"
             return;
         }
 
