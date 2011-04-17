@@ -3,7 +3,6 @@ package everfeeds.access.facebook
 import everfeeds.OAuthHelper
 import everfeeds.access.OAuthAuth
 import org.scribe.model.Token
-import org.scribe.builder.api.FacebookApi
 
 /**
  * Created by alari @ 02.04.11 13:15

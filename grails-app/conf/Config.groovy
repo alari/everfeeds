@@ -52,7 +52,6 @@ grails.views.javascript.library = "jquery"
 
 // set per-environment serverURL stem for creating absolute links
 environments {
-<<<<<<< HEAD
     production {
         grails.serverURL = "http://everfeeds.com"
     }
@@ -62,18 +61,6 @@ environments {
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
     }
-=======
-  production {
-    grails.serverURL = "http://everfeeds.com"
-  }
-  development {
-    grails.serverURL = "http://everfeeds.com/everfeeds"
-  }
-  test {
-    grails.serverURL = "http://localhost:8080/${appName}"
-  }
->>>>>>> initially implemented facebook feeds
-
 }
 
 /**

@@ -10,8 +10,6 @@ import everfeeds.envelops.TagEnvelop
 
 import org.apache.log4j.Logger
 import java.text.SimpleDateFormat
-import org.apache.commons.lang.StringUtils
-import org.apache.commons.lang.WordUtils
 
 /**
  * @author alari
@@ -21,7 +19,9 @@ import org.apache.commons.lang.WordUtils
  */
 class FacebookAccessor extends Accessor {
   private static DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-  static Logger LOG = Logger.getLogger(this.class)
+    // Logger is usually initiated in Grails as lowercased log
+    // "this" in static context means "this class", even if IDEA can't understand it
+  static Logger log = Logger.getLogger(FacebookAccessor)
   private static enum TYPE {
     VIDEO ("Video"),
     LINK ("Link"),
@@ -87,32 +87,28 @@ class FacebookAccessor extends Accessor {
   }
 
   public List<EntryEnvelop> pull(Map params = [:]) {
-    LOG.debug ("pulling from facebook")
+    log.debug "pulling from facebook"
     List<EntryEnvelop> entries = []
 
     CATEGORIES.each {catIdx, cat ->
       for (it in OAuthHelper.callJsonApi(config.oauth, String.valueOf(cat), access.token, access.secret)?.data) {
-        LOG.debug("category ${cat}")
+        log.debug("category ${cat}")
         def tagList = []
         def screenName = it?.user?.screen_name ?: it["from"].name
 
         TAGS.each {tagId, tagData ->
           if (tagData.check(it)) {
             tagList.add (tagId)
-            LOG.warn tagData
+            log.warn tagData
           }
         }
-        LOG.warn tagList
+        log.warn tagList
         def entry = new EntryEnvelop(
-          title: "${it?.type} by ${screenName}",
-          content: String.format(
-            '%s&nbsp;%s:<br />%s',
-            it?.message ?: "Message",
-            it?.caption ?: "",
-            it?.description ?: ""
-          ),
+          title: it?.caption,
+          kind: it?.type,
+          content: it?.message + " " + it?.description,
           imageUrl: it?.picture ?: it?.icon ?: "",
-          identity: (catIdx == "messages" ? catIdx : "") + it.id,
+          identity: it.id,
           author: screenName ?: "Unknown",
           tagIdentities: tagList,
           categoryIdentity: catIdx,
