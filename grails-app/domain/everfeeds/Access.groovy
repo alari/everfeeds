@@ -6,7 +6,7 @@ import org.bson.types.ObjectId
 class Access {
     static mapWith = "mongo"
 
-    String id
+    ObjectId id
 
     String authenticity
     String title
