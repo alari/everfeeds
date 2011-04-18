@@ -72,8 +72,8 @@ class FacebookAccessor extends Accessor {
         entry = new EntryEnvelop(
           title: it?.caption,
           kind: it?.type,
-          content: it?.message + " " + it?.description,
-          imageUrl: it?.picture ?: it?.icon ?: "",
+          content: (it?.message ?: "") + " " + (it?.description ?: ""),
+          imageUrl: it?.picture ?: it?.icon ?: "http://facebook.com/${it.id}/picture",
           identity: it.id,
           author: screenName,
           tagIdentities: tagList,
