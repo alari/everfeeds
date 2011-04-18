@@ -205,14 +205,12 @@ access {
     userAgent = "everfeeds.com"
     host = "sandbox.evernote.com"
     oauth {
+      key = "everfeeds"
+      secret = "dd0ba24f027198c6"
       if (environment == "production") {
-        key = "name_alari"
-        secret = "f3ea2d71d1647525"
         //provider = org.scribe.builder.api.EvernoteApi
         provider = everfeeds.EvernoteSandboxApi
       } else {
-        key = "name_alari"
-        secret = "f3ea2d71d1647525"
         //provider = org.scribe.builder.api.EvernoteApi.Sandbox
         provider = everfeeds.EvernoteSandboxApi
       }
