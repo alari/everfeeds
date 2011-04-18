@@ -16,14 +16,14 @@ environments {
   development {
     dataSource {
       configClass = GrailsAnnotationConfiguration.class
-//            dbCreate = "create-drop"
-      dbCreate = "update"
+            dbCreate = "create-drop"
+//      dbCreate = "update"
    //   url = "jdbc:hsqldb:file:db/testDb;shutdown=true"
       username = "postgres"
       password = "12345"
       url = "jdbc:postgresql://localhost/everfeeds" //:file:prodDb;shutdown=true"
       driverClassName = "org.postgresql.Driver"
-      logSql = true
+   //   logSql = true
     }
   }
   test {

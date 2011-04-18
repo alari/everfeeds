@@ -48,6 +48,8 @@ class RootController {
             render template: "filterAside", model: [filter:filter]
         }
 
+      render template: "tabJsCache", model: [filter:filter]
+
         if(entries.size()) {
             render template: "loadMore", model: [page: page]
         }

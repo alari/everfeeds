@@ -95,12 +95,12 @@ $(function() {
         select: function(event, ui) {
             tabId = ui.panel.id;
             $("#asideBox").html($(".filterAside", ui.panel).html());
-            if(tabDataCache[tabId]) tabData = tabDataCache[tabId];
+            tabData = tabDataCache[tabId];
         },
         load: function(event, ui) {
             tabId = ui.panel.id;
             $("#asideBox").html($(".filterAside", ui.panel).html());
-            if(tabDataCache[tabId]) tabData = tabDataCache[tabId];
+            tabData = tabDataCache[tabId];
             aTargetBlank();
         },
         cache: true
