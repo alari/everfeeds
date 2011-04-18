@@ -231,6 +231,7 @@ access {
       key = "118265721567840"
       secret = "9d43b1e1ce985e1b3f81d44e51e8cd0f"
       provider = org.scribe.builder.api.FacebookApi
+      scope = "publish_stream,offline_access,read_stream,read_mailbox,read_insights"
     }
   }
 
