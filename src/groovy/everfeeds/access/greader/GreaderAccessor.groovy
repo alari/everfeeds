@@ -56,7 +56,7 @@ class GreaderAccessor extends Accessor {
             title = it.id.substring(it.id.lastIndexOf("/") + 1)
 
             if(title in ["starred","blogger-following","broadcast"]) {
-                title = "greader.tag."+title
+                title = "${type}.tag.${title}"
                 titleIsCode = true
             }
             tags.add new TagEnvelop(identity: it.id, title: title, original: it, titleIsCode: titleIsCode)
