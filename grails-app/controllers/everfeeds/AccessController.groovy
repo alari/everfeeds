@@ -52,7 +52,7 @@ class AccessController {
     }
 
     setLoggedAccountAccess(access)
-    authService.setAccountRole(access.account, params.id)
+    access.account.addAuthority params.id.toString()
     access.expired = false
     access.save()
 

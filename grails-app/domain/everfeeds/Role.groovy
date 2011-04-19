@@ -15,6 +15,8 @@ class Role implements GrantedAuthority {
 	}
 
     static Role getByAuthority(String authority){
-        Role.findByAuthority(authority) ?: new Role(authority: authority).save()
+      authority = authority.toUpperCase()
+      if (!authority.startsWith("ROLE_")) authority = "ROLE_" + authority
+      Role.findByAuthority(authority) ?: new Role(authority: authority).save()
     }
 }

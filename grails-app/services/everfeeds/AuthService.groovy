@@ -42,10 +42,4 @@ class AuthService {
         }
         access.save()
     }
-
-    void setAccountRole(Account account, String authority) {
-        authority = authority.toUpperCase()
-        if (!authority.startsWith("ROLE_")) authority = "ROLE_" + authority
-      account.addAuthority authority
-    }
 }

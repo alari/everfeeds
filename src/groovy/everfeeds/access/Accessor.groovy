@@ -9,7 +9,8 @@ import everfeeds.envelops.TagEnvelop
 import everfeeds.envelops.EntryFace
 
 /**
- * Created by alari @ 14.03.11 15:00
+ * @author Dmitry Kurinskiy
+ * @since 14.03.11 15:00
  */
 abstract class Accessor {
     protected Access access
