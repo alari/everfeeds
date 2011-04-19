@@ -19,7 +19,7 @@ class EvernoteAuth extends OAuthAuth {
             userStoreTrans.setCustomHeader("User-Agent", config.userAgent);
             TBinaryProtocol userStoreProt = new TBinaryProtocol(userStoreTrans);
             UserStore.Client userStore = new UserStore.Client(userStoreProt, userStoreProt);
-                 System.err << "https://" + config.host + "/edam/user ${accessToken.token}\n"
+
             // Finding access by username
             User user = userStore.getUser(accessToken.token)
             if (!user) return null

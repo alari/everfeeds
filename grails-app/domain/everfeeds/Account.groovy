@@ -24,6 +24,15 @@ class Account {
 		AccountRole.findAllByAccount(this).collect { it.role } as Set
 	}
 
+  Account addAuthority(Role role, boolean flush=false) {
+    AccountRole.create this, role, flush
+    this
+  }
+
+  Account addAuthority(String authority, boolean flush=false){
+    addAuthority Role.getByAuthority(authority), flush
+  }
+
     String toString(){
         username
     }

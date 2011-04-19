@@ -26,7 +26,6 @@ class Access {
     static transients = ["accessor", "cachedAccessor"]
 
     static constraints = {
-        identity unique: true
         secret nullable: true
         shard nullable: true
         account nullable: true
@@ -34,6 +33,7 @@ class Access {
         entries sort: "placedDate"
         tags sort: "title", order: 1
         categories sort: "title", order: 1
+      // TODO: add composite unique key (identity, type)
     }
 
     Accessor getAccessor() {

@@ -26,10 +26,8 @@ class AuthService {
             throw new IllegalArgumentException("Cannot get access without type/id")
         }
 
-        String identity = params.type + ":" + params.id
-        log.debug "Getting access for ${identity} (${params})"
-        Access access = Access.findByIdentity(identity) ?: new Access(
-                identity: identity,
+        Access access = Access.findByIdentityAndType(params.id, params.type) ?: new Access(
+                identity: params.id,
                 title: params.title,
                 type: params.type
         )
@@ -48,6 +46,6 @@ class AuthService {
     void setAccountRole(Account account, String authority) {
         authority = authority.toUpperCase()
         if (!authority.startsWith("ROLE_")) authority = "ROLE_" + authority
-        AccountRole.create account, Role.getByAuthority(authority)
+      account.addAuthority authority
     }
 }

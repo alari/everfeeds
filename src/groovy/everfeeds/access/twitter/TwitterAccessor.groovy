@@ -29,7 +29,7 @@ class TwitterAccessor extends Accessor {
     Map TAGS = [
             own: [
                     title: "Typed by you",
-                    check: {it?.user?.screen_name == access.title || it?.sender?.screen_name == access.title}
+                    check: {it?.user?.id == access.identity || it?.sender?.id == access.identity}
             ],
             retweet: [
                     title: "Retweets",

@@ -174,6 +174,7 @@ if (environment == "production") {
 }
 
 access {
+
   google {
     oauth {
       key = "everfeeds.com"
@@ -183,6 +184,7 @@ access {
     auth = false
     emailUrl = "https://www.googleapis.com/userinfo/email"
   }
+
   gmail {
     extend = "google"
     auth = true
@@ -190,6 +192,7 @@ access {
       scope = "https://www.googleapis.com/auth/userinfo#email https://mail.google.com/mail/feed/atom/ https://apps-apis.google.com/a/feeds/email_settings/2.0/"
     }
   }
+
   greader {
     extend = "google"
     auth = true
@@ -197,22 +200,17 @@ access {
       scope = "http://www.google.com/reader/api/ http://www.google.com/reader/atom/ https://www.googleapis.com/auth/userinfo#email"
     }
   }
+
   evernote {
     userAgent = "everfeeds.com"
     host = "www.evernote.com"
     oauth {
       key = "everfeeds"
       secret = "dd0ba24f027198c6"
-      if (environment == "production") {
-        provider = org.scribe.builder.api.EvernoteApi
-        //provider = everfeeds.EvernoteSandboxApi
-      } else {
-        //provider = org.scribe.builder.api.EvernoteApi.Sandbox
-        //provider = everfeeds.EvernoteSandboxApi
-        provider = org.scribe.builder.api.EvernoteApi
-      }
+      provider = org.scribe.builder.api.EvernoteApi
     }
   }
+
   twitter {
     oauth {
       key = 'A5maG2S6WHvloLeFDeIw'

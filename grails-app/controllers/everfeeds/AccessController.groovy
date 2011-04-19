@@ -71,7 +71,7 @@ class AccessController {
       passwordExpired: false
     )
     account.save(flush: true)
-    AccountRole.create(account, Role.getByAuthority("ROLE_ACCOUNT"), true)
+    account.addAuthority "ROLE_ACCOUNT", true
     log.debug "Created access account: $account with ${account.authorities*.authority.join(";")}"
     account
   }
