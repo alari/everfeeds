@@ -39,6 +39,9 @@ class AuthService {
             if (params.shard) access.shard = params.shard
             access.expired = false
         }
+        if(!access.validate()) {
+          log.error access.errors
+        }
         access.save()
     }
 

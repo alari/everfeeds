@@ -72,10 +72,6 @@ def globalDirs = [:]
 globalDirs.targetDir = new File("target${fs}").isDirectory() ? "target${fs}" : ''
 globalDirs.catalinaBase = System.properties.getProperty('catalina.base')
 globalDirs.logDirectory = globalDirs.catalinaBase ? "${globalDirs.catalinaBase}${fs}logs${fs}" : globalDirs.targetDir
-globalDirs.workDirectory = globalDirs.catalinaBase ? "${globalDirs.catalinaBase}${fs}work${fs}" : globalDirs.targetDir
-globalDirs.searchableIndexDirectory = "${globalDirs.workDirectory}SearchableIndex${fs}${appName}${fs}"
-System.err << globalDirs
-System.err << "\n"
 
 /**
  * Log4j configuration.
@@ -203,16 +199,17 @@ access {
   }
   evernote {
     userAgent = "everfeeds.com"
-    host = "sandbox.evernote.com"
+    host = "www.evernote.com"
     oauth {
       key = "everfeeds"
       secret = "dd0ba24f027198c6"
       if (environment == "production") {
-        //provider = org.scribe.builder.api.EvernoteApi
-        provider = everfeeds.EvernoteSandboxApi
+        provider = org.scribe.builder.api.EvernoteApi
+        //provider = everfeeds.EvernoteSandboxApi
       } else {
         //provider = org.scribe.builder.api.EvernoteApi.Sandbox
-        provider = everfeeds.EvernoteSandboxApi
+        //provider = everfeeds.EvernoteSandboxApi
+        provider = org.scribe.builder.api.EvernoteApi
       }
     }
   }
