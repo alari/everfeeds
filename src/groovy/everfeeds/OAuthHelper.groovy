@@ -4,10 +4,10 @@ import grails.converters.deep.JSON
 import grails.converters.deep.XML
 import org.scribe.builder.ServiceBuilder
 import org.scribe.model.OAuthRequest
+import org.scribe.model.Response
 import org.scribe.model.Token
 import org.scribe.model.Verb
 import org.scribe.oauth.OAuthService
-import org.scribe.model.Response
 
 /**
  * Created by alari @ 03.04.11 13:13
@@ -47,10 +47,10 @@ class OAuthHelper {
     builder.apiSecret(oauthConfig.secret.toString())
     if (accessType) {
       final link = g.createLink(
-        controller: "access",
-        action: "callback",
-        id: accessType,
-        absolute: true
+          controller: "access",
+          action: "callback",
+          id: accessType,
+          absolute: true
       ).toString()
       builder.callback(link)
     }

@@ -4,15 +4,15 @@ package everfeeds.envelops
  * Created by alari @ 18.03.11 17:51
  */
 public interface TagFace {
-    String getIdentity()
+  String getIdentity()
 
-    void setIdentity(String s)
+  void setIdentity(String s)
 
-    String getTitle()
+  String getTitle()
 
-    void setTitle(String s)
+  void setTitle(String s)
 
-    void setTitleIsCode(boolean b)
+  void setTitleIsCode(boolean b)
 
-    boolean getTitleIsCode()
+  boolean getTitleIsCode()
 }

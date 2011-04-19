@@ -7,9 +7,7 @@ import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop
 import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
-
 import org.apache.log4j.Logger
-import java.text.SimpleDateFormat
 
 /**
  * @author alari
@@ -18,14 +16,13 @@ import java.text.SimpleDateFormat
  * @author Boris G. Tsirkin
  */
 class FacebookAccessor extends Accessor {
-  private static DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
   static Logger log = Logger.getLogger(FacebookAccessor)
 
   static final Map CATEGORIES = [
-    news: "https://graph.facebook.com/me/home",
-    events: "https://graph.facebook.com/me/events",
-    wall: "https://graph.facebook.com/me/feed",
+      news: "https://graph.facebook.com/me/home",
+      events: "https://graph.facebook.com/me/events",
+      wall: "https://graph.facebook.com/me/feed",
   ]
 
   FacebookAccessor(Access access) {
@@ -58,30 +55,12 @@ class FacebookAccessor extends Accessor {
     log.debug "pulling from facebook"
     List<EntryEnvelop> entries = []
 
-    List<String> tagList = []
-    String screenName
-
     EntryEnvelop entry
 
     CATEGORIES.each {catIdx, catUrl ->
       for (it in OAuthHelper.callJsonApi(config.oauth, catUrl.toString(), access.token, access.secret)?.data) {
 
-        screenName = it.from?.name ?: "Unknown"
-
-        log.warn tagList
-        entry = new EntryEnvelop(
-          title: it?.caption,
-          kind: it?.type,
-          content: (it?.message ?: "") + " " + (it?.description ?: ""),
-          imageUrl: it?.picture ?: it?.icon ?: "http://facebook.com/${it.id}/picture",
-          identity: it.id,
-          author: screenName,
-          tagIdentities: tagList,
-          categoryIdentity: catIdx,
-          sourceUrl: it.source ?: (it.link ?: "http://facebook.com/${it.id}"),
-          placedDate: (it?.created_time) ? DATE_FORMAT.parse(it?.created_time) : new Date(),
-          accessId: access.id
-        )
+        entry = parser.parseEntry(catIdx, it)
         if (params?.store) {
           entry.store()
         } else {

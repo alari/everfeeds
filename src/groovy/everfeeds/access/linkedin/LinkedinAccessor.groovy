@@ -2,9 +2,9 @@ package everfeeds.access.linkedin
 
 import everfeeds.Access
 import everfeeds.access.Accessor
-import everfeeds.envelops.EntryFace
 import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
 
 /**
@@ -12,36 +12,36 @@ import everfeeds.envelops.TagEnvelop
  */
 class LinkedinAccessor extends Accessor {
 
-    LinkedinAccessor(Access access) {
-        this.access = access
-    }
+  LinkedinAccessor(Access access) {
+    this.access = access
+  }
 
-    List<CategoryEnvelop> getCategories() {
-        List<CategoryEnvelop> categories = []
+  List<CategoryEnvelop> getCategories() {
+    List<CategoryEnvelop> categories = []
 
-        categories
-    }
+    categories
+  }
 
-    List<TagEnvelop> getTags() {
-        List<TagEnvelop> tags = []
+  List<TagEnvelop> getTags() {
+    List<TagEnvelop> tags = []
 
-        tags
-    }
+    tags
+  }
 
-    boolean isPullable() {
-        false
-    }
+  boolean isPullable() {
+    false
+  }
 
-    boolean isPushable() {
-        false
-    }
+  boolean isPushable() {
+    false
+  }
 
-    public List<EntryEnvelop> pull(Map params = [:]) {
-        List<EntryEnvelop> entries = []
-        return entries
-    }
+  public List<EntryEnvelop> pull(Map params = [:]) {
+    List<EntryEnvelop> entries = []
+    return entries
+  }
 
-    void push(EntryFace entry) {
+  void push(EntryFace entry) {
 
-    }
+  }
 }

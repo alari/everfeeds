@@ -38,10 +38,7 @@ class Access {
 
     Accessor getAccessor() {
         if(!cachedAccessor) {
-            log.debug "Access | ${type}"
             cachedAccessor = Manager.getAccessor(type, this)
-        } else {
-            log.debug "Access | ${type} already has ${cachedAccessor.class.canonicalName}"
         }
         cachedAccessor
     }

@@ -11,16 +11,16 @@ class FacebookAuth extends OAuthAuth {
   public Map authCallback(String verifierStr, Object session) {
     authCallbackHelper(verifierStr, session) {Token accessToken ->
       final authInfo = OAuthHelper.callJsonApi(
-        config.oauth,
-        "https://graph.facebook.com/me",
-        accessToken.token, accessToken.secret)
+          config.oauth,
+          "https://graph.facebook.com/me",
+          accessToken.token, accessToken.secret)
 
 
       if (!authInfo) return null
 
       [
-        id: authInfo.id,
-        title: authInfo.name?:authInfo.username
+          id: authInfo.id,
+          title: authInfo.name ?: authInfo.username
       ]
     }
   }

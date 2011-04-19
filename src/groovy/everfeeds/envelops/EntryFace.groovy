@@ -4,39 +4,39 @@ package everfeeds.envelops
  * Created by alari @ 18.03.11 17:51
  */
 interface EntryFace {
-    String getIdentity()
+  String getIdentity()
 
-    void setIdentity(String s)
+  void setIdentity(String s)
 
-    String getTitle()
+  String getTitle()
 
-    void setTitle(String s)
+  void setTitle(String s)
 
-    String getKind()
+  String getKind()
 
-    void setKind(String s)
+  void setKind(String s)
 
-    String getImageUrl()
+  String getImageUrl()
 
-    void setImageUrl(String s)
+  void setImageUrl(String s)
 
-    String getContent()
+  String getContent()
 
-    void setContent(String s)
+  void setContent(String s)
 
-    String getAuthor()
+  String getAuthor()
 
-    void setAuthor(String s)
+  void setAuthor(String s)
 
-    String getSourceUrl()
+  String getSourceUrl()
 
-    void setSourceUrl(String s)
+  void setSourceUrl(String s)
 
-    Date placedDate
+  Date placedDate
 
-    List<String> getTagIdentities()
+  List<String> getTagIdentities()
 
-    String getCategoryIdentity()
+  String getCategoryIdentity()
 
-    String getType()
+  String getType()
 }

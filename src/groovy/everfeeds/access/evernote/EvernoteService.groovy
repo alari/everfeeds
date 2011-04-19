@@ -5,75 +5,75 @@ import org.htmlcleaner.*
 
 class EvernoteService {
 
-    static transactional = true
+  static transactional = true
 
-    def grailsApplication
+  def grailsApplication
 
-    def getSession() {
-        return RequestContextHolder.currentRequestAttributes().getSession()
+  def getSession() {
+    return RequestContextHolder.currentRequestAttributes().getSession()
+  }
+
+  def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
+
+  List ignoreTags = ["APPLET", "BASE", "BASEFONT", "BGSOUND", "BLINK", "BUTTON", "EMBED", "FIELDSET", "FORM",
+      "FRAME", "FRAMESET", "HEAD", "IFRAME", "ILAYER", "INPUT", "ISINDEX", "LABEL", "LAYER", "LEGEND", "LINK",
+      "MARQUEE", "MENU", "META", "NOFRAMES", "NOSCRIPT", "OBJECT", "OPTGROUP", "OPTION", "PARAM", "PLAINTEXT",
+      "SCRIPT", "SELECT", "STYLE", "TEXTAREA", "XML", "DIR"]
+  List blockTags = ["BODY", "HTML"]
+  List ignoreAttributes = ["id", "class", "onclick", "ondblclick", "accesskey", "data", "dynsrc", "tabindex"]
+  // TODO: add all on* attributes
+
+  HtmlCleaner getCleaner() {
+    HtmlCleaner cleaner = new HtmlCleaner()
+    CleanerTransformations transformations = new CleanerTransformations();
+
+    ignoreTags.each {transformations.addTransformation(new TagTransformation(it.toLowerCase()))}
+    blockTags.each {transformations.addTransformation(new TagTransformation(it.toLowerCase(), "div", false))}
+
+    cleaner.setTransformations(transformations)
+    cleaner
+  }
+
+  String adaptHtmlToEdam(String html) {
+    HtmlCleaner cleaner = getCleaner()
+
+    TagNode node = cleaner.clean(html)
+    TagNode[] allNodes = node.getAllElements(true)
+    allNodes.each { n ->
+      ignoreAttributes.each {a ->
+        n.removeAttribute(a)
+      }
     }
+    // TODO: validate via DTD
+    // TODO: 5.Validate href and src values to be valid URLs and protocols
 
-    def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
+    String xml = new BrowserCompactXmlSerializer(cleaner.getProperties()).getXmlAsString(node.children[1])
+    // TODO: remove hardcode
+    xml.substring(45, xml.size() - 7)
+  }
 
-    List ignoreTags = ["APPLET", "BASE", "BASEFONT", "BGSOUND", "BLINK", "BUTTON", "EMBED", "FIELDSET", "FORM",
-            "FRAME", "FRAMESET", "HEAD", "IFRAME", "ILAYER", "INPUT", "ISINDEX", "LABEL", "LAYER", "LEGEND", "LINK",
-            "MARQUEE", "MENU", "META", "NOFRAMES", "NOSCRIPT", "OBJECT", "OPTGROUP", "OPTION", "PARAM", "PLAINTEXT",
-            "SCRIPT", "SELECT", "STYLE", "TEXTAREA", "XML", "DIR"]
-    List blockTags = ["BODY", "HTML"]
-    List ignoreAttributes = ["id", "class", "onclick", "ondblclick", "accesskey", "data", "dynsrc", "tabindex"]
-    // TODO: add all on* attributes
-
-    HtmlCleaner getCleaner() {
-        HtmlCleaner cleaner = new HtmlCleaner()
-        CleanerTransformations transformations = new CleanerTransformations();
-
-        ignoreTags.each {transformations.addTransformation(new TagTransformation(it.toLowerCase()))}
-        blockTags.each {transformations.addTransformation(new TagTransformation(it.toLowerCase(), "div", false))}
-
-        cleaner.setTransformations(transformations)
-        cleaner
-    }
-
-    String adaptHtmlToEdam(String html) {
-        HtmlCleaner cleaner = getCleaner()
-
-        TagNode node = cleaner.clean(html)
-        TagNode[] allNodes = node.getAllElements(true)
-        allNodes.each { n ->
-            ignoreAttributes.each {a ->
-                n.removeAttribute(a)
-            }
-        }
-        // TODO: validate via DTD
-        // TODO: 5.Validate href and src values to be valid URLs and protocols
-
-        String xml = new BrowserCompactXmlSerializer(cleaner.getProperties()).getXmlAsString(node.children[1])
-        // TODO: remove hardcode
-        xml.substring(45, xml.size() - 7)
-    }
-
-    /*
+  /*
 def rss = {
-    String rss_url = "http://vz.ru/columns/rss.xml"
+  String rss_url = "http://vz.ru/columns/rss.xml"
 
 
-    def rsss = new XmlParser().parse(rss_url)
-    rsss.channel.item.each {
+  def rsss = new XmlParser().parse(rss_url)
+  rsss.channel.item.each {
 
-        Note note = new Note()
-        note.title = it.title.text()
+      Note note = new Note()
+      note.title = it.title.text()
 
 
 
-        note.content = """<?xml version="1.0" encoding="UTF-8"?>
+      note.content = """<?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">
 
 <en-note>""" + evernoteService.adaptHtmlToEdam(it.description.text()) + "</en-note>"
 
-        render note.title
+      render note.title
 
-        evernoteService.getNoteStore().createNote(session.evernote.accessToken, note)
-    }
+      evernoteService.getNoteStore().createNote(session.evernote.accessToken, note)
+  }
 }    */
 }
