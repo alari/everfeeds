@@ -22,7 +22,7 @@ class AuthService {
     }
 
     Access getAccess(Map params) {
-        if (!params.type || !params.id) {
+        if (!params?.type || !params?.id) {
             throw new IllegalArgumentException("Cannot get access without type/id")
         }
 

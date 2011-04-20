@@ -3,12 +3,14 @@ package everfeeds
 import everfeeds.envelops.EntryFace
 import org.hibernate.transform.DistinctRootEntityResultTransformer
 import org.hibernate.FetchMode
+import everfeeds.access.Kind
+import everfeeds.access.Manager
 
 class Entry implements EntryFace {
 
     String identity
     String title
-    String kind = ''
+    String kind
     String imageUrl
     String content
     String author
@@ -28,7 +30,7 @@ class Entry implements EntryFace {
 
     static belongsTo = [Access, Account, Category, Tag]
 
-    static transients = ["tagIdentities", "categoryIdentity", "type"]
+    static transients = ["tagIdentities", "categoryIdentity", "type", "kindClass"]
 
     static constraints = {
         placedDate index: "placedDateIndex"
@@ -84,4 +86,8 @@ class Entry implements EntryFace {
         if (!type) type = access.type
         type
     }
+
+  Class getKindClass(){
+    Manager.classForKind(type, kind)
+  }
 }

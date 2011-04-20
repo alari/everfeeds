@@ -78,4 +78,8 @@ class Manager {
   static Class classForSuffix(String type, String suffix) {
     Class.forName(this.package.name + "." + type + "." + type.capitalize() + suffix.capitalize(), true, Thread.currentThread().contextClassLoader)
   }
+
+  static Class classForKind(String type, String kind) {
+    Class.forName(this.package.name + "." + type + ".kind." + type.capitalize() + kind.capitalize(), true, Thread.currentThread().contextClassLoader)
+  }
 }

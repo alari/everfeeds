@@ -104,7 +104,7 @@ class TwitterAccessor extends Accessor {
     //TODO: handle categories!
     CATEGORIES.each {catIdx, cat ->
       OAuthHelper.callJsonApi(config.oauth, cat + "?count=${num}&include_entities=1", access.token, access.secret)?.each {
-        entry = parser.parseEntry catIdx.toString(), it
+        entry = parser.parseEntry(catIdx.toString(), it)
 
         if (params?.store) {
           entry.store()

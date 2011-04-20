@@ -1,6 +1,7 @@
 package everfeeds.access.evernote
 
 import everfeeds.access.Parser
+import everfeeds.access.evernote.kind.EvernoteNote
 import everfeeds.envelops.EntryEnvelop
 
 /**
@@ -9,21 +10,10 @@ import everfeeds.envelops.EntryEnvelop
  */
 class EvernoteParser extends Parser {
   EntryEnvelop parseEntry(node) {
-    parseEntry node.notebookGuid, node
+    new EvernoteNote().newEntryEnvelop(node, accessor).buildEnvelop().entryEnvelop
   }
 
-  EntryEnvelop parseEntry(String categoryIdentity, Object node) {
-    node = (com.evernote.edam.type.Note)node
-    new EntryEnvelop(
-        title: node.title,
-        content: accessor.getNoteContent(node.guid),
-        identity: node.guid,
-        author: node.attributes.author,
-        tagIdentities: node.tagGuids,
-        categoryIdentity: node.notebookGuid,
-        sourceUrl: node.attributes.sourceURL,
-        placedDate: new Date(node.created),
-        accessId: access.id
-    )
+  EntryEnvelop parseEntry(String categoryIdentity, node) {
+    parseEntry(node)
   }
 }
