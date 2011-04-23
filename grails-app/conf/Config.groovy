@@ -56,7 +56,7 @@ environments {
     grails.serverURL = "http://everfeeds.com"
   }
   development {
-    grails.serverURL = "http://loc.everfeeds.com"
+    grails.serverURL = "http://loc.everfeeds.com:8080/${appName}"
   }
   test {
     grails.serverURL = "http://localhost:8080/${appName}"

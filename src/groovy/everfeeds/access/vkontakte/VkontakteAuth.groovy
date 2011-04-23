@@ -13,16 +13,17 @@ class VkontakteAuth extends OAuthAuth {
     authCallbackHelper(verifierStr, session) {Token accessToken ->
       final authInfo = OAuthHelper.callJsonApi(
         config.oauth,
-        "https://api.vkontakte.ru/method/getUserSettings",
+        "https://api.vkontakte.ru/method/getUserInfo",
         accessToken.token,
         accessToken.secret
       )
+
       if (!authInfo) {
         return null
       }
 
       [
-        id: authInfo.id
+        id: authInfo?.response?.user_id
       ]
     }
   }

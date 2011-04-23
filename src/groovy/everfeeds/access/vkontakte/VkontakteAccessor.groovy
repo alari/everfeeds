@@ -17,7 +17,7 @@ class VkontakteAccessor extends Accessor {
 
   static Logger log = Logger.getLogger(VkontakteAccessor)
 
-  static final Map CATEGORIES = []
+  static final Map CATEGORIES = [:]
 
   VkontakteAccessor(Access access) {
     this.access = access
