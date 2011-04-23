@@ -11,13 +11,6 @@ import org.scribe.model.Token
 class VkontakteAuth extends OAuthAuth {
   public Map authCallback(String verifierStr, Object session) {
     authCallbackHelper(verifierStr, session) {Token accessToken ->
-      OAuthHelper.callJsonApi(
-        config.oauth,
-        "https://api.vkontakte.ru/method/getUserSettings",
-        accessToken.token,
-        accessToken.secret
-      )
-
       final authInfo = OAuthHelper.callJsonApi(
         config.oauth,
         "https://api.vkontakte.ru/method/getUserSettings",

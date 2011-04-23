@@ -23,7 +23,9 @@ class VkontakteAccessor extends Accessor {
     this.access = access
   }
 
-  List<CategoryEnvelop> getCategories() {[]}
+  List<CategoryEnvelop> getCategories() {
+    []
+  }
 
   List<TagEnvelop> getTags() {
     List<TagEnvelop> tags = []
@@ -32,7 +34,8 @@ class VkontakteAccessor extends Accessor {
   }
 
   boolean isPullable() {
-    true
+    // We are not yet able to pull from vk
+    false
   }
 
   boolean isPushable() {
@@ -40,6 +43,8 @@ class VkontakteAccessor extends Accessor {
   }
 
   public List<EntryEnvelop> pull(Map params = [:]) {
+    List<EntryEnvelop> entries = []
+    entries
   }
 
 

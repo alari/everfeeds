@@ -56,7 +56,7 @@ environments {
     grails.serverURL = "http://everfeeds.com"
   }
   development {
-    grails.serverURL = "http://everfeeds.com"
+    grails.serverURL = "http://loc.everfeeds.com"
   }
   test {
     grails.serverURL = "http://localhost:8080/${appName}"
@@ -237,10 +237,9 @@ access {
   }
 
   vkontakte {
-    host = "www.vkontakte.ru"
     oauth {
-      key = "1984613"
-      secret = "aE2a3HT3YRA3GxZcbIWn"
+      key = "2300127"
+      secret = "eejmLrWGXI7xEYifiU2D"
       provider = org.scribe.builder.api.VkontakteApi
       scope = "friends,wall,offline"
     }
