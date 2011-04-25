@@ -1,4 +1,14 @@
 /**
+ * Directory configuration.
+ * Pickup the Tomcat/Catalina directory else use the target or current dir.
+ */
+def fs = File.separator // Local variable.
+def globalDirs = [:]
+globalDirs.targetDir = new File("target${fs}").isDirectory() ? "target${fs}" : ''
+globalDirs.catalinaBase = System.properties.getProperty('catalina.base')
+globalDirs.logDirectory = globalDirs.catalinaBase ? "${globalDirs.catalinaBase}${fs}logs${fs}" : globalDirs.targetDir
+def appName = "everfeeds"
+/**
  * Log4j configuration.
  * Causing this file to reload (e.g. edit+save) may break the appLog destination
  * and further logs will be written to files or directories like "[:]".

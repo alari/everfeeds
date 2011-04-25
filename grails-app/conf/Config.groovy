@@ -49,23 +49,13 @@ environments {
   }
 }
 
-/**
- * Directory configuration.
- * Pickup the Tomcat/Catalina directory else use the target or current dir.
- */
-def fs = File.separator // Local variable.
-def globalDirs = [:]
-globalDirs.targetDir = new File("target${fs}").isDirectory() ? "target${fs}" : ''
-globalDirs.catalinaBase = System.properties.getProperty('catalina.base')
-globalDirs.logDirectory = globalDirs.catalinaBase ? "${globalDirs.catalinaBase}${fs}logs${fs}" : globalDirs.targetDir
-
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 grails.config.locations = [ // for local settings
   "file:${userHome}/.${appName}/override-config.groovy"
 ]
 
-new File('grails-app/conf').eachFileMatch(~/.*?Config\.groovy/) { f ->
+new File('grails-app/conf').eachFileMatch(~/[A-Z][a-zA-Z]*?Config\.groovy/) { f ->
   grails.config.locations << "classpath:${f.name}"
   System.out.println(f.name);
 }
