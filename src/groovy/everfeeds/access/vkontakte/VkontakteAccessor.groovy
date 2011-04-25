@@ -1,7 +1,6 @@
 package everfeeds.access.vkontakte
 
 import everfeeds.Access
-import everfeeds.OAuthHelper
 import everfeeds.access.Accessor
 import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop

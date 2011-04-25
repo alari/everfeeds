@@ -2,34 +2,34 @@ package everfeeds
 
 import everfeeds.envelops.TagFace
 
-class Tag implements TagFace, Comparable{
-    String identity
-    String title
-    boolean titleIsCode = false
+class Tag implements TagFace, Comparable {
+  String identity
+  String title
+  boolean titleIsCode = false
 
-    Access access
+  Access access
 
-    static belongsTo = Access
+  static belongsTo = Access
 
-    static hasMany = [entries:Entry]
+  static hasMany = [entries: Entry]
 
-    static constraints = {
-        title index: "titleTagIdx"
+  static constraints = {
+    title index: "titleTagIdx"
+  }
+
+  static mapping = {
+    sort "title"
+  }
+
+  String toString() {
+    if (titleIsCode) return I18n._."${title}"
+    title
+  }
+
+  public int compareTo(def other) {
+    if (other instanceof Tag) {
+      return title <=> other.title
     }
-
-    static mapping = {
-        sort "title"
-    }
-
-    String toString(){
-        if(titleIsCode) return I18n._."${title}"
-        title
-    }
-
-    public int compareTo(def other) {
-        if(other instanceof Tag) {
-            return title <=> other.title
-        }
-        throw new IllegalArgumentException("Cannot compare with ${other}")
-    }
+    throw new IllegalArgumentException("Cannot compare with ${other}")
+  }
 }

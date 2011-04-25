@@ -36,7 +36,11 @@ interface EntryFace {
 
   List<String> getTagIdentities()
 
+  void setTagIdentities(List<String> identities)
+
   String getCategoryIdentity()
+
+  void setCategoryIdentity(String s)
 
   String getType()
 }

@@ -12,10 +12,10 @@ class VkontakteAuth extends OAuthAuth {
   public Map authCallback(String verifierStr, Object session) {
     authCallbackHelper(verifierStr, session) {Token accessToken ->
       final authInfo = OAuthHelper.callJsonApi(
-        config.oauth,
-        "https://api.vkontakte.ru/method/getUserInfo",
-        accessToken.token,
-        accessToken.secret
+          config.oauth,
+          "https://api.vkontakte.ru/method/getUserInfo",
+          accessToken.token,
+          accessToken.secret
       )
 
       if (!authInfo) {
@@ -23,7 +23,7 @@ class VkontakteAuth extends OAuthAuth {
       }
 
       [
-        id: authInfo?.response?.user_id
+          id: authInfo?.response?.user_id
       ]
     }
   }

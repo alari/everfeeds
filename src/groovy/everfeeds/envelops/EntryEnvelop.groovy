@@ -44,8 +44,9 @@ class EntryEnvelop implements EntryFace {
         placedDate: placedDate,
         account: access.account,
         access: access,
-        category: Category.findByAccessAndIdentity(access, categoryIdentity)
+        type: access.type
     )
+    entry.categoryIdentity = categoryIdentity
 
     if (!entry.validate()) {
       System.err << "Failed entry validation: ${entry.errors}\n"
@@ -53,11 +54,8 @@ class EntryEnvelop implements EntryFace {
     }
     entry.save(flush: true)
 
-    if (tagIdentities?.size()) access.tags.findAll {it.identity in tagIdentities}.each {
-      entry.addToTags it
-      it.addToEntries entry
-      it.save()
-    }
+    entry.tagIdentities = tagIdentities
+
     entry.save(flush: true)
   }
 

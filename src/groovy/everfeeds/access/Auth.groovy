@@ -10,7 +10,7 @@ abstract class Auth {
 
   private String typeCache
 
-  protected getLog(){
+  protected getLog() {
     Logger.getLogger(this.class)
   }
 
