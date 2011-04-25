@@ -70,7 +70,7 @@ class Entry implements EntryFace {
   static mapping = {
     compoundIndex tagIds: 1, accessId:1, dateCreated:-1, categoryId:1
     compoundIndex accountId: 1, dateCreated:-1
-    compoundIndex accessId:1, identity: 1, kind: 1, unique:true, dropDups:true
+    //compoundIndex accessId:1, identity: 1, kind: 1, unique:true, dropDups:true
   }
 
   static namedQueries = {
