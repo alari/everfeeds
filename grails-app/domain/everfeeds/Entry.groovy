@@ -7,6 +7,10 @@ import org.hibernate.transform.DistinctRootEntityResultTransformer
 
 class Entry implements EntryFace {
 
+  String id
+
+  static mapWith = "mongo"
+
   String identity
   String title
   String kind
@@ -16,24 +20,57 @@ class Entry implements EntryFace {
   String sourceUrl
   Date placedDate
 
-  Category category
-  Account account
-  Access access
+  //Category category
+  //Account account
+  //Access access
+
+  long categoryId
+  long accountId
+  long accessId
+  List tagIds
 
   Date dateCreated
   Date lastUpdated
 
   String type
 
-  static hasMany = [tags: Tag]
+  //static hasMany = [tags: Tag]
 
-  static belongsTo = [Access, Account, Category, Tag]
+  //static belongsTo = [Access, Account, Category, Tag]
 
-  static transients = ["tagIdentities", "categoryIdentity", "kindClass"]
+  static transients = ["tagIdentities", "categoryIdentity", "kindClass", "access", "account", "category", "tags"]
+
+  List<Tag> getTags(){
+    Tag.findAllByIdIn(tagIds)
+  }
+
+  Access getAccess(){
+    Access.get(accessId)
+  }
+
+  void setAccess(Access access) {
+    accessId = access.id
+  }
+
+  Account getAccount(){
+    Account.get(accountId)
+  }
+
+  void setAccount(Account account) {
+    accountId = account.id
+  }
+
+  Category getCategory(){
+    Category.get(categoryId)
+  }
+
+  void setCategory(Category category){
+    categoryId = category.id
+  }
 
   static constraints = {
-    placedDate index: "placedDateIndex"
-    dateCreated index: "dateCreatedIndex"
+    //placedDate index: "placedDateIndex"
+    //dateCreated index: "dateCreatedIndex"
     content maxSize: 1024 * 1024
     author nullable: true
     sourceUrl nullable: true
@@ -43,32 +80,29 @@ class Entry implements EntryFace {
   static namedQueries = {
     findAllFiltered { params ->
       and {
-        eq("access", params.access)
+        eq("accessId", params.access.id)
         "${params.getNew ? 'gt' : 'lt'}"("dateCreated", params.splitDate)
         if (params.withCategories?.size()) {
-          'in'("category", params.withCategories)
+          'in'("categoryId", params.withCategories.id)
         }
         if (params.withoutCategories?.size()) {
           not {
-            'in'("category", params.withoutCategories)
+            'in'("categoryId", params.withoutCategories.id)
           }
         }
         if (params.withTags?.size()) {
-          tags {
-            'in'("id", params.withTags.id)
-          }
+          eq("tagIds", params.withTags.id)
         }
         if (params.withoutTags?.size()) {
-          tags {
+
             not {
-              'in'("id", params.withoutTags.id)
+              eq("tagIds", params.withoutTags.id)
             }
-          }
         }
       }
-      fetchMode("tags", FetchMode.EAGER)
-      fetchMode("content", FetchMode.LAZY)
-      resultTransformer(new DistinctRootEntityResultTransformer())
+      //fetchMode("tags", FetchMode.EAGER)
+      //fetchMode("content", FetchMode.LAZY)
+      //resultTransformer(new DistinctRootEntityResultTransformer())
       order "placedDate", "desc"
     }
   }
@@ -78,21 +112,7 @@ class Entry implements EntryFace {
   }
 
   void setTagIdentities(List<String> identities) {
-    tags.each{
-      if(it.identity in identities) {
-        identities.remove it.identity
-        return
-      }
-      removeFromTags it
-      it.removeFromEntries this
-    }
-    identities.each { idnt ->
-      Tag t = access.tags.find{it.identity == idnt}
-      if(t) {
-        addToTags t
-        t.addToEntries this
-      }
-    }
+    tagIds = access.tags.findAll{it.identity in identities}*.id
   }
 
   String getCategoryIdentity() {
@@ -100,7 +120,7 @@ class Entry implements EntryFace {
   }
 
   void setCategoryIdentity(String identity) {
-    category = access.categories.find {it.identity == identity}
+    categoryId = access.categories.find {it.identity == identity}.id
   }
 
   Class getKindClass() {

@@ -27,7 +27,7 @@ class EntryEnvelop implements EntryFace {
     // Check uniqueness
     if (Entry.createCriteria().count {
       and {
-        eq "access", access
+        eq "accessId", access.id
         eq "identity", identity
         eq "kind", kind
       }
@@ -42,8 +42,8 @@ class EntryEnvelop implements EntryFace {
         author: author,
         sourceUrl: sourceUrl,
         placedDate: placedDate,
-        account: access.account,
-        access: access,
+        accountId: access.account.id,
+        accessId: access.id,
         type: access.type
     )
     entry.categoryIdentity = categoryIdentity

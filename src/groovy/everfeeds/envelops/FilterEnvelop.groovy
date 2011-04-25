@@ -28,7 +28,7 @@ class FilterEnvelop implements FilterFace {
       def c = Entry.createCriteria()
       c.list(listParams) {
         and {
-          eq "account", account
+          eq "accountId", account.id
           "${getNew ? 'gt' : 'lt'}"("dateCreated", splitDate)
         }
       }

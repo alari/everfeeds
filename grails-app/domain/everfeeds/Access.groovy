@@ -22,7 +22,7 @@ class Access {
   SortedSet categories
 
   static belongsTo = Account
-  static hasMany = [tags: Tag, categories: Category, entries: Entry]
+  static hasMany = [tags: Tag, categories: Category/*, entries: Entry*/]
 
   static transients = ["accessor", "cachedAccessor"]
 
@@ -31,7 +31,7 @@ class Access {
     shard nullable: true
     account nullable: true
     lastSync nullable: true
-    entries sort: "placedDate"
+    //entries sort: "placedDate"
     tags sort: "title", order: 1
     categories sort: "title", order: 1
     // TODO: add composite unique key (identity, type)

@@ -11,7 +11,9 @@ class Tag implements TagFace, Comparable {
 
   static belongsTo = Access
 
-  static hasMany = [entries: Entry]
+  //static hasMany = [entries: Entry]
+
+  // TODO: add entries getter
 
   static constraints = {
     title index: "titleTagIdx"

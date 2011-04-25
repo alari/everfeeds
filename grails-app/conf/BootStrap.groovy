@@ -1,10 +1,10 @@
 import everfeeds.Package
-import org.apache.commons.lang.StringUtils
 
 class BootStrap {
 
   def init = { servletContext ->
-    String.metaClass.mixin StringUtils
+    // If you wish to add something to bootstrap, DO NOT modify this file!
+    // Instead add a class with static public run() to everfeeds.bootstrap namespace.
     Package.getClasses("everfeeds.bootstrap").each {
       it.run()
     }
