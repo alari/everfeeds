@@ -25,13 +25,7 @@ class FilterEnvelop implements FilterFace {
     if (access) {
       Entry.findAllFiltered(this).list(listParams)
     } else {
-      def c = Entry.createCriteria()
-      c.list(listParams) {
-        and {
-          eq "accountId", account.id
-          "${getNew ? 'gt' : 'lt'}"("dateCreated", splitDate)
-        }
-      }
+      Entry.findAllFilteredByAccount(this).list(listParams)
     }
   }
 }

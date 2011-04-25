@@ -1,7 +1,6 @@
 package everfeeds.envelops
 
 import everfeeds.Access
-import everfeeds.Category
 import everfeeds.Entry
 
 /**
@@ -24,14 +23,8 @@ class EntryEnvelop implements EntryFace {
 
   Entry store() {
     Access access = Access.get(accessId)
-    // Check uniqueness
-    if (Entry.createCriteria().count {
-      and {
-        eq "accessId", access.id
-        eq "identity", identity
-        eq "kind", kind
-      }
-    }) return;
+
+    if (!Entry.isUnique(access, identity, kind)) return;
 
     Entry entry = new Entry(
         identity: identity,
@@ -42,10 +35,10 @@ class EntryEnvelop implements EntryFace {
         author: author,
         sourceUrl: sourceUrl,
         placedDate: placedDate,
-        accountId: access.account.id,
-        accessId: access.id,
         type: access.type
     )
+    entry.access = access
+    entry.account = access.account
     entry.categoryIdentity = categoryIdentity
 
     if (!entry.validate()) {

@@ -2,8 +2,6 @@ package everfeeds
 
 import everfeeds.access.Manager
 import everfeeds.envelops.EntryFace
-import org.hibernate.FetchMode
-import org.hibernate.transform.DistinctRootEntityResultTransformer
 
 class Entry implements EntryFace {
 
@@ -20,10 +18,6 @@ class Entry implements EntryFace {
   String sourceUrl
   Date placedDate
 
-  //Category category
-  //Account account
-  //Access access
-
   long categoryId
   long accountId
   long accessId
@@ -34,14 +28,10 @@ class Entry implements EntryFace {
 
   String type
 
-  //static hasMany = [tags: Tag]
-
-  //static belongsTo = [Access, Account, Category, Tag]
-
   static transients = ["tagIdentities", "categoryIdentity", "kindClass", "access", "account", "category", "tags"]
 
   List<Tag> getTags(){
-    Tag.findAllByIdIn(tagIds)
+    Tag.findAllByIdInList(tagIds)
   }
 
   Access getAccess(){
@@ -69,12 +59,18 @@ class Entry implements EntryFace {
   }
 
   static constraints = {
-    //placedDate index: "placedDateIndex"
-    //dateCreated index: "dateCreatedIndex"
+    placedDate index: true
+    dateCreated index: true
     content maxSize: 1024 * 1024
     author nullable: true
     sourceUrl nullable: true
     imageUrl nullable: true
+  }
+
+  static mapping = {
+    compoundIndex tagIds: 1, accessId:1, dateCreated:-1, categoryId:1
+    compoundIndex accountId: 1, dateCreated:-1
+    compoundIndex accessId:1, identity: 1, kind: 1, unique:true, dropDups:true
   }
 
   static namedQueries = {
@@ -94,17 +90,29 @@ class Entry implements EntryFace {
           eq("tagIds", params.withTags.id)
         }
         if (params.withoutTags?.size()) {
-
             not {
               eq("tagIds", params.withoutTags.id)
             }
         }
       }
-      //fetchMode("tags", FetchMode.EAGER)
-      //fetchMode("content", FetchMode.LAZY)
-      //resultTransformer(new DistinctRootEntityResultTransformer())
-      order "placedDate", "desc"
     }
+
+    findAllFilteredByAccount { params ->
+      and {
+        eq("accountId", params.account.id)
+        "${params.getNew ? 'gt' : 'lt'}"("dateCreated", params.splitDate)
+      }
+    }
+  }
+
+  static boolean isUnique(Access access, String identity, String kind) {
+    createCriteria().count {
+      and {
+        eq "accessId", access.id
+        eq "identity", identity
+        eq "kind", kind
+      }
+    } == 0
   }
 
   List<String> getTagIdentities() {

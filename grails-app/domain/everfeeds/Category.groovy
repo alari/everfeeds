@@ -12,11 +12,7 @@ class Category implements CategoryFace, Comparable {
 
   static belongsTo = Access
 
-  // TODO: add entries getter
-  //static hasMany = [entries: Entry]
-
   static constraints = {
-    //entries sort: "placedDate", order: -1
     title index: "titleCategoryIdx"
   }
 

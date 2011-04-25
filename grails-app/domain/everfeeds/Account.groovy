@@ -9,8 +9,7 @@ class Account {
   boolean accountLocked
   boolean passwordExpired
 
-  // TODO: add entries getter
-  static hasMany = [accesses: Access/*, entries: Entry*/]
+  static hasMany = [accesses: Access]
 
   static constraints = {
     username blank: false, unique: true
