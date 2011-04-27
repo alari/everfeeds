@@ -55,7 +55,7 @@ grails.config.locations = [ // for local settings
   "file:${userHome}/.${appName}/override-config.groovy"
 ]
 
-new File('grails-app/conf').eachFileMatch(~/[A-Z][a-zA-Z]*?Config\.groovy/) { f ->
+new File('grails-app/conf').eachFileMatch(~/^[A-Z][a-zA-Z]*?Config\.groovy/) { f ->
   grails.config.locations << "classpath:${f.name}"
   System.out.println(f.name);
 }
