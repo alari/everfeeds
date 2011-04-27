@@ -22,7 +22,7 @@
     ${I18n._."entry.tags"}: ${entry.tags.join(", ")}
     |
 </g:if>
-<a href="javascript:void(0)" onclick="showFullEntry(this, ${entry.id})">${I18n._."entry.fulltext"}</a>
+<a href="javascript:void(0)" onclick="showFullEntry(this, '${entry.id}')">${I18n._."entry.fulltext"}</a>
 
 <div class="entry-content target-blank">
 </div>

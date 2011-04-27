@@ -36,7 +36,8 @@ class Access {
   }
 
   static mapping = {
-    type unique: "identity"
+    // TODO: add multifield unique key (type,identity)
+    //type unique: "identity"
   }
 
   Accessor getAccessor() {
