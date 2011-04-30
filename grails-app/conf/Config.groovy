@@ -43,6 +43,7 @@ environments {
   }
   development {
     grails.serverURL = "http://loc.everfeeds.com/${appName}"
+    //grails.serverURL = "http://localhost:8080/${appName}"
   }
   test {
     grails.serverURL = "http://localhost:8080/${appName}"
@@ -57,7 +58,7 @@ grails.config.locations = [ // for local settings
 
 new File('grails-app/conf').eachFileMatch(~/^[A-Z][a-zA-Z]*?Config\.groovy/) { f ->
   grails.config.locations << "classpath:${f.name}"
-  System.out.println(f.name);
+  System.out.println("Adding to config locations: "+f.name);
 }
 if(System.properties["${appName}.config.location"]) {
   grails.config.locations << "file:" + System.properties["${appName}.config.location"]

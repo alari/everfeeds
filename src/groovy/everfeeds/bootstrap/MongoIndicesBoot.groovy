@@ -1,6 +1,7 @@
 package everfeeds.bootstrap
 
 import everfeeds.Entry
+import grails.util.Environment
 
 /**
  * @author Dmitry Kurinskiy
@@ -9,5 +10,9 @@ import everfeeds.Entry
 class MongoIndicesBoot {
   static run(){
     Entry.collection.ensureIndex([accessId:1, identity: 1, kind: 1], [unique:true, dropDups:true])
+    if(Environment.currentEnvironment == Environment.DEVELOPMENT) {
+      System.err.println ("Is DEVELOPMENT")
+      Entry.collection.drop()
+    }
   }
 }

@@ -30,7 +30,7 @@ log4j = {
         maxFileSize: '300kB',
         maxBackupIndex: 1,
         layout: pattern(conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n')
-
+    System.out.println("Logging to ${globalDirs.logDirectory}${appName}.log".toString())
   }
 
   // This is for the built-in stuff and from the default Grails-1.2.1 config.

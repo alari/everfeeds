@@ -2,6 +2,7 @@ package everfeeds
 
 import everfeeds.access.Manager
 import everfeeds.envelops.EntryFace
+import com.mongodb.BasicDBObject
 
 class Entry implements EntryFace {
 
@@ -89,13 +90,15 @@ class Entry implements EntryFace {
             'in'("categoryId", params.withoutCategories.id)
           }
         }
+        Map tagsQuery = [:]
         if (params.withTags?.size()) {
-          eq("tagIds", params.withTags.id)
+          tagsQuery.'$all' = params.withTags.id
         }
         if (params.withoutTags?.size()) {
-            not {
-              eq("tagIds", params.withoutTags.id)
-            }
+          tagsQuery.'$nin' = params.withoutTags.id
+        }
+        if(tagsQuery.size()) {
+          eq("tagIds", tagsQuery)
         }
       }
     }
