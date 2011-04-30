@@ -15,6 +15,7 @@ class Entry implements EntryFace {
   String imageUrl
   String content
   String author
+  String authorIdentity
   String sourceUrl
   Date placedDate
 
@@ -63,6 +64,7 @@ class Entry implements EntryFace {
     dateCreated index: true
     content maxSize: 1024 * 1024
     author nullable: true
+    authorIdentity nullable: true
     sourceUrl nullable: true
     imageUrl nullable: true
   }
@@ -70,6 +72,7 @@ class Entry implements EntryFace {
   static mapping = {
     compoundIndex tagIds: 1, accessId:1, dateCreated:-1, categoryId:1
     compoundIndex accountId: 1, dateCreated:-1
+    cimpoundIndex authorIdentity: 1, type: 1
     //compoundIndex accessId:1, identity: 1, kind: 1, unique:true, dropDups:true
   }
 

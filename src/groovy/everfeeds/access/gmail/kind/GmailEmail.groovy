@@ -20,7 +20,11 @@ class GmailEmail extends Kind {
   }
 
   String getAuthor() {
-    original.author.name.text() + " &lt;" + original.author.email.text() + "&gt;"
+    original.author.name.text()
+  }
+
+  String getAuthorIdentity(){
+    original.author.email.text()
   }
 
   String getTitle() {

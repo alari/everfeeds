@@ -17,6 +17,10 @@ class TwitterDm extends TwitterStatus {
     original.sender.screen_name
   }
 
+  String getAuthorIdentity(){
+    original.sender.id
+  }
+
   String getSourceUrl() {
     ""
   }

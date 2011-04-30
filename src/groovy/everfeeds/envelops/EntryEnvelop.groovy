@@ -13,6 +13,7 @@ class EntryEnvelop implements EntryFace {
   String imageUrl
   String content
   String author
+  String authorIdentity
   String sourceUrl
   Date placedDate
 
@@ -33,6 +34,7 @@ class EntryEnvelop implements EntryFace {
         imageUrl: imageUrl,
         content: content,
         author: author,
+        authorIdentity: authorIdentity,
         sourceUrl: sourceUrl,
         placedDate: placedDate,
         type: access.type

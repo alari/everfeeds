@@ -25,6 +25,10 @@ class TwitterStatus extends Kind {
     original.user.screen_name
   }
 
+  String getAuthorIdentity(){
+    original.user.id
+  }
+
   String getSourceUrl() {
     "http://twitter.com/${author}/status/${identity}"
   }

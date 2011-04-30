@@ -27,6 +27,10 @@ class FacebookStatus extends Kind {
     original.from?.name ?: "Unknown"
   }
 
+  String getAuthorIdentity(){
+    original.from?.id ?: ""
+  }
+
   String getImageUrl() {
     original?.picture ?: original?.icon ?: "http://facebook.com/${original.id}/picture"
   }

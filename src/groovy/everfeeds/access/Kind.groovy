@@ -33,6 +33,7 @@ abstract class Kind {
         'imageUrl',
         'content',
         'author',
+        'authorIdentity',
         'sourceUrl',
         'placedDate',
         'accessId',
@@ -75,6 +76,8 @@ abstract class Kind {
   String getContent() {""}
 
   String getAuthor() {""}
+
+  String getAuthorIdentity() {""}
 
   int getAccessId() {accessor.access.id}
 

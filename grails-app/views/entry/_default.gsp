@@ -8,7 +8,7 @@
     </g:if>
 </h3>
 <g:if test="${entry.author}">
-    ${entry.author}
+    <span title="${entry.authorIdentity.encodeAsHTML()}">${entry.author.encodeAsHTML()}</span>
     |</g:if>
 <g:formatDate date="${entry.placedDate}"/>
 |

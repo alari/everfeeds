@@ -28,6 +28,10 @@ interface EntryFace {
 
   void setAuthor(String s)
 
+  String getAuthorIdentity()
+
+  void setAuthorIdentity(String s)
+
   String getSourceUrl()
 
   void setSourceUrl(String s)
