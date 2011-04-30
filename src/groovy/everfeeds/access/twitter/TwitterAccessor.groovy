@@ -27,7 +27,7 @@ class TwitterAccessor extends Accessor {
   Map TAGS = [
       own: [
           title: "Typed by you",
-          check: {it?.user?.id == access.identity || it?.sender?.id == access.identity}
+          check: {access.identity in [it?.user?.id?.toString(), it?.sender?.id?.toString()]}
       ],
       retweet: [
           title: "Retweets",
@@ -43,7 +43,7 @@ class TwitterAccessor extends Accessor {
       ],
       mention: [
           title: "Mentions of you",
-          check: {it?.entities?.user_mentions?.any {m -> m?.screen_name == access.title}}
+          check: {it?.entities?.user_mentions?.any {m -> m?.id?.toString() == access.identity}}
       ],
       link: [
           title: "Contains links",
