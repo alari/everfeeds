@@ -28,25 +28,39 @@ class EntryEnvelop implements EntryFace {
   Entry store() {
     Access access = Access.get(accessId)
 
-    if (!Entry.isUnique(access, identity, kind)) return;
+    Entry entry
 
-    Entry entry = new Entry(
-        identity: identity,
-        title: title,
-        kind: kind,
-        imageUrl: imageUrl,
-        description: description,
-        content: content,
-        author: author,
-        authorIdentity: authorIdentity,
-        accessIsAuthor: accessIsAuthor,
-        isPublic: isPublic,
-        sourceUrl: sourceUrl,
-        placedDate: placedDate,
-        type: access.type
-    )
-    entry.access = access
-    entry.account = access.account
+    if (!Entry.isUnique(access, identity, kind)) {
+      entry = Entry.createCriteria().get {
+        and {
+          eq "accessId", access.id
+          eq "identity", identity
+          eq "kind", kind
+        }
+      }
+    } else {
+      entry = new Entry(type: access.type)
+      entry.access = access
+      entry.account = access.account
+    }
+
+    ['identity',
+        'title',
+        'kind',
+        'imageUrl',
+        'description',
+        'content',
+        'author',
+        'authorIdentity',
+        'accessIsAuthor',
+        'isPublic',
+        'sourceUrl',
+        'placedDate'].each {
+      entry."${it}" = this."${it}"
+    }
+
+
+
     entry.categoryIdentity = categoryIdentity
 
     if (!entry.validate()) {
