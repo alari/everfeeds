@@ -27,6 +27,10 @@ class GmailEmail extends Kind {
     original.author.email.text()
   }
 
+  boolean getIsPublic() {
+    true
+  }
+
   String getTitle() {
     original.title.text()
   }

@@ -16,6 +16,10 @@ class GreaderAtom extends Kind {
     original.author
   }
 
+  boolean getIsPublic() {
+    true
+  }
+
   String getSourceUrl() {
     original.alternate.find {it.type == "text/html"}?.href
   }

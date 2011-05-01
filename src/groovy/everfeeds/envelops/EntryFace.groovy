@@ -34,7 +34,11 @@ interface EntryFace {
 
   boolean getAccessIsAuthor()
 
-  boid setAccessIsAuthor(boolean b)
+  void setAccessIsAuthor(boolean b)
+
+  boolean getIsPublic()
+
+  void setIsPublic(boolean b)
 
   String getSourceUrl()
 

@@ -29,6 +29,14 @@ class EvernoteNote extends Kind {
     original.attributes.author
   }
 
+  boolean getAccessIsAuthor(){
+    true
+  }
+
+  boolean getIsPublic(){
+    true
+  }
+
   String getKind() {
     "note"
   }

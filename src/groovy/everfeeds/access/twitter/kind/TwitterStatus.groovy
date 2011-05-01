@@ -33,6 +33,10 @@ class TwitterStatus extends Kind {
     original.user.id.toString() == accessor.access.identity
   }
 
+  boolean getIsPublic(){
+    ! original.user?.protected
+  }
+
   String getSourceUrl() {
     "http://twitter.com/${author}/status/${identity}"
   }

@@ -35,6 +35,7 @@ abstract class Kind {
         'author',
         'authorIdentity',
         'accessIsAuthor',
+        'isPublic',
         'sourceUrl',
         'placedDate',
         'accessId',
@@ -69,6 +70,8 @@ abstract class Kind {
   String getSourceUrl() {""}
 
   abstract Date getPlacedDate()
+
+  abstract boolean getIsPublic()
 
   String getCategoryIdentity() {categoryIdentityPreset}
 

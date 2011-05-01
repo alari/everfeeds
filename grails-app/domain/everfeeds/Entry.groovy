@@ -20,6 +20,8 @@ class Entry implements EntryFace {
   String authorIdentity
   boolean accessIsAuthor
 
+  boolean isPublic
+
   String sourceUrl
   Date placedDate
 
