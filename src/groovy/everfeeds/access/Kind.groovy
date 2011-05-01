@@ -34,6 +34,7 @@ abstract class Kind {
         'content',
         'author',
         'authorIdentity',
+        'accessIsAuthor',
         'sourceUrl',
         'placedDate',
         'accessId',
@@ -78,6 +79,8 @@ abstract class Kind {
   String getAuthor() {""}
 
   String getAuthorIdentity() {""}
+
+  boolean getAccessIsAuthor() {null}
 
   int getAccessId() {accessor.access.id}
 

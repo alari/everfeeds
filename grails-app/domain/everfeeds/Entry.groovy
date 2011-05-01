@@ -15,8 +15,11 @@ class Entry implements EntryFace {
   String kind
   String imageUrl
   String content
+
   String author
   String authorIdentity
+  boolean accessIsAuthor
+
   String sourceUrl
   Date placedDate
 
@@ -66,6 +69,7 @@ class Entry implements EntryFace {
     content maxSize: 1024 * 1024
     author nullable: true
     authorIdentity nullable: true
+    accessIsAuthor nullable: true
     sourceUrl nullable: true
     imageUrl nullable: true
   }

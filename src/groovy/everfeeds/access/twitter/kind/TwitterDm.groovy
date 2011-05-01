@@ -21,6 +21,10 @@ class TwitterDm extends TwitterStatus {
     original.sender.id
   }
 
+  boolean getAccessIsAuthor(){
+    original.sender.id.toString() == accessor.access.identity
+  }
+
   String getSourceUrl() {
     ""
   }

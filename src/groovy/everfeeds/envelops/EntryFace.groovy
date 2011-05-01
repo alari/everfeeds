@@ -32,6 +32,10 @@ interface EntryFace {
 
   void setAuthorIdentity(String s)
 
+  boolean getAccessIsAuthor()
+
+  boid setAccessIsAuthor(boolean b)
+
   String getSourceUrl()
 
   void setSourceUrl(String s)

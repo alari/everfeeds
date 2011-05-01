@@ -29,6 +29,10 @@ class TwitterStatus extends Kind {
     original.user.id
   }
 
+  boolean getAccessIsAuthor(){
+    original.user.id.toString() == accessor.access.identity
+  }
+
   String getSourceUrl() {
     "http://twitter.com/${author}/status/${identity}"
   }

@@ -31,6 +31,10 @@ class FacebookStatus extends Kind {
     original.from?.id ?: ""
   }
 
+  boolean getAccessIsAuthor(){
+    original.from?.id?.toString() == accessor.access.identity
+  }
+
   String getImageUrl() {
     original?.picture ?: original?.icon ?: "http://facebook.com/${original.id}/picture"
   }

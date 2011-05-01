@@ -14,6 +14,7 @@ class EntryEnvelop implements EntryFace {
   String content
   String author
   String authorIdentity
+  boolean accessIsAuthor
   String sourceUrl
   Date placedDate
 
@@ -35,6 +36,7 @@ class EntryEnvelop implements EntryFace {
         content: content,
         author: author,
         authorIdentity: authorIdentity,
+        accessIsAuthor: accessIsAuthor,
         sourceUrl: sourceUrl,
         placedDate: placedDate,
         type: access.type
