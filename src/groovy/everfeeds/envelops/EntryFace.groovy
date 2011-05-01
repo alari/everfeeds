@@ -20,6 +20,10 @@ interface EntryFace {
 
   void setImageUrl(String s)
 
+  String getDescription()
+
+  void setDescription(String s)
+
   String getContent()
 
   void setContent(String s)

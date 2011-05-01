@@ -20,11 +20,15 @@
 
 <g:if test="${entry.tags.size()}">
     ${I18n._."entry.tags"}: ${entry.tags.join(", ")}
-    |
-</g:if>
-<g:if test="${entry.content.size()}">
-  <a href="javascript:void(0)" onclick="showFullEntry(this, '${entry.id}')">${I18n._."entry.fulltext"}</a>
 </g:if>
 
+<g:if test="${entry.content?.size() || entry.description?.size()}">
 <div class="entry-content target-blank">
+  <g:if test="${entry.description}">
+  ${entry.description}
+  </g:if>
+  <g:if test="${!entry.description}">
+    <a href="javascript:void(0)" onclick="showFullEntry($(this).parent(), '${entry.id}')">${I18n._."entry.fulltext"}</a>
+  </g:if>
 </div>
+</g:if>

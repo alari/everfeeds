@@ -11,6 +11,7 @@ class EntryEnvelop implements EntryFace {
   String title
   String kind = ''
   String imageUrl
+  String description
   String content
   String author
   String authorIdentity
@@ -34,6 +35,7 @@ class EntryEnvelop implements EntryFace {
         title: title,
         kind: kind,
         imageUrl: imageUrl,
+        description: description,
         content: content,
         author: author,
         authorIdentity: authorIdentity,

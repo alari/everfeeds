@@ -14,6 +14,8 @@ class Entry implements EntryFace {
   String title
   String kind
   String imageUrl
+
+  String description
   String content
 
   String author
@@ -68,6 +70,7 @@ class Entry implements EntryFace {
   static constraints = {
     placedDate index: true
     dateCreated index: true
+    description maxSize: 2048
     content maxSize: 1024 * 1024
     author nullable: true
     authorIdentity nullable: true

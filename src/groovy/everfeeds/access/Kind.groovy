@@ -31,6 +31,7 @@ abstract class Kind {
         'title',
         'kind',
         'imageUrl',
+        'description',
         'content',
         'author',
         'authorIdentity',
@@ -76,6 +77,8 @@ abstract class Kind {
   String getCategoryIdentity() {categoryIdentityPreset}
 
   String getImageUrl() {""}
+
+  String getDescription() {""}
 
   String getContent() {""}
 

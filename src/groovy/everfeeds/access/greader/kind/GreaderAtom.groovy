@@ -8,6 +8,12 @@ import everfeeds.access.Kind
  */
 class GreaderAtom extends Kind {
 
+  private contentCache
+
+  protected beforeBuildEnvelop(){
+    contentCache = original.content?.content ?: original.summary?.content?.replace("\n", "<br/>")
+  }
+
   String getIdentity() {
     original.id
   }
@@ -28,8 +34,12 @@ class GreaderAtom extends Kind {
     original.title
   }
 
+  String getDescription() {
+    contentCache.size() <= 1024 ? contentCache : ""
+  }
+
   String getContent() {
-    original.content?.content ?: original.summary?.content?.replace("\n", "<br/>")
+    contentCache.size() > 1024 ? contentCache : ""
   }
 
   String getKind() {
