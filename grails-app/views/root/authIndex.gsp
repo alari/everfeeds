@@ -30,6 +30,16 @@
                     </ul>
                 </b>
             </td><td>
+              <g:if test="${expiredAccesses.size()}">
+                <b>Please revalidate expired accesses:</b>
+                <ul>
+                  <g:each in="${expiredAccesses}" var="access">
+                    <li><g:auth type="${access.type}">${access.title}</g:auth></li>
+                  </g:each>
+                </ul>
+                <hr/>
+              </g:if>
+
                 Connect more social services you use:
                 <br/>
                 <ul>

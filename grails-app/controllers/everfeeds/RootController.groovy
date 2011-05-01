@@ -9,7 +9,8 @@ class RootController {
 
   def index = {
     if (loggedIn) {
-      render view: "authIndex", model: [account: authenticatedUser]
+      List<Access> expiredAccesses =  Access.findAllByAccountAndExpired(authenticatedUser, true)
+      render view: "authIndex", model: [account: authenticatedUser, expiredAccesses: expiredAccesses]
       return
     }
   }

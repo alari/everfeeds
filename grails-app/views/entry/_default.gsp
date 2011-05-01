@@ -7,6 +7,11 @@
         ${entry.title}
     </g:if>
 </h3>
+
+<g:if test="${entry.imageUrl}">
+  <img src="${entry.imageUrl}" alt="${entry.title.encodeAsHTML()}"/>
+</g:if>
+
 <g:if test="${entry.author}">
     <span title="${entry.authorIdentity.encodeAsHTML()}">${entry.author.encodeAsHTML()}</span>
     |</g:if>
