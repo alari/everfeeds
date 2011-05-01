@@ -20,7 +20,7 @@ abstract class Accessor {
 
   private Parser parserCache
 
-  static protected List<String> kindsCache
+  static protected Map<String,List<String>> kindsCache = [:]
 
   public Access getAccess() {
     access
@@ -39,13 +39,13 @@ abstract class Accessor {
   }
 
   public List<String> getKinds() {
-    if(!kindsCache) {
-      kindsCache = []
+    if(!kindsCache[type]) {
+      kindsCache[type] = []
       Package.getClasses(this.class.package.name+".kind")?.each{
-        kindsCache << it.simpleName.substring(type.size()).toLowerCase()
+        kindsCache[type] << it.simpleName.substring(type.size()).toLowerCase()
       }
     }
-    kindsCache
+    kindsCache[type]
   }
 
   public void sync() {
