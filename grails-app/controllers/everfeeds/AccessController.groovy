@@ -2,9 +2,10 @@ package everfeeds
 
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
+
 import everfeeds.access.Manager
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class AccessController {
 
@@ -39,9 +40,9 @@ class AccessController {
 
     Access access = null
     try {
-        access = authService.processCallback(params.id, params.oauth_verifier ?: params.code)
-    } catch(ignore){
-        log.error "Access denied", ignore
+      access = authService.processCallback(params.id, params.oauth_verifier ?: params.code)
+    } catch (ignore) {
+      log.error "Access denied", ignore
     }
 
 
@@ -61,14 +62,14 @@ class AccessController {
   }
 
   private Account createAccessAccount(Access access) {
-    log.debug ("creating access account:${access.identity}")
+    log.debug("creating access account:${access.identity}")
     Account account = new Account(
-      username: access.identity,
-      password: springSecurityService.encodePassword(access.identity + new Random().nextInt().toString()),
-      enabled: true,
-      accountExpired: false,
-      accountLocked: false,
-      passwordExpired: false
+        username: access.identity,
+        password: springSecurityService.encodePassword(access.identity + new Random().nextInt().toString()),
+        enabled: true,
+        accountExpired: false,
+        accountLocked: false,
+        passwordExpired: false
     )
     account.save(flush: true)
     account.addAuthority "ROLE_ACCOUNT", true

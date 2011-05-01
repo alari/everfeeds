@@ -88,14 +88,15 @@ class Entry implements EntryFace {
       and {
         eq("accessId", params.access.id)
         "${params.getNew ? 'gt' : 'lt'}"("dateCreated", params.splitDate)
+        // Handle categories
         if (params.withCategories?.size()) {
           'in'("categoryId", params.withCategories.id)
-        }
-        if (params.withoutCategories?.size()) {
+        } else if (params.withoutCategories?.size()) {
           not {
             'in'("categoryId", params.withoutCategories.id)
           }
         }
+        // Handle tags
         Map tagsQuery = [:]
         if (params.withTags?.size()) {
           tagsQuery.'$all' = params.withTags.id
@@ -105,6 +106,12 @@ class Entry implements EntryFace {
         }
         if(tagsQuery.size()) {
           eq("tagIds", tagsQuery)
+        }
+        // Handle kinds
+        if(params.withKinds?.size()) {
+          eq("kind", ['$in':params.withKinds])
+        } else if(params.withoutKinds?.size()) {
+          eq("kind", ['$nin':params.withoutKinds])
         }
       }
     }

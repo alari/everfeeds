@@ -11,6 +11,8 @@ class FilterEnvelop implements FilterFace {
   Tag[] withoutTags = []
   Category[] withCategories = []
   Category[] withoutCategories = []
+  String[] withKinds = []
+  String[] withoutKinds = []
   Account account
 
   Date splitDate

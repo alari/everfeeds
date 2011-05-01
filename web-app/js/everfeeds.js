@@ -57,27 +57,46 @@ function loadTab(li) {
     t = t[0];
     var c = $(li).attr("class");
     if (!c) {
-        if (t == "cat") {
+      switch(t){
+        case "cat":
             tabData.wcat.push(i);
-        } else if (t == "tag") {
+          break;
+        case "tag":
             tabData.wtag.push(i);
-        }
+        break;
+        case "kind":
+            tabData.wkind.push(i);
+        break;
+      }
         $(li).attr("class", "with");
     } else if (c == "with") {
-        if (t == "cat") {
+      switch(t){
+        case "cat":
             tabData.wcat.remove(i);
             tabData.wocat.push(i);
-        } else if (t == "tag") {
+          break;
+        case "tag":
             tabData.wtag.remove(i);
             tabData.wotag.push(i);
-        }
+        break;
+        case "kind":
+            tabData.wkind.remove(i);
+            tabData.wokind.push(i);
+        break;
+      }
         $(li).attr("class", "without");
     } else if (c == "without") {
-        if (t == "cat") {
+      switch(t){
+        case "cat":
             tabData.wocat.remove(i);
-        } else if (t == "tag") {
+        break;
+        case "tag":
             tabData.wotag.remove(i);
-        }
+        break;
+        case "kind":
+            tabData.wokind.remove(i);
+        break;
+      }
         $(li).attr("class", "");
     }
     $("#" + tabId).load(entriesUrl, tabData, aTargetBlank);

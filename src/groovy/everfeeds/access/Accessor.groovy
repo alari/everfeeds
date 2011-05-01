@@ -7,6 +7,7 @@ import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop
 import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
+import everfeeds.Package
 
 /**
  * @author Dmitry Kurinskiy
@@ -18,6 +19,8 @@ abstract class Accessor {
   private String typeCache
 
   private Parser parserCache
+
+  static protected List<String> kindsCache
 
   public Access getAccess() {
     access
@@ -33,6 +36,16 @@ abstract class Accessor {
       parserCache.accessor = this
     }
     parserCache
+  }
+
+  public List<String> getKinds() {
+    if(!kindsCache) {
+      kindsCache = []
+      Package.getClasses(this.class.package.name+".kind")?.each{
+        kindsCache << it.simpleName.substring(type.size()).toLowerCase()
+      }
+    }
+    kindsCache
   }
 
   public void sync() {

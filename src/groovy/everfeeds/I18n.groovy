@@ -3,9 +3,8 @@ package everfeeds
 import org.springframework.context.i18n.LocaleContextHolder as LCH
 
 /**
- * Created by alari @ 06.04.11 14:40
- *
- * @see everfeeds.bootstrap.I18nBoot
+ * @author Dmitry Kurinskiy
+ * @since 06.04.11 14:40
  */
 class I18n {
 
@@ -15,7 +14,7 @@ class I18n {
 
   // Usage: i18n."code(:locale)?"([value, value?, ...]?, "Default message"?, "encode as"?)
 
-  def methodMissing(String code, args) {
+  String methodMissing(String code, args) {
 
     // Defining locale and message code
     def locale = LCH.getLocale()
@@ -58,7 +57,11 @@ class I18n {
     ''
   }
 
-  def propertyMissing(String code) {
+  String propertyMissing(String code) {
     methodMissing(code, [])
+  }
+
+  String m(String code) {
+    propertyMissing code
   }
 }
