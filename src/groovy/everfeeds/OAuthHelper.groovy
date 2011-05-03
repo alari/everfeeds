@@ -15,9 +15,14 @@ import org.scribe.oauth.OAuthService
 class OAuthHelper {
   static g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 
-  static public String callApi(def oauthConfig, String url, String token, String secret, Verb method = Verb.GET) {
+  static public String callApi(def oauthConfig, String url, String token, String secret, Verb method = Verb.GET, Map<String,String> params = [:]) {
     OAuthService service = getOAuthService(oauthConfig)
     OAuthRequest request = new OAuthRequest(method, url);
+
+    if(params.size()) {
+      params.each{k,v-> request.addBodyParameter k, v}
+    }
+
     def tkn = new Token(token, secret)
     service.signRequest(tkn, request);
     final result = request.send()
@@ -32,12 +37,12 @@ class OAuthHelper {
     return ""
   }
 
-  static public Object callJsonApi(def oauthConfig, String url, String token, String secret, Verb method = Verb.GET) {
-    JSON.parse(callApi(oauthConfig, url, token, secret, method))
+  static public Object callJsonApi(def oauthConfig, String url, String token, String secret, Verb method = Verb.GET, Map<String,String> params = [:]) {
+    JSON.parse(callApi(oauthConfig, url, token, secret, method, params))
   }
 
-  static public Object callXmlApi(def oauthConfig, String url, String token, String secret, Verb method = Verb.GET) {
-    XML.parse(callApi(oauthConfig, url, token, secret, method))
+  static public Object callXmlApi(def oauthConfig, String url, String token, String secret, Verb method = Verb.GET, Map<String,String> params = [:]) {
+    XML.parse(callApi(oauthConfig, url, token, secret, method, params))
   }
 
   static public OAuthService getOAuthService(def oauthConfig, String accessType = null) {

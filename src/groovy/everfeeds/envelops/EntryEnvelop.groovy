@@ -2,6 +2,7 @@ package everfeeds.envelops
 
 import everfeeds.Access
 import everfeeds.Entry
+import everfeeds.access.Manager
 
 /**
  * Created by alari @ 14.03.11 17:21
@@ -76,5 +77,9 @@ class EntryEnvelop implements EntryFace {
 
   String getType() {
     Access.get(accessId)?.type
+  }
+
+  Class getKindClass() {
+    Manager.classForKind(type, kind)
   }
 }

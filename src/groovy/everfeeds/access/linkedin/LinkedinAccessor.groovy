@@ -40,8 +40,4 @@ class LinkedinAccessor extends Accessor {
     List<EntryEnvelop> entries = []
     return entries
   }
-
-  void push(EntryFace entry) {
-
-  }
 }

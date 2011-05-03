@@ -2,6 +2,8 @@ package everfeeds
 
 import everfeeds.envelops.FilterEnvelop
 import grails.plugins.springsecurity.Secured
+import everfeeds.envelops.EntryEnvelop
+import everfeeds.envelops.EntryFace
 
 class RootController {
   def syncService
@@ -16,6 +18,31 @@ class RootController {
   }
 
   @Secured(['ROLE_ACCOUNT'])
+  def push = {
+    Access access = Access.findByIdAndAccount(params.long("access"), authenticatedUser)
+    if(!access) {
+      response.sendError 300, "not authorized enough"
+      return
+    }
+    log.debug "processing push"
+
+    try {
+
+      EntryEnvelop envelop = access.accessor.parser.parseFromParams(params)
+
+      if(envelop) {
+        envelop = access.accessor.push(envelop)
+        Entry entry = envelop.store()
+        render template: "/entry/envelop", model: [entry: entry]
+        return
+      }
+    } catch(e){
+      log.error "Push failed", e
+      response.sendError(300, e.message)
+    }
+  }
+
+  @Secured(['ROLE_ACCOUNT'])
   def entries = {
     // TODO: move it to separate action
     if (params.content) {
@@ -26,19 +53,20 @@ class RootController {
 
     Access access = Access.findByIdAndAccount(params.long("access"), authenticatedUser)
     List<Entry> entries
+
     FilterEnvelop filter = new FilterEnvelop()
     filter.account = authenticatedUser
+    filter.buildFromParams(params, access)
+
     def max = 10
     def page = params.page ? params.int("page") : 0
-
-    if (access) {
-      setFilterParams filter, access
-    }
-    setFilterSplitDate filter
 
     entries = filter.findEntries(max: max, offset: page * max)
 
     if (!page) {
+      if(access.accessor.isPushable()) {
+        render template: "/push/${access.type}", model: [access: access]
+      }
       render template: "checkNew"
     }
 
@@ -53,30 +81,5 @@ class RootController {
     if (entries.size()) {
       render template: "loadMore", model: [page: page]
     }
-  }
-
-  private setFilterSplitDate(FilterEnvelop filter) {
-    if (params?.getNew) {
-      filter.getNew = true
-      filter.splitDate = new Date(params.long("newTime") ?: (params.long("listTime") ?: System.currentTimeMillis()))
-    } else {
-      filter.splitDate = new Date(params.listTime ? params.long("listTime") : System.currentTimeMillis())
-    }
-  }
-
-  private setFilterParams(FilterEnvelop filter, Access access) {
-    filter.access = access
-    filter.withTags = filterParam("tags", "wtag", access)
-    filter.withoutTags = filterParam("tags", "wotag", access)
-
-    filter.withCategories = filterParam("categories", "wcat", access)
-    filter.withoutCategories = filterParam("categories", "wocat", access)
-
-    filter.withKinds = params.list("wkind[]")
-    filter.withoutKinds = params.list("wokind[]")
-  }
-
-  private List filterParam(what, param, access) {
-    params.list(param + "[]").collect {p -> access."${what}".find {i -> i.id == Long.parseLong(p.toString())}}
   }
 }

@@ -54,10 +54,6 @@ class GmailAccessor extends Accessor {
     entries
   }
 
-  void push(EntryFace entry) {
-    void
-  }
-
   protected apiGet(String url) {
     String result = null
     try {

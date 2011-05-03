@@ -10,6 +10,7 @@ import everfeeds.envelops.EntryEnvelop
 import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
 import org.apache.log4j.Logger
+import org.scribe.model.Verb
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -117,7 +118,22 @@ class TwitterAccessor extends Accessor {
     entries
   }
 
-  void push(EntryFace entry) {
+  EntryEnvelop push(EntryFace entry) {
+    String status = entry.title
+    if(status.size() > 140) status = status.substring(0, 140)
+    if(entry.sourceUrl && status.size() + entry.sourceUrl.size() < 140) status += " "+entry.sourceUrl
 
+    def res = OAuthHelper.callJsonApi(config.oauth,
+        "http://api.twitter.com/1/statuses/update.json",
+        access.token,
+        access.secret,
+        Verb.POST,
+        [status: status]
+    )
+    if(res.containsKey("error")) {
+      throw new Exception(res.error.toString())
+    }
+
+    parser.parseEntry("timeline", res)
   }
 }

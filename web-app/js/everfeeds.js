@@ -28,6 +28,14 @@ var aTargetBlank = function(){
     $('.target-blank a').attr("target", "_blank");
 };
 
+function pushSuccess(data){
+  $(".entries", "#"+tabId).prepend(data);
+}
+
+function pushError(string){
+  window.status = string;
+}
+
 function showFullEntry(a, id){
     var o = $('.entry-content', $(a).parent());
     o.load(entriesUrl, {content: id}, function(){$("a", o).attr('target', '_blank'); o.slideDown();});

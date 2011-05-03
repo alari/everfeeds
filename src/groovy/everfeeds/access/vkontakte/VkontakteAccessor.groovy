@@ -45,9 +45,4 @@ class VkontakteAccessor extends Accessor {
     List<EntryEnvelop> entries = []
     entries
   }
-
-
-  void push(EntryFace entry) {
-
-  }
 }

@@ -11,6 +11,8 @@ import everfeeds.envelops.EntryEnvelop
  * @since 20.04.11 0:31
  */
 class TwitterParser extends Parser {
+
+
   EntryEnvelop parseEntry(String categoryIdentity, Object node) {
     Kind kind
     if (categoryIdentity == "messages") {

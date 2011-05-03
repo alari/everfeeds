@@ -15,4 +15,14 @@ abstract class Parser {
   }
 
   abstract public EntryEnvelop parseEntry(String categoryIdentity, final node)
+
+  public EntryEnvelop parseFromParams(params){
+    params.remove("access")
+    params.remove("action")
+    params.remove("controller")
+
+    EntryEnvelop envelop = new EntryEnvelop(params as Map)
+    envelop.accessId = access.id
+    envelop
+  }
 }

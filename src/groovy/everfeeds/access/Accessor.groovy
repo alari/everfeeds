@@ -113,5 +113,5 @@ abstract class Accessor {
 
   abstract public List<EntryEnvelop> pull(Map params = [:])
 
-  abstract public void push(EntryFace entry)
+  public EntryEnvelop push(EntryFace entry){null}
 }

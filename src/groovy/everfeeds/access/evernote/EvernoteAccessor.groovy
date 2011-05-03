@@ -63,7 +63,7 @@ class EvernoteAccessor extends Accessor {
   }
 
   boolean isPushable() {
-    true
+    false
   }
 
   public List<EntryEnvelop> pull(Map params = [:]) {

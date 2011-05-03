@@ -100,10 +100,6 @@ class GreaderAccessor extends Accessor {
     entries
   }
 
-  void push(EntryFace entry) {
-    void
-  }
-
   protected apiGet(String url) {
     // In google reader we always work with json
     url += (url.indexOf("?") > -1 ? "&" : "?") + "output=json"
