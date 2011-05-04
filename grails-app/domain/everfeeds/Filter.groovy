@@ -1,6 +1,5 @@
 package everfeeds
 
-import everfeeds.envelops.FilterEnvelop
 import everfeeds.envelops.FilterFace
 import everfeeds.envelops.FilterHelper
 
@@ -43,7 +42,7 @@ class Filter implements FilterFace {
   }
 
   Access getAccess() {
-    Access.get(accountId)
+    Access.get(accessId)
   }
 
   Tag[] getWithTags() {

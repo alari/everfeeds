@@ -18,7 +18,7 @@
         </g:each>
       <g:each in="${filters}" var="filter">
         <li>
-                <g:link action="filter" id="${filter.id}">
+                <g:link action="entries" controller="filter" id="${filter.id}">
                     ${filter.title.encodeAsHTML()}</g:link></li>
       </g:each>
     </ul>

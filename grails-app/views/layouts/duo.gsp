@@ -21,7 +21,7 @@
 
             <sec:ifLoggedIn>
               <div id="saveFilter">
-                <a href="#" onclick="saveFilter('<g:createLink action="saveFilter" controller="root"/>', '${I18n._."filter.create.name"}')">${I18n._."filter.save"}</a>
+                <a href="#" onclick="saveFilter('<g:createLink action="save" controller="filter"/>', '${I18n._."filter.create.name"}')">${I18n._."filter.save"}</a>
               </div>
                 <g:showAccesses/>
             </sec:ifLoggedIn>

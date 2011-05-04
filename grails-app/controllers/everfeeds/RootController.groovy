@@ -1,9 +1,8 @@
 package everfeeds
 
+import everfeeds.envelops.EntryEnvelop
 import everfeeds.envelops.FilterEnvelop
 import grails.plugins.springsecurity.Secured
-import everfeeds.envelops.EntryEnvelop
-import grails.converters.JSON
 
 class RootController {
   def syncService
@@ -11,7 +10,7 @@ class RootController {
 
   def index = {
     if (loggedIn) {
-      List<Access> expiredAccesses =  Access.findAllByAccountAndExpired(authenticatedUser, true)
+      List<Access> expiredAccesses = Access.findAllByAccountAndExpired(authenticatedUser, true)
       List<Filter> filters = Filter.findAllByAccountId(authenticatedUser.id)
       render view: "authIndex", model: [account: authenticatedUser, expiredAccesses: expiredAccesses, filters: filters]
       return
@@ -21,7 +20,7 @@ class RootController {
   @Secured(['ROLE_ACCOUNT'])
   def push = {
     Access access = Access.findByIdAndAccount(params.long("access"), authenticatedUser)
-    if(!access) {
+    if (!access) {
       response.sendError HttpURLConnection.HTTP_UNAUTHORIZED, "not authorized enough"
       return
     }
@@ -31,48 +30,16 @@ class RootController {
 
       EntryEnvelop envelop = access.accessor.parser.parseFromParams(params)
 
-      if(envelop) {
+      if (envelop) {
         envelop = access.accessor.push(envelop)
         Entry entry = envelop.store()
         render template: "/entry/envelop", model: [entry: entry]
         return
       }
-    } catch(e){
+    } catch (e) {
       log.error "Push failed", e
       response.sendError(HttpURLConnection.HTTP_BAD_REQUEST, e.message)
     }
-  }
-
-  @Secured(['ROLE_ACCOUNT'])
-  def filter = {
-
-    Filter filter = Filter.get(params.id)
-
-    if(!filter?.id) {
-      response.sendError HttpURLConnection.HTTP_NOT_FOUND, "not found"
-      return
-    }
-
-    filter.splitDate = new Date()
-
-    int max = 10
-    int page = params.page ? params.int("page") : 0
-
-    render template: "entries", model: [entries: filter.findEntries(max: max, offset: page * max)]
-  }
-
-  @Secured(['ROLE_ACCOUNT'])
-  def saveFilter = {
-    Access access = Access.findByIdAndAccount(params.long("access"), authenticatedUser)
-
-    FilterEnvelop filter = new FilterEnvelop()
-    filter.account = authenticatedUser
-    filter.buildFromParams(params, access)
-    filter.title = params.title ?: "New Filter"
-
-    Filter newFilter = filter.store()
-
-    render([id: newFilter.id, title: newFilter.title] as JSON)
   }
 
   @Secured(['ROLE_ACCOUNT'])
@@ -97,7 +64,7 @@ class RootController {
     entries = filter.findEntries(max: max, offset: page * max)
 
     if (!page) {
-      if(access?.accessor?.isPushable()) {
+      if (access?.accessor?.isPushable()) {
         render template: "/push/${access.type}", model: [access: access]
       }
       render template: "checkNew"

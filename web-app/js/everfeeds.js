@@ -69,7 +69,7 @@ function saveFilter(url, msg) {
   refreshCreateFilterStatus();
 
   $.getJSON(url, data, function(response){
-    $("#tabss").tabs("add", "/everfeeds/filter/"+response.id, response.title);
+    $("#tabss").tabs("add", response.url, response.title);
     $("#tabss").tabs("select", $("#tabss").tabs("length")-1);
   });
 }
