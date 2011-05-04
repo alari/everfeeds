@@ -10,7 +10,7 @@ import everfeeds.envelops.EntryEnvelop
  */
 class EvernoteParser extends Parser {
   EntryEnvelop parseEntry(node) {
-    new EvernoteNote().newEntryEnvelop(node, accessor).buildEnvelop().entryEnvelop
+    new EvernoteNote().initEntryEnvelop(node, accessor).buildEnvelop().entryEnvelop
   }
 
   EntryEnvelop parseEntry(String categoryIdentity, node) {

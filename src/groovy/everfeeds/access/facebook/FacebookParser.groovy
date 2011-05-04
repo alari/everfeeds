@@ -1,8 +1,9 @@
 package everfeeds.access.facebook
 
 import everfeeds.access.Parser
-import everfeeds.access.facebook.kind.FacebookStatus
+
 import everfeeds.envelops.EntryEnvelop
+import everfeeds.access.Manager
 
 /**
  * @author Dmitry Kurinskiy
@@ -12,6 +13,11 @@ class FacebookParser extends Parser {
 
   EntryEnvelop parseEntry(String categoryIdentity, node) {
     // here we should dispatch all kinds of facebook entries
-    new FacebookStatus().newEntryEnvelop(node, accessor, categoryIdentity).buildEnvelop().entryEnvelop
+
+    Class kindClass = Manager.classForKind("facebook", categoryIdentity);
+    if (kindClass == null) {
+      kindClass = Manager.classForKind("facebook", "status");
+    }
+    return kindClass.newInstance().initEntryEnvelop(node, accessor, categoryIdentity).buildEnvelop().entryEnvelop;
   }
 }

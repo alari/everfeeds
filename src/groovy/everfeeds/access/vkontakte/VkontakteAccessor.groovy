@@ -4,7 +4,6 @@ import everfeeds.Access
 import everfeeds.access.Accessor
 import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop
-import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
 import org.apache.log4j.Logger
 

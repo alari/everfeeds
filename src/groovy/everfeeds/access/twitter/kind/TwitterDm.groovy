@@ -9,9 +9,6 @@ class TwitterDm extends TwitterStatus {
     "/entry/twitterDM"
   }
 
-  String getKind() {
-    "dm"
-  }
 
   String getAuthor() {
     original.sender.screen_name

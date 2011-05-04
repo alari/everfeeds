@@ -14,7 +14,7 @@ abstract class Parser {
     accessor.access
   }
 
-  abstract public EntryEnvelop parseEntry(String categoryIdentity, final node)
+  abstract public EntryEnvelop parseEntry(String categoryIdentity, final Object node)
 
   public EntryEnvelop parseFromParams(params){
     params.remove("access")

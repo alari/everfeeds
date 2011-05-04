@@ -15,7 +15,7 @@ class GreaderParser extends Parser {
   }
 
   EntryEnvelop parseEntry(String categoryIdentity, node) {
-    new GreaderAtom().newEntryEnvelop(node, accessor, categoryIdentity).buildEnvelop().entryEnvelop
+    new GreaderAtom().initEntryEnvelop(node, accessor, categoryIdentity).buildEnvelop().entryEnvelop
   }
 
 }

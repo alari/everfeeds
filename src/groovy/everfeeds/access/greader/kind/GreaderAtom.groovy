@@ -42,10 +42,6 @@ class GreaderAtom extends Kind {
     contentCache.size() > 1024 ? contentCache : ""
   }
 
-  String getKind() {
-    "atom"
-  }
-
   Date getPlacedDate() {
     new Date(((long) original.updated) * 1000)
   }

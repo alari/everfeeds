@@ -53,10 +53,6 @@ class TwitterStatus extends Kind {
     autolink.autoLink(title)
   }
 
-  String getKind() {
-    "status"
-  }
-
   Date getPlacedDate() {
     simpleDateFormat.parse(original.created_at)
   }

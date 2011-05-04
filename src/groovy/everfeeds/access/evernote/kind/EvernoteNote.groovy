@@ -37,10 +37,6 @@ class EvernoteNote extends Kind {
     true
   }
 
-  String getKind() {
-    "note"
-  }
-
   String getSourceUrl() {
     original.attributes.sourceURL
   }

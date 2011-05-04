@@ -20,6 +20,6 @@ class TwitterParser extends Parser {
     } else {
       kind = new TwitterStatus()
     }
-    kind.newEntryEnvelop(node, accessor, categoryIdentity).buildEnvelop().entryEnvelop
+    kind.initEntryEnvelop(node, accessor, categoryIdentity).buildEnvelop().entryEnvelop
   }
 }

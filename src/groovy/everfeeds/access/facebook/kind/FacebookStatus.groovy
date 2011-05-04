@@ -2,11 +2,13 @@ package everfeeds.access.facebook.kind
 
 import everfeeds.access.Kind
 import java.text.SimpleDateFormat
+import org.springframework.stereotype.Component
 
 /**
  * @author Dmitry Kurinskiy
  * @since 20.04.11 19:21
  */
+@Component
 class FacebookStatus extends Kind {
   private static DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
@@ -47,9 +49,6 @@ class FacebookStatus extends Kind {
     original?.caption
   }
 
-  String getKind() {
-    "status" // original.type
-  }
 
   Date getPlacedDate() {
     (original?.created_time) ? DATE_FORMAT.parse(original?.created_time) : new Date()

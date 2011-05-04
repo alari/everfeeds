@@ -35,10 +35,6 @@ class GmailEmail extends Kind {
     original.title.text()
   }
 
-  String getKind() {
-    "email"
-  }
-
   Date getPlacedDate() {
     // TODO: is it really do not give placed date?
     new Date()

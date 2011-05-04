@@ -1,6 +1,7 @@
 package everfeeds.access
 
 import everfeeds.envelops.EntryEnvelop
+import org.apache.commons.lang.StringUtils
 
 /**
  * @author Dmitry Kurinskiy
@@ -16,7 +17,7 @@ abstract class Kind {
     "/entry/default"
   }
 
-  public newEntryEnvelop(original, Accessor accessor, String categoryIdentity = null) {
+  public initEntryEnvelop(original, Accessor accessor, String categoryIdentity = null) {
     this.original = original
     this.accessor = accessor
     entryEnvelop = new EntryEnvelop()
@@ -66,7 +67,9 @@ abstract class Kind {
 
   abstract String getTitle()
 
-  abstract String getKind()
+  final String getKind() {
+    return StringUtils.substringAfterLast(this.class.name.toLowerCase(), accessor.type)
+  }
 
   String getSourceUrl() {""}
 

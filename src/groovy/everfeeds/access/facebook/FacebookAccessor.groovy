@@ -5,9 +5,9 @@ import everfeeds.OAuthHelper
 import everfeeds.access.Accessor
 import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop
-import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
 import org.apache.log4j.Logger
+import org.codehaus.groovy.grails.web.json.JSONElement
 
 /**
  * @author alari
@@ -19,7 +19,7 @@ class FacebookAccessor extends Accessor {
 
   static Logger log = Logger.getLogger(FacebookAccessor)
 
-  static final Map CATEGORIES = [
+  static final Map<String, String> CATEGORIES = [
       news: "https://graph.facebook.com/me/home",
       events: "https://graph.facebook.com/me/events",
       wall: "https://graph.facebook.com/me/feed",
@@ -28,6 +28,11 @@ class FacebookAccessor extends Accessor {
   FacebookAccessor(Access access) {
     this.access = access
   }
+
+/*  public List<String> getKinds() {
+    FacebookKindFactory.getKinds()
+  }
+   */
 
   List<CategoryEnvelop> getCategories() {
     List<CategoryEnvelop> categories = []
@@ -58,7 +63,7 @@ class FacebookAccessor extends Accessor {
     EntryEnvelop entry
 
     CATEGORIES.each {catIdx, catUrl ->
-      for (it in OAuthHelper.callJsonApi(config.oauth, catUrl.toString(), access.token, access.secret)?.data) {
+      for (final JSONElement it in OAuthHelper.callJsonApi(config.oauth, catUrl, access.token, access.secret)?.data) {
 
         entry = parser.parseEntry(catIdx, it)
         if (params?.store) {

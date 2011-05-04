@@ -14,6 +14,6 @@ class GmailParser extends Parser {
   }
 
   EntryEnvelop parseEntry(String categoryIdentity, node) {
-    new GmailEmail().newEntryEnvelop(node, accessor, categoryIdentity).buildEnvelop().entryEnvelop
+    new GmailEmail().initEntryEnvelop(node, accessor, categoryIdentity).buildEnvelop().entryEnvelop
   }
 }
