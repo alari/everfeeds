@@ -73,7 +73,4 @@ class FacebookAccessor extends Accessor {
   }
 
 
-  void push(EntryFace entry) {
-
-  }
 }

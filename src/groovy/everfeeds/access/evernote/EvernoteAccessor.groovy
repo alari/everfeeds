@@ -99,9 +99,6 @@ class EvernoteAccessor extends Accessor {
     entries
   }
 
-  void push(EntryFace entry) {
-
-  }
 
   protected NoteStore.Client getNoteStore() {
     if (noteStoreClient) return noteStoreClient
