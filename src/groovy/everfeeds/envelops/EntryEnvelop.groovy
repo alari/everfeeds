@@ -26,6 +26,25 @@ class EntryEnvelop implements EntryFace {
 
   int accessId
 
+  private Map schemalessParams = [:]
+
+  void putAt(String name, value) {
+    if(this.class.properties.containsKey(name)) {
+      this."${name}" = value
+    } else {
+      schemalessParams[name] = value
+    }
+  }
+
+  def getAt(String name) {
+    if(schemalessParams.containsKey(name)) {
+      return schemalessParams[name]
+    } else if(this.class.properties.containsKey(name)) {
+      return this."${name}"
+    }
+    return null
+  }
+
   Entry store() {
     Access access = Access.get(accessId)
 
@@ -60,17 +79,16 @@ class EntryEnvelop implements EntryFace {
       entry."${it}" = this."${it}"
     }
 
-
-
     entry.categoryIdentity = categoryIdentity
 
     if (!entry.validate()) {
-      System.err << "Failed entry validation: ${entry.errors}\n"
+      System.err.println("Failed entry validation: ${entry.errors}")
       return null
     }
     entry.save(flush: true)
 
     entry.tagIdentities = tagIdentities
+    schemalessParams.each{k,v -> entry[k] = v}
 
     entry.save(flush: true)
   }
