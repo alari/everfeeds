@@ -11,11 +11,16 @@
         <li><a href="#tab-root">${I18n._."index.tab.root"}</a></li>
         <li><g:link action="entries">${I18n._."index.tab.mash"}</g:link></li>
         <g:each in="${account.accesses}" var="access">
-            <li title="${access.identity}">
+            <li>
                 <g:link action="entries" params="[access:access.id]">
                     <img src="${resource(dir: "images/social", file: access.type + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
                     ${access.title.encodeAsHTML()}</g:link></li>
         </g:each>
+      <g:each in="${filters}" var="filter">
+        <li>
+                <g:link action="filter" id="${filter.id}">
+                    ${filter.title.encodeAsHTML()}</g:link></li>
+      </g:each>
     </ul>
 
     <div id="tab-root">

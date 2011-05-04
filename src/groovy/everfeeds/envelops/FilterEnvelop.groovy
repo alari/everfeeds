@@ -7,6 +7,8 @@ import everfeeds.*
  * @since 08.04.11 13:14
  */
 class FilterEnvelop implements FilterFace {
+  String title
+
   Access access
   Tag[] withTags = []
   Tag[] withoutTags = []
@@ -21,21 +23,10 @@ class FilterEnvelop implements FilterFace {
   Date splitDate
   boolean getNew
 
-  static List<Entry> findEntriesHelper(FilterFace filter, Map listParams) {
-    if (!listParams.containsKey("sort")) listParams["sort"] = "placedDate"
-    if (!listParams.containsKey("order")) listParams["order"] = "desc"
 
-    def criteria
-
-    if (filter.access) {
-      Entry.findAllFiltered(filter).list(listParams)
-    } else {
-      Entry.findAllFilteredByAccount(filter).list(listParams)
-    }
-  }
 
   List<Entry> findEntries(Map listParams = [:]) {
-    findEntriesHelper this, listParams
+    FilterHelper.findEntries this, listParams
   }
 
   void buildFromParams(params, Access access) {
@@ -76,28 +67,20 @@ class FilterEnvelop implements FilterFace {
     ].each {
       filter."${it}" = this."${it}"
     }
-    filter
+
+    if(title) {
+      filter.title = title
+    }
+    filter.save()
   }
 
   private List filterParam(what, param, params) {
     params.list(param + "[]").collect {p -> access."${what}".find {i -> i.id == Long.parseLong(p.toString())}}
   }
 
-  static String asJavascriptHelper(FilterFace filter) {
-    """{
-        ${filter.access ? 'access:' + filter.access.id + "," : ''}
-        wtag: ${filter.withTags*.id.encodeAsJavaScript()},
-        wotag: ${filter.withoutTags*.id.encodeAsJavaScript()},
-        wcat: ${filter.withCategories*.id.encodeAsJavaScript()},
-        wocat: ${filter.withoutCategories*.id.encodeAsJavaScript()},
-        wkind: ${filter.withKinds.encodeAsJavaScript()},
-        wokind: ${filter.withoutKinds.encodeAsJavaScript()},
-        ${filter.getNew ? "newTime:${System.currentTimeMillis()}," : ""}
-        listTime: ${filter.splitDate.time},
-    }"""
-  }
+
 
   String asJavascript() {
-    asJavascriptHelper this
+    FilterHelper.asJavascript this
   }
 }

@@ -22,6 +22,7 @@ Array.prototype.remove = function(itemToRemove) {
 var tabId = "";
 var tabData = {};
 var tabDataCache = {};
+var tabChanged = {};
 var entriesUrl;
 
 var aTargetBlank = function(){
@@ -59,7 +60,32 @@ function tabCheckNew(a){
     o.removeClass("load-more").load(entriesUrl, data, aTargetBlank);
 }
 
+function saveFilter(url, msg) {
+  var data = $.extend({}, tabData);
+  data.title = prompt(msg);
+  if(!data.title) return;
+
+  tabChanged[tabId] = false;
+  refreshCreateFilterStatus();
+
+  $.getJSON(url, data, function(response){
+    $("#tabss").tabs("add", "/everfeeds/filter/"+response.id, response.title);
+    $("#tabss").tabs("select", $("#tabss").tabs("length")-1);
+  });
+}
+
+function refreshCreateFilterStatus() {
+  if(tabChanged[tabId]) {
+    $("#saveFilter").show();
+  } else {
+    $("#saveFilter").hide();
+  }
+}
+
 function loadTab(li) {
+  tabChanged[tabId] = true;
+  refreshCreateFilterStatus();
+
     var t = $(li).attr("id").split("-");
     var i = t[1];
     t = t[0];
@@ -123,12 +149,14 @@ $(function() {
             tabId = ui.panel.id;
             $("#asideBox").html($(".filterAside", ui.panel).html());
             tabData = tabDataCache[tabId];
+          refreshCreateFilterStatus();
         },
         load: function(event, ui) {
             tabId = ui.panel.id;
             $("#asideBox").html($(".filterAside", ui.panel).html());
             tabData = tabDataCache[tabId];
             aTargetBlank();
+          refreshCreateFilterStatus();
         },
         cache: true
     });

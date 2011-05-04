@@ -121,3 +121,6 @@ input {
     padding: 20px;
     background: white;
 }
+.with{background:#e0ffff}
+.without{background:#ffc0cb}
+#saveFilter{display:none; padding: 5px; text-align: center;}

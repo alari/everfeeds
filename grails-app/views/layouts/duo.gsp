@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="everfeeds.I18n" contentType="text/html;charset=UTF-8" %>
 <g:applyLayout name="base">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -20,6 +20,9 @@
             <div id="asideBox"></div>
 
             <sec:ifLoggedIn>
+              <div id="saveFilter">
+                <a href="#" onclick="saveFilter('<g:createLink action="saveFilter" controller="root"/>', '${I18n._."filter.create.name"}')">${I18n._."filter.save"}</a>
+              </div>
                 <g:showAccesses/>
             </sec:ifLoggedIn>
 		</aside><!-- #sideRight -->

@@ -1,8 +1,4 @@
 <%@ page import="everfeeds.I18n" %>
-<style type="text/css">
-    .with{background:#e0ffff}
-    .without{background:#ffc0cb}
-</style>
 <div class="filterAside" style="display:none">
     <p><b>${I18n._."entry.filter.access"}: ${filter.access.title.encodeAsHTML()}</b></p>
 

@@ -2,6 +2,7 @@ package everfeeds
 
 import everfeeds.envelops.FilterEnvelop
 import everfeeds.envelops.FilterFace
+import everfeeds.envelops.FilterHelper
 
 class Filter implements FilterFace {
 
@@ -9,10 +10,12 @@ class Filter implements FilterFace {
 
   String id
 
-  List withTagIds
-  List withoutTagIds
-  List categoryIds
-  boolean categoryWith
+  String title
+
+  List withTagIds = []
+  List withoutTagIds = []
+  List categoryIds = []
+  boolean categoryWith = true
 
   String[] withKinds = []
   String[] withoutKinds = []
@@ -32,7 +35,7 @@ class Filter implements FilterFace {
   }
 
   List<Entry> findEntries(Map listParams = [:]) {
-    FilterEnvelop.findEntriesHelper this, listParams
+    FilterHelper.findEntries this, listParams
   }
 
   Account getAccount() {
@@ -60,14 +63,14 @@ class Filter implements FilterFace {
   }
 
   String asJavascript() {
-    FilterEnvelop.asJavascriptHelper this
+    FilterHelper.asJavascript this
   }
 
   void setAccess(Access access) {
     accessId = access.id
   }
 
-  void setAccount(Account a) {
+  void setAccount(Account account) {
     accountId = account.id
   }
 
