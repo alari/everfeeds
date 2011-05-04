@@ -2,6 +2,7 @@ package everfeeds.bootstrap
 
 import everfeeds.Entry
 import grails.util.Environment
+import everfeeds.Filter
 
 /**
  * @author Dmitry Kurinskiy
@@ -13,6 +14,7 @@ class MongoIndicesBoot {
     if(Environment.currentEnvironment == Environment.DEVELOPMENT) {
       System.err.println ("Is DEVELOPMENT")
       Entry.collection.drop()
+      Filter.collection.drop()
     }
   }
 }

@@ -3,7 +3,8 @@ package everfeeds.envelops
 import everfeeds.*
 
 /**
- * Created by alari @ 08.04.11 13:14
+ * @author Dmitry Kurinskiy
+ * @since 08.04.11 13:14
  */
 class FilterEnvelop implements FilterFace {
   Access access
@@ -15,20 +16,26 @@ class FilterEnvelop implements FilterFace {
   String[] withoutKinds = []
   Account account
 
+  Filter filter
+
   Date splitDate
   boolean getNew
 
-  List<Entry> findEntries(Map listParams = [:]) {
+  static List<Entry> findEntriesHelper(FilterFace filter, Map listParams) {
     if (!listParams.containsKey("sort")) listParams["sort"] = "placedDate"
     if (!listParams.containsKey("order")) listParams["order"] = "desc"
 
     def criteria
 
-    if (access) {
-      Entry.findAllFiltered(this).list(listParams)
+    if (filter.access) {
+      Entry.findAllFiltered(filter).list(listParams)
     } else {
-      Entry.findAllFilteredByAccount(this).list(listParams)
+      Entry.findAllFilteredByAccount(filter).list(listParams)
     }
+  }
+
+  List<Entry> findEntries(Map listParams = [:]) {
+    findEntriesHelper this, listParams
   }
 
   void buildFromParams(params, Access access) {
@@ -44,6 +51,10 @@ class FilterEnvelop implements FilterFace {
       withoutKinds = params.list("wokind[]")
     }
 
+    if (params.filter) {
+      filter = Filter.get(params.filter)
+    }
+
     if (params?.getNew) {
       getNew = true
       splitDate = new Date(params.long("newTime") ?: (params.long("listTime") ?: System.currentTimeMillis()))
@@ -52,21 +63,41 @@ class FilterEnvelop implements FilterFace {
     }
   }
 
+  Filter store() {
+    if (!filter) {
+      filter = new Filter()
+      filter.access = access
+      filter.account = account
+    }
+
+    ["withKinds", "withoutKinds",
+        "withCategories", "withoutCategories",
+        "withTags", "withoutTags"
+    ].each {
+      filter."${it}" = this."${it}"
+    }
+    filter
+  }
+
   private List filterParam(what, param, params) {
     params.list(param + "[]").collect {p -> access."${what}".find {i -> i.id == Long.parseLong(p.toString())}}
   }
 
-  String asJavascript(){
+  static String asJavascriptHelper(FilterFace filter) {
     """{
-        ${access ? 'access:'+access.id+",":''}
-        wtag: ${withTags*.id.encodeAsJavaScript()},
-        wotag: ${withoutTags*.id.encodeAsJavaScript()},
-        wcat: ${withCategories*.id.encodeAsJavaScript()},
-        wocat: ${withoutCategories*.id.encodeAsJavaScript()},
-        wkind: ${withKinds.encodeAsJavaScript()},
-        wokind: ${withoutKinds.encodeAsJavaScript()},
-        ${getNew?"newTime:${System.currentTimeMillis()},":""}
-        listTime: ${splitDate.time},
+        ${filter.access ? 'access:' + filter.access.id + "," : ''}
+        wtag: ${filter.withTags*.id.encodeAsJavaScript()},
+        wotag: ${filter.withoutTags*.id.encodeAsJavaScript()},
+        wcat: ${filter.withCategories*.id.encodeAsJavaScript()},
+        wocat: ${filter.withoutCategories*.id.encodeAsJavaScript()},
+        wkind: ${filter.withKinds.encodeAsJavaScript()},
+        wokind: ${filter.withoutKinds.encodeAsJavaScript()},
+        ${filter.getNew ? "newTime:${System.currentTimeMillis()}," : ""}
+        listTime: ${filter.splitDate.time},
     }"""
+  }
+
+  String asJavascript() {
+    asJavascriptHelper this
   }
 }

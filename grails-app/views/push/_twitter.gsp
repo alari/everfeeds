@@ -8,5 +8,4 @@
     <g:submitToRemote name="sbm" value="Submit status" url="[controller:'root', action:'push']" onSuccess="pushSuccess(data)" onFailure="pushError(textStatus)"/>
     <g:field type="hidden" name="access" value="${access.id}"/>
   </g:form>
-  <div id="twitterPush"></div>
 </div>

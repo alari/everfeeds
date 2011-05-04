@@ -21,7 +21,7 @@ class RootController {
   def push = {
     Access access = Access.findByIdAndAccount(params.long("access"), authenticatedUser)
     if(!access) {
-      response.sendError 300, "not authorized enough"
+      response.sendError HttpURLConnection.HTTP_UNAUTHORIZED, "not authorized enough"
       return
     }
     log.debug "processing push"
@@ -38,7 +38,7 @@ class RootController {
       }
     } catch(e){
       log.error "Push failed", e
-      response.sendError(300, e.message)
+      response.sendError(HttpURLConnection.HTTP_BAD_REQUEST, e.message)
     }
   }
 
