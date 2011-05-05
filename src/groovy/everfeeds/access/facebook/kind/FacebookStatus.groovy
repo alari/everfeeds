@@ -3,6 +3,7 @@ package everfeeds.access.facebook.kind
 import everfeeds.access.Kind
 import java.text.SimpleDateFormat
 import org.springframework.stereotype.Component
+import org.apache.commons.lang.StringUtils
 
 /**
  * @author Dmitry Kurinskiy
@@ -46,9 +47,8 @@ class FacebookStatus extends Kind {
   }
 
   String getTitle() {
-    original?.caption
+    "${StringUtils.capitalise(getKind())} ${getAuthor()}"//TODO: I18N
   }
-
 
   Date getPlacedDate() {
     (original?.created_time) ? DATE_FORMAT.parse(original?.created_time) : new Date()

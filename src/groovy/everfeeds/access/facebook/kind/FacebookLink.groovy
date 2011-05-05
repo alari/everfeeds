@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 @Component
 class FacebookLink extends FacebookStatus {
   String getTitle() {
-    original?.name
+    "Link ${getAuthor()} ${original?.message ?: ''}"
   }
 
 }

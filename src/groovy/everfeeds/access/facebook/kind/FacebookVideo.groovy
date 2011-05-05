@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component
 @Component
 class FacebookVideo extends FacebookStatus {
   String getTitle() {
-    original?.caption
+    "Video ${getAuthor()}"
   }
 }

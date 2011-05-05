@@ -1,18 +1,14 @@
 package everfeeds.access
 
-import everfeeds.Access
-import everfeeds.Category
-import everfeeds.Tag
 import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop
 import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
-import everfeeds.Package
-import org.scribe.model.Verb
-import everfeeds.OAuthHelper
-import org.apache.log4j.Logger
 import grails.converters.deep.JSON
+import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.json.JSONElement
+import org.scribe.model.Verb
+import everfeeds.*
 
 /**
  * @author Dmitry Kurinskiy
@@ -27,7 +23,7 @@ abstract class Accessor {
 
   protected log = Logger.getLogger(this.class)
 
-  static protected Map<String,List<String>> kindsCache = [:]
+  static protected Map<String, List<String>> kindsCache = [:]
 
   public Access getAccess() {
     access
@@ -46,9 +42,9 @@ abstract class Accessor {
   }
 
   public List<String> getKinds() {
-    if(!kindsCache[type]) {
+    if (!kindsCache[type]) {
       kindsCache[type] = []
-      Package.getClasses(this.class.package.name+".kind")?.each{
+      Package.getClasses(this.class.package.name + ".kind")?.each {
         kindsCache[type] << it.simpleName.substring(type.size()).toLowerCase()
       }
     }
@@ -113,17 +109,20 @@ abstract class Accessor {
   final public String callOAuthApi(String url, Verb verb) {
     callOAuthApi(url, [:], verb)
   }
+
   final public String callOAuthApi(String url) {
     callOAuthApi(url, [:], Verb.GET)
 
   }
-  final public String callOAuthApi(String url, Map<String,String> params){
+
+  final public String callOAuthApi(String url, Map<String, String> params) {
     callOAuthApi(url, params, Verb.POST)
   }
-  final public String callOAuthApi(String url, Map<String,String> params, Verb verb) {
+
+  final public String callOAuthApi(String url, Map<String, String> params, Verb verb) {
     try {
       return OAuthHelper.callApi(config.oauth, url, access.token, access.secret)
-    } catch(e) {
+    } catch (e) {
       log.error "OAuth Api call failed", e
     }
     ""
@@ -132,13 +131,16 @@ abstract class Accessor {
   final public JSONElement callOAuthApiJSON(String url, Verb verb) {
     JSON.parse callOAuthApi(url, verb)
   }
+
   final public JSONElement callOAuthApiJSON(String url) {
     JSON.parse callOAuthApi(url)
   }
-  final public JSONElement callOAuthApiJSON(String url, Map<String,String> params){
+
+  final public JSONElement callOAuthApiJSON(String url, Map<String, String> params) {
     JSON.parse callOAuthApi(url, params)
   }
-  final public JSONElement callOAuthApiJSON(String url, Map<String,String> params, Verb verb) {
+
+  final public JSONElement callOAuthApiJSON(String url, Map<String, String> params, Verb verb) {
     JSON.parse callOAuthApi(url, params, verb)
   }
 
@@ -152,5 +154,5 @@ abstract class Accessor {
 
   abstract public List<EntryEnvelop> pull(Map params = [:])
 
-  public EntryEnvelop push(EntryFace entry){null}
+  public EntryEnvelop push(EntryFace entry) {null}
 }

@@ -3,11 +3,13 @@ package everfeeds.envelops
 import everfeeds.Access
 import everfeeds.Entry
 import everfeeds.access.Manager
+import org.apache.log4j.Logger
 
 /**
  * Created by alari @ 14.03.11 17:21
  */
 class EntryEnvelop implements EntryFace {
+  private static Logger log = Logger.getLogger(EntryEnvelop)
   String identity
   String title
   String kind = ''
@@ -82,7 +84,7 @@ class EntryEnvelop implements EntryFace {
     entry.categoryIdentity = categoryIdentity
 
     if (!entry.validate()) {
-      System.err.println("Failed entry validation: ${entry.errors}")
+      log.error("Failed entry validation: ${entry.errors}")
       return null
     }
     entry.save(flush: true)

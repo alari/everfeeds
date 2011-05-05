@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component
 class FacebookPhoto extends FacebookStatus {
 
   String getTitle() {
-    original?.name
+    "Photo by ${getAuthor()}"?:''
   }
 
   String getContent() {
-    original?.caption
+    original?.message
   }
 }

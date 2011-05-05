@@ -1,7 +1,6 @@
 package everfeeds.access.facebook
 
 import everfeeds.Access
-import everfeeds.OAuthHelper
 import everfeeds.access.Accessor
 import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop
@@ -28,11 +27,6 @@ class FacebookAccessor extends Accessor {
   FacebookAccessor(Access access) {
     this.access = access
   }
-
-/*  public List<String> getKinds() {
-    FacebookKindFactory.getKinds()
-  }
-   */
 
   List<CategoryEnvelop> getCategories() {
     List<CategoryEnvelop> categories = []
@@ -63,7 +57,7 @@ class FacebookAccessor extends Accessor {
     EntryEnvelop entry
 
     CATEGORIES.each {catIdx, catUrl ->
-      for (final JSONElement it in OAuthHelper.callJsonApi(config.oauth, catUrl, access.token, access.secret)?.data) {
+      for (final JSONElement it in callOAuthApiJSON(catUrl)?.data) {
 
         entry = parser.parseEntry(catIdx, it)
         if (params?.store) {

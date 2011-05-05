@@ -14,7 +14,7 @@ class FacebookParser extends Parser {
   EntryEnvelop parseEntry(String categoryIdentity, node) {
     // here we should dispatch all kinds of facebook entries
 
-    Class kindClass = Manager.classForKind("facebook", categoryIdentity);
+    Class kindClass = Manager.classForKind("facebook", node['type']);
     if (kindClass == null) {
       kindClass = Manager.classForKind("facebook", "status");
     }
