@@ -34,8 +34,20 @@ class FilterController {
     int max = 10
     int page = params.page ? params.int("page") : 0
 
-    render template: "/root/entries", model: [entries: filter.findEntries(max: max, offset: page * max)]
+    def entries = filter.findEntries(max: max, offset: page * max)
 
-    log.debug filter.asJavascript()
+    if(!page) {
+      render template: "/root/checkNew"
+    }
+
+    render template: "/root/entries", model: [entries: entries]
+
+    render template: "/root/filterAside", model: [filter: filter]
+
+    render template: "/root/tabJsCache", model: [filter: filter]
+
+    if (entries.size()) {
+      render template: "/root/loadMore", model: [page: page]
+    }
   }
 }

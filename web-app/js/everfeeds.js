@@ -48,7 +48,7 @@ function cacheTabData(){
 
 function pageTab(currPage, a){
     tabData.page = currPage+1;
-    $(a).parent().removeClass("load-more").load(entriesUrl, tabData, aTargetBlank);
+    $(a).parent().removeClass("load-more").load(tabData.entriesUrl ? tabData.entriesUrl : entriesUrl, tabData, aTargetBlank);
 }
 
 function tabCheckNew(a){
@@ -57,7 +57,8 @@ function tabCheckNew(a){
     o.html(".......");
     data.page = 0;
     data.getNew = true;
-    o.removeClass("load-more").load(entriesUrl, data, aTargetBlank);
+
+    o.removeClass("load-more").load(tabData.entriesUrl ? tabData.entriesUrl : entriesUrl, data, aTargetBlank);
 }
 
 function saveFilter(url, msg) {
