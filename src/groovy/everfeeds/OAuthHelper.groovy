@@ -20,7 +20,13 @@ class OAuthHelper {
     OAuthRequest request = new OAuthRequest(method, url);
 
     if(params.size()) {
-      params.each{k,v-> request.addBodyParameter k, v}
+      params.each{k,v->
+        if(method == Verb.GET) {
+          request.addQuerystringParameter k, v
+        } else {
+          request.addBodyParameter k, v
+        }
+      }
     }
 
     def tkn = new Token(token, secret)

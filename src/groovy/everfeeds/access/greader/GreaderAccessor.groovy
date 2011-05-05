@@ -103,17 +103,7 @@ class GreaderAccessor extends Accessor {
   protected apiGet(String url) {
     // In google reader we always work with json
     url += (url.indexOf("?") > -1 ? "&" : "?") + "output=json"
-    def result = null
 
-    try {
-      result = OAuthHelper.callJsonApi(config.oauth, url, access.token, access.secret)
-    } catch (e) {}
-
-    if (!result) {
-      access.expired = true
-      access.save()
-      return [:]
-    }
-    result
+    callOAuthApiJSON(url)
   }
 }

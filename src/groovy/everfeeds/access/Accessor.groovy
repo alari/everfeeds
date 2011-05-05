@@ -8,6 +8,11 @@ import everfeeds.envelops.EntryEnvelop
 import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
 import everfeeds.Package
+import org.scribe.model.Verb
+import everfeeds.OAuthHelper
+import org.apache.log4j.Logger
+import grails.converters.deep.JSON
+import org.codehaus.groovy.grails.web.json.JSONElement
 
 /**
  * @author Dmitry Kurinskiy
@@ -19,6 +24,8 @@ abstract class Accessor {
   private String typeCache
 
   private Parser parserCache
+
+  protected log = Logger.getLogger(this.class)
 
   static protected Map<String,List<String>> kindsCache = [:]
 
@@ -101,6 +108,38 @@ abstract class Accessor {
       typeCache = this.class.package.name.tokenize(".").last()
     }
     typeCache
+  }
+
+  final public String callOAuthApi(String url, Verb verb) {
+    callOAuthApi(url, [:], verb)
+  }
+  final public String callOAuthApi(String url) {
+    callOAuthApi(url, [:], Verb.GET)
+
+  }
+  final public String callOAuthApi(String url, Map<String,String> params){
+    callOAuthApi(url, params, Verb.POST)
+  }
+  final public String callOAuthApi(String url, Map<String,String> params, Verb verb) {
+    try {
+      return OAuthHelper.callApi(config.oauth, url, access.token, access.secret)
+    } catch(e) {
+      log.error "OAuth Api call failed", e
+    }
+    ""
+  }
+
+  final public JSONElement callOAuthApiJSON(String url, Verb verb) {
+    JSON.parse callOAuthApi(url, verb)
+  }
+  final public JSONElement callOAuthApiJSON(String url) {
+    JSON.parse callOAuthApi(url)
+  }
+  final public JSONElement callOAuthApiJSON(String url, Map<String,String> params){
+    JSON.parse callOAuthApi(url, params)
+  }
+  final public JSONElement callOAuthApiJSON(String url, Map<String,String> params, Verb verb) {
+    JSON.parse callOAuthApi(url, params, verb)
   }
 
   abstract public boolean isPullable()
