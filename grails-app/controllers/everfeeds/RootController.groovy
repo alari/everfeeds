@@ -67,7 +67,7 @@ class RootController {
     entries = filter.findEntries(max: max, offset: page * max)
 
     if (!page) {
-      if (access?.accessor?.isPushable()) {
+      if (!params?.getNew && access?.accessor?.isPushable()) {
         render template: "/push/${access.type}", model: [access: access]
       }
       render template: "checkNew"
