@@ -11,19 +11,29 @@ import org.scribe.model.Token
 class VkontakteAuth extends OAuthAuth {
   public Map authCallback(String verifierStr, Object session) {
     authCallbackHelper(verifierStr, session) {Token accessToken ->
-      final authInfo = OAuthHelper.callJsonApi(
+      def authInfo = OAuthHelper.callJsonApi(
           config.oauth,
           "https://api.vkontakte.ru/method/getUserInfo",
           accessToken.token,
           accessToken.secret
       )
 
-      if (!authInfo) {
+      authInfo = OAuthHelper.callJsonApi(
+          config.oauth,
+          "https://api.vkontakte.ru/method/getProfiles?uids=${authInfo?.response?.user_id}",
+          accessToken.token,
+          accessToken.secret
+      )
+
+      if (!authInfo?.response || ! authInfo.response.size()) {
         return null
       }
 
+      authInfo = authInfo.response[0]
+
       [
-          id: authInfo?.response?.user_id
+          id: authInfo.uid,
+          title: authInfo.first_name + " " + authInfo.last_name
       ]
     }
   }
