@@ -26,7 +26,7 @@ var tabChanged = {};
 var entriesUrl;
 
 var aTargetBlank = function(){
-    $('.target-blank a').attr("target", "_blank");
+    $(".target-blank a[href!='javascript:void(0)']").attr("target", "_blank");
 };
 
 function pushSuccess(data){

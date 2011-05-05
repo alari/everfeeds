@@ -33,7 +33,7 @@
   ${entry.description}
   </g:if>
   <g:if test="${!entry.description}">
-    <a href="#" onclick="showFullEntry($(this).parent(), '${entry.id}')">${I18n._."entry.fulltext"}</a>
+    <a href="javascript:void(0)" onclick="showFullEntry($(this).parent(), '${entry.id}')">${I18n._."entry.fulltext"}</a>
   </g:if>
 </div>
 </g:if>
