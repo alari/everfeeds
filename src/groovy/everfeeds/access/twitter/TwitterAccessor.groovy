@@ -123,11 +123,8 @@ class TwitterAccessor extends Accessor {
     if(status.size() > 140) status = status.substring(0, 140)
     if(entry.sourceUrl && status.size() + entry.sourceUrl.size() < 140) status += " "+entry.sourceUrl
 
-    def res = OAuthHelper.callJsonApi(config.oauth,
+    def res = callOAuthApiJSON(
         "http://api.twitter.com/1/statuses/update.json",
-        access.token,
-        access.secret,
-        Verb.POST,
         [status: status]
     )
     if(res.containsKey("error")) {

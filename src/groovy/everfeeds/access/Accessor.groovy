@@ -121,7 +121,7 @@ abstract class Accessor {
 
   final public String callOAuthApi(String url, Map<String, String> params, Verb verb) {
     try {
-      return OAuthHelper.callApi(config.oauth, url, access.token, access.secret)
+      return OAuthHelper.callApi(config.oauth, url, access.token, access.secret, verb, params)
     } catch (e) {
       log.error "OAuth Api call failed", e
     }
