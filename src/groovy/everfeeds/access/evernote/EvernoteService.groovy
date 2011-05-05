@@ -1,19 +1,8 @@
 package everfeeds.access.evernote
 
-import org.springframework.web.context.request.RequestContextHolder
 import org.htmlcleaner.*
 
 class EvernoteService {
-
-  static transactional = true
-
-  def grailsApplication
-
-  def getSession() {
-    return RequestContextHolder.currentRequestAttributes().getSession()
-  }
-
-  def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 
   List ignoreTags = ["APPLET", "BASE", "BASEFONT", "BGSOUND", "BLINK", "BUTTON", "EMBED", "FIELDSET", "FORM",
       "FRAME", "FRAMESET", "HEAD", "IFRAME", "ILAYER", "INPUT", "ISINDEX", "LABEL", "LAYER", "LEGEND", "LINK",
@@ -49,31 +38,15 @@ class EvernoteService {
 
     String xml = new BrowserCompactXmlSerializer(cleaner.getProperties()).getXmlAsString(node.children[1])
     // TODO: remove hardcode
-    xml.substring(45, xml.size() - 7)
-  }
 
-  /*
-def rss = {
-  String rss_url = "http://vz.ru/columns/rss.xml"
-
-
-  def rsss = new XmlParser().parse(rss_url)
-  rsss.channel.item.each {
-
-      Note note = new Note()
-      note.title = it.title.text()
-
-
-
-      note.content = """<?xml version="1.0" encoding="UTF-8"?>
+    """<?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">
 
-<en-note>""" + evernoteService.adaptHtmlToEdam(it.description.text()) + "</en-note>"
-
-      render note.title
-
-      evernoteService.getNoteStore().createNote(session.evernote.accessToken, note)
+<en-note>""" + xml.substring(45, xml.size() - 7) + "</en-note>"
   }
-}    */
+
+  String adaptTextToEdam(String text) {
+    adaptHtmlToEdam text.replaceAll(~/\n/, "<br/>")
+  }
 }

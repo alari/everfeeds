@@ -12,6 +12,7 @@ import org.apache.thrift.transport.THttpClient
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
 import everfeeds.envelops.*
+import com.evernote.edam.type.Note
 
 /**
  * Created by alari @ 14.03.11 14:55
@@ -63,7 +64,7 @@ class EvernoteAccessor extends Accessor {
   }
 
   boolean isPushable() {
-    false
+    true
   }
 
   public List<EntryEnvelop> pull(Map params = [:]) {
@@ -99,6 +100,18 @@ class EvernoteAccessor extends Accessor {
     entries
   }
 
+  EntryEnvelop push(EntryFace entry) {
+    if(!entry.content) return null
+
+    Note note = new Note()
+    EvernoteService srv = new EvernoteService()
+
+    note.title = entry.title ?: entry.content.substring(0, 25)
+    note.content = srv.adaptTextToEdam(entry.content)
+    note = noteStore.createNote(access.token, note)
+
+    parser.parseEntry(note)
+  }
 
   protected NoteStore.Client getNoteStore() {
     if (noteStoreClient) return noteStoreClient
