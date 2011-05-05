@@ -11,8 +11,11 @@ class RootController {
   def index = {
     if (loggedIn) {
       List<Access> expiredAccesses = Access.findAllByAccountAndExpired(authenticatedUser, true)
+
+      def tabsAccesses = authenticatedUser.accesses.findAll{it.accessor.isPushable() || it.accessor.isPullable()}
+
       List<Filter> filters = Filter.findAllByAccountId(authenticatedUser.id)
-      render view: "authIndex", model: [account: authenticatedUser, expiredAccesses: expiredAccesses, filters: filters]
+      render view: "authIndex", model: [account: authenticatedUser, expiredAccesses: expiredAccesses, tabsAccesses:tabsAccesses, filters: filters]
       return
     }
   }

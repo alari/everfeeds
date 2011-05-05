@@ -10,7 +10,7 @@
     <ul>
         <li><a href="#tab-root">${I18n._."index.tab.root"}</a></li>
         <li><g:link action="entries">${I18n._."index.tab.mash"}</g:link></li>
-        <g:each in="${account.accesses}" var="access">
+        <g:each in="${tabsAccesses}" var="access">
             <li>
                 <g:link action="entries" params="[access:access.id]">
                     <img src="${resource(dir: "images/social", file: access.type + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
@@ -35,6 +35,15 @@
                     </ul>
                 </b>
             </td><td>
+              <b>Accesses you connect:</b>
+              <ul>
+                <g:each in="${account.accesses}" var="access">
+                  <li><g:auth type="${access.type}"><img src="${resource(dir: "images/social", file: access.type + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
+                    ${access.title.encodeAsHTML()}</g:auth></li>
+                </g:each>
+              </ul>
+              <hr/>
+
               <g:if test="${expiredAccesses.size()}">
                 <b>Please revalidate expired accesses:</b>
                 <ul>
