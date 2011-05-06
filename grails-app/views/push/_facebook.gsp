@@ -4,10 +4,10 @@
   @since 05.05.11 15:18
 --%>
 <div>
-  <g:form controller="root" action="push">
+  <g:formRemote name="facebookPush" url="[controller:'push',action:'access']" onSuccess="pushSuccess(data)" onFailure="pushError(textStatus)">
     <g:field name="title" style="width: 70%"/>
-    <g:submitToRemote name="sbm" value="${I18n._."facebook.push.submit"}" url="[controller:'root', action:'push']" onSuccess="pushSuccess(data)" onFailure="pushError(textStatus)"/>
+    <input type="submit" value="${I18n._."facebook.push.submit"}"/>
     <g:field type="hidden" name="access" value="${access.id}"/>
     <g:field type="hidden" name="kind" value="status" />
-  </g:form>
+  </g:formRemote>
 </div>

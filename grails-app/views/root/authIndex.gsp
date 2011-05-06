@@ -13,7 +13,7 @@
         <g:each in="${tabsAccesses}" var="access">
             <li>
                 <g:link action="entries" params="[access:access.id]">
-                    <img src="${resource(dir: "images/social", file: access.type + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
+                    <g:accessPic access="${access}"/>
                     ${access.title.encodeAsHTML()}</g:link></li>
         </g:each>
       <g:each in="${filters}" var="filter">
@@ -24,6 +24,13 @@
     </ul>
 
     <div id="tab-root">
+      <div>
+        <g:formRemote name="absolutePush" url="[controller:'push',action:'absolute']">
+          <g:each in="${pushAccesses}" var="access">
+            <g:accessPic access="${access}"/> ${access} <br/>
+          </g:each>
+        </g:formRemote>
+      </div>
         <table>
             <tr><td>
                 <h2>Useful tips (not i18n until confirmed)</h2>

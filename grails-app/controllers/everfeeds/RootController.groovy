@@ -13,35 +13,16 @@ class RootController {
       List<Access> expiredAccesses = Access.findAllByAccountAndExpired(authenticatedUser, true)
 
       def tabsAccesses = authenticatedUser.accesses.findAll{it.accessor.isPushable() || it.accessor.isPullable()}
+      def pushAccesses = authenticatedUser.accesses.findAll{it.accessor.isPushable() && it.accessor.kinds.contains("status")}
 
       List<Filter> filters = Filter.findAllByAccountId(authenticatedUser.id)
-      render view: "authIndex", model: [account: authenticatedUser, expiredAccesses: expiredAccesses, tabsAccesses:tabsAccesses, filters: filters]
+      render view: "authIndex", model: [
+          account: authenticatedUser,
+          expiredAccesses: expiredAccesses,
+          pushAccesses: pushAccesses,
+          tabsAccesses:tabsAccesses,
+          filters: filters]
       return
-    }
-  }
-
-  @Secured(['ROLE_ACCOUNT'])
-  def push = {
-    Access access = Access.findByIdAndAccount(params.long("access"), authenticatedUser)
-    if (!access) {
-      response.sendError HttpURLConnection.HTTP_UNAUTHORIZED, "not authorized enough"
-      return
-    }
-    log.debug "processing push"
-
-    try {
-
-      EntryEnvelop envelop = access.accessor.parser.parseFromParams(params)
-
-      if (envelop) {
-        envelop = access.accessor.push(envelop)
-        Entry entry = envelop.store()
-        render template: "/entry/envelop", model: [entry: entry]
-        return
-      }
-    } catch (e) {
-      log.error "Push failed", e
-      response.sendError(HttpURLConnection.HTTP_BAD_REQUEST, e.message)
     }
   }
 
