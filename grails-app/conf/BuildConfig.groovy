@@ -26,7 +26,7 @@ grails.project.dependency.resolution = {
       mavenRepo "http://maven.everfeeds.com/libs-snapshot"
     }
     dependencies {
-      runtime "com.everfeeds:everfeeds-thrift-api-secure:1.0-SNAPSHOT"
+      build "com.everfeeds:everfeeds-thrift-api-secure:1.0-SNAPSHOT"
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         // runtime 'mysql:mysql-connector-java:5.1.5'

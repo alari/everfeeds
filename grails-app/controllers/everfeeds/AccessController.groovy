@@ -45,7 +45,6 @@ class AccessController {
       log.error "Access denied", ignore
     }
 
-
     if (!access) {
       flash.error = i18n."access.error.denied"([params.id])
       redirect controller: "root", action: "index"
