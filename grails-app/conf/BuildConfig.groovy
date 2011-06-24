@@ -24,9 +24,17 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
 
       mavenRepo "http://maven.everfeeds.com/libs-snapshot"
+      mavenRepo "http://maven.everfeeds.com/libs-release-local"
+      mavenRepo "http://maven.twttr.com/"
     }
     dependencies {
-      build "com.everfeeds:everfeeds-thrift-api-secure:1.0-SNAPSHOT"
+      build "com.everfeeds:thrift-internal:1.0-SNAPSHOT"
+      build "org.scribe:scribe:1.2.0"
+      build "com.evernote:en-thrift:1.19.0.3"
+      build "org.jsoup:jsoup:1.6.0"
+      build "net.sourceforge.htmlcleaner:htmlcleaner:2.2"
+      build "commons-codec:commons-codec:1.5"
+      build "com.twitter:twitter-text:1.3.1"
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         // runtime 'mysql:mysql-connector-java:5.1.5'
