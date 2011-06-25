@@ -6,7 +6,7 @@ import com.evernote.edam.type.User
 import com.evernote.edam.userstore.UserStore
 import everfeeds.Access
 import everfeeds.access.Accessor
-import everfeeds.access.Manager
+import everfeeds.Manager
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
 import org.jsoup.Jsoup

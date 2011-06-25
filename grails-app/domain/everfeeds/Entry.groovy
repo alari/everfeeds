@@ -1,8 +1,6 @@
 package everfeeds
 
-import everfeeds.access.Manager
 import everfeeds.envelops.EntryFace
-import com.mongodb.BasicDBObject
 
 class Entry implements EntryFace {
 

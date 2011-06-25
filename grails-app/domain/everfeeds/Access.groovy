@@ -1,7 +1,6 @@
 package everfeeds
 
 import everfeeds.access.Accessor
-import everfeeds.access.Manager
 
 class Access {
   String identity

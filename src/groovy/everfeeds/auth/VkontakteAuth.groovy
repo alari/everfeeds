@@ -1,7 +1,7 @@
-package everfeeds.access.vkontakte
+package everfeeds.auth
 
 import everfeeds.OAuthHelper
-import everfeeds.access.OAuthAuth
+import everfeeds.auth.OAuthAuth
 import org.scribe.model.Token
 
 /**

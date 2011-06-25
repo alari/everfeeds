@@ -4,6 +4,7 @@ import everfeeds.thrift.EverfeedsAPI
 import everfeeds.internal.thrift.InternalAPI
 import everfeeds.thrift.util.APIHolder
 import everfeeds.internal.thrift.InternalAPIHolder
+import everfeeds.internal.thrift.Application
 
 class ApiService {
 
@@ -11,6 +12,7 @@ class ApiService {
 
   private EverfeedsAPI.Client api
   private InternalAPI.Client kernelApi
+  private Application app
 
   EverfeedsAPI.Client getApi() {
     APIHolder.client
@@ -18,5 +20,13 @@ class ApiService {
 
   InternalAPI.Client getInternalApi(){
     InternalAPIHolder.client
+  }
+
+  void setApp(Application app) {
+    if(!this.app) this.app = app
+  }
+
+  Application getApp() {
+    app
   }
 }

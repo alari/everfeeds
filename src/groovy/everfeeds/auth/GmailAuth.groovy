@@ -1,6 +1,4 @@
-package everfeeds.access.gmail
-
-import everfeeds.access.google.GoogleAuth
+package everfeeds.auth
 
 /**
  * Created by alari @ 02.04.11 13:15

@@ -1,7 +1,9 @@
-package everfeeds.access
+package everfeeds
 
 import everfeeds.Access
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import everfeeds.auth.Auth
+import everfeeds.access.Accessor
 
 /**
  * Created by alari @ 02.04.11 23:34

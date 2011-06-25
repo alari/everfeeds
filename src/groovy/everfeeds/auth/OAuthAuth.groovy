@@ -1,4 +1,4 @@
-package everfeeds.access
+package everfeeds.auth
 
 import everfeeds.OAuthHelper
 import org.scribe.model.Token

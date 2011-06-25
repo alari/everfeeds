@@ -1,16 +1,15 @@
 package everfeeds.access.twitter
 
 import everfeeds.Access
-import everfeeds.OAuthHelper
+
 import everfeeds.access.Accessor
-import everfeeds.access.Manager
+import everfeeds.Manager
 import everfeeds.annotations.Reconnectable
 import everfeeds.envelops.CategoryEnvelop
 import everfeeds.envelops.EntryEnvelop
 import everfeeds.envelops.EntryFace
 import everfeeds.envelops.TagEnvelop
 import org.apache.log4j.Logger
-import org.scribe.model.Verb
 
 /**
  * Created by alari @ 14.03.11 14:55

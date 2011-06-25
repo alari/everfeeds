@@ -4,7 +4,6 @@ import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
 
-import everfeeds.access.Manager
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class AccessController {

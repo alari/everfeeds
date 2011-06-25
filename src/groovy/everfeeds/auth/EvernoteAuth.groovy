@@ -1,8 +1,8 @@
-package everfeeds.access.evernote
+package everfeeds.auth
 
 import com.evernote.edam.type.User
 import com.evernote.edam.userstore.UserStore
-import everfeeds.access.OAuthAuth
+import everfeeds.auth.OAuthAuth
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
 import org.scribe.model.Token

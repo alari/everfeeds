@@ -1,6 +1,6 @@
-package everfeeds.access.greader
+package everfeeds.auth
 
-import everfeeds.access.google.GoogleAuth
+import everfeeds.auth.GoogleAuth
 
 /**
  * Created by alari @ 02.04.11 13:14

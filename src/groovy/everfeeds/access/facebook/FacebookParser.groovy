@@ -3,7 +3,7 @@ package everfeeds.access.facebook
 import everfeeds.access.Parser
 
 import everfeeds.envelops.EntryEnvelop
-import everfeeds.access.Manager
+import everfeeds.Manager
 
 /**
  * @author Dmitry Kurinskiy

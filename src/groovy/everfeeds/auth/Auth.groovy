@@ -1,6 +1,7 @@
-package everfeeds.access
+package everfeeds.auth
 
 import org.apache.log4j.Logger
+import everfeeds.Manager
 
 /**
  * Created by alari @ 02.04.11 12:57

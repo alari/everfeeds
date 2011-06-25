@@ -1,23 +1,26 @@
-package everfeeds.access.twitter
+package everfeeds.auth
 
 import everfeeds.OAuthHelper
-import everfeeds.access.OAuthAuth
+import everfeeds.auth.OAuthAuth
 import org.scribe.model.Token
 
 /**
  * Created by alari @ 02.04.11 13:15
  */
-class TwitterAuth extends OAuthAuth {
+class FacebookAuth extends OAuthAuth {
   public Map authCallback(String verifierStr, Object session) {
     authCallbackHelper(verifierStr, session) {Token accessToken ->
-      def params = OAuthHelper.callJsonApi(
+      final authInfo = OAuthHelper.callJsonApi(
           config.oauth,
-          "http://api.twitter.com/1/account/verify_credentials.json",
+          "https://graph.facebook.com/me",
           accessToken.token, accessToken.secret)
 
+
+      if (!authInfo) return null
+
       [
-          id: params?.id,
-          title: params?.screen_name
+          id: authInfo.id,
+          title: authInfo.name ?: authInfo.username
       ]
     }
   }

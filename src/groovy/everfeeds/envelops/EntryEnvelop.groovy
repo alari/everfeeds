@@ -2,7 +2,7 @@ package everfeeds.envelops
 
 import everfeeds.Access
 import everfeeds.Entry
-import everfeeds.access.Manager
+import everfeeds.Manager
 import org.apache.log4j.Logger
 
 /**

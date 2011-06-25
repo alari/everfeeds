@@ -1,7 +1,5 @@
 package everfeeds
 
-import everfeeds.access.Manager
-
 class AccessesTagLib {
   def i18n
 

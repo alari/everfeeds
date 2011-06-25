@@ -1,7 +1,6 @@
 package everfeeds
 
 import org.springframework.web.context.request.RequestContextHolder
-import everfeeds.access.Manager
 
 class AuthService {
 
