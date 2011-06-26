@@ -3,14 +3,14 @@ package everfeeds
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
-
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import everfeeds.auth.AccessInfo
 
 class AccessController {
 
   def syncService
   def authService
   def springSecurityService
+  def thriftApiService
   def i18n
 
   def index = {
@@ -20,83 +20,46 @@ class AccessController {
 
   def auth = {
     log.debug "AUTH for ${params.id}"
-    if (!ConfigurationHolder.config.access."${params.id}"?.auth instanceof Class) {
+    String authUrl = authService.getAuthUrl(params.id, session)
+    if(authUrl) {
+      redirect url: authUrl
+    } else {
       flash.error = i18n."access.error.unknownprovider"([params.id])
       redirect controller: "root", action: "index"
-    } else {
-      redirect url: authService.getAuthUrl(params.id)
     }
   }
 
   def callback = {
     log.debug "CALLBACK for ${params.id}"
-    if (!Manager.getAuth(params.id)) {
-      log.error "Unknown auth provider: ${params.id}"
-      flash.error = i18n."access.error.unknownprovider"([params.id])
-      redirect controller: "root", action: "index"
-      return
-    }
 
-    Access access = null
-    try {
-      access = authService.processCallback(params.id, params.oauth_verifier ?: params.code)
-    } catch (ignore) {
-      log.error "Access denied", ignore
-    }
-
-    if (!access) {
+    AccessInfo accessInfo = authService.processCallback(params.id, params.oauth_verifier ?: params.code, session)
+    if(!accessInfo) {
       flash.error = i18n."access.error.denied"([params.id])
       redirect controller: "root", action: "index"
       return
     }
 
-    setLoggedAccountAccess(access)
-    access.account.addAuthority params.id.toString()
-    access.expired = false
-    access.save()
+    Account account = getAccountByThrift( thriftApiService.authenticate(accessInfo, springSecurityService.currentUser?.token) )
+    // if token is going to expire, renew
+    if(!account.token || account.tokenExpires>new Date()-5) {
+      thriftApiService.createToken(account)
+    }
+    // set account as logged in
+    SCH.context.authentication = new PreAuthenticatedAuthenticationToken(account, account, account.authorities)
 
     flash.message = i18n."access.loggedin"([i18n."${params.id}.title"])
     redirect controller: "root", action: "index"
   }
 
-  private Account createAccessAccount(Access access) {
-    log.debug("creating access account:${access.identity}")
-    Account account = new Account(
-        username: access.identity,
-        password: springSecurityService.encodePassword(access.identity + new Random().nextInt().toString()),
+  private Account getAccountByThrift(everfeeds.thrift.domain.Account account) {  log.debug(account.id+"|"+account.title)
+   Account.findByUsername(account.id) ?: new Account(
+       title: account.title,
+        username: account.id,
+        password: springSecurityService.encodePassword(account.id + new Random().nextInt().toString()),
         enabled: true,
         accountExpired: false,
         accountLocked: false,
         passwordExpired: false
-    )
-    account.save(flush: true)
-    account.addAuthority "ROLE_ACCOUNT", true
-    log.debug "Created access account: $account with ${account.authorities*.authority.join(";")}"
-    account
-  }
-
-  private void setLoggedAccountAccess(Access access) {
-    // user is already logged, connect access to current account
-    if (loggedIn) {
-      authenticatedUser.addToAccesses access
-      access.account = authenticatedUser
-      access.save(flush: true)
-      syncService.addToQueue access, [pull: true, num: Manager.MAX_NUM]
-      // Adding to a MAX queue
-    } else {
-      if (!access.account) {
-        access.account = createAccessAccount(access)
-        access.account.addToAccesses access
-        access.save(flush: true)
-        // Adding to a MAX queue
-        syncService.addToQueue access, [pull: true, num: Manager.MAX_NUM]
-      } else {
-        // Adding to a CURRENT queue
-        syncService.addToQueue access, [pull: true]
-      }
-      // set as logged
-      log.debug "Setting as logged with authorities: " + access.account.authorities*.authority.join(";")
-      SCH.context.authentication = new PreAuthenticatedAuthenticationToken(access.account, access.account, access.account.authorities)
-    }
+    ).save(flush: true).addAuthority("ROLE_ACCOUNT", true)
   }
 }

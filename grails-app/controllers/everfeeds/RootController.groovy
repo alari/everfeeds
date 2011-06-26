@@ -1,7 +1,5 @@
 package everfeeds
 
-import everfeeds.envelops.EntryEnvelop
-import everfeeds.envelops.FilterEnvelop
 import grails.plugins.springsecurity.Secured
 
 class RootController {
@@ -9,25 +7,26 @@ class RootController {
   def i18n
 
   def index = {
-    if (loggedIn) {
-      List<Access> expiredAccesses = Access.findAllByAccountAndExpired(authenticatedUser, true)
+    if (loggedIn) {  log.debug "we are logged in!"
+      /*List<Access> expiredAccesses = Access.findAllByAccountAndExpired(authenticatedUser, true)
 
       def tabsAccesses = authenticatedUser.accesses.findAll{it.accessor.isPushable() || it.accessor.isPullable()}
       def pushAccesses = authenticatedUser.accesses.findAll{it.accessor.isPushable() && it.accessor.kinds.contains("status")}
 
-      List<Filter> filters = Filter.findAllByAccountId(authenticatedUser.id)
-      render view: "authIndex", model: [
+      //List<Filter> filters = Filter.findAllByAccountId(authenticatedUser.id)*/
+      render view: "authIndex", model: [/*
           account: authenticatedUser,
           expiredAccesses: expiredAccesses,
           pushAccesses: pushAccesses,
           tabsAccesses:tabsAccesses,
-          filters: filters]
+          filters: filters*/]
       return
     }
+    log.debug "we are not logged in"
   }
 
   @Secured(['ROLE_ACCOUNT'])
-  def entries = {
+  def entries = {/*
     // TODO: move it to separate action
     if (params.content) {
       Entry e = Entry.findByIdAndAccountId(params.content, authenticatedUser.id)
@@ -64,6 +63,6 @@ class RootController {
 
     if (entries.size()) {
       render template: "loadMore", model: [page: page]
-    }
+    }   */
   }
 }

@@ -1,27 +1,25 @@
 package everfeeds.auth
 
-import everfeeds.OAuthHelper
-import everfeeds.auth.OAuthAuth
 import org.scribe.model.Token
+import everfeeds.thrift.util.Type
 
 /**
  * Created by alari @ 02.04.11 13:15
  */
 class FacebookAuth extends OAuthAuth {
-  public Map authCallback(String verifierStr, Object session) {
-    authCallbackHelper(verifierStr, session) {Token accessToken ->
-      final authInfo = OAuthHelper.callJsonApi(
-          config.oauth,
-          "https://graph.facebook.com/me",
-          accessToken.token, accessToken.secret)
+  FacebookAuth() {
+    key "118265721567840"
+    secret "9d43b1e1ce985e1b3f81d44e51e8cd0f"
+    provider org.scribe.builder.api.FacebookApi
+    scope "publish_stream,offline_access,read_stream,read_mailbox,read_insights"
+    type Type.FACEBOOK
+  }
 
+  protected AccessInfo getAccessInfo(Token accessToken) {
+    final authInfo = callApiJson("https://graph.facebook.com/me", accessToken)
 
-      if (!authInfo) return null
+    if (!authInfo?.id) return null
 
-      [
-          id: authInfo.id,
-          title: authInfo.name ?: authInfo.username
-      ]
-    }
+    new AccessInfo(identity: authInfo.id, title: authInfo.name ?: authInfo.username)
   }
 }

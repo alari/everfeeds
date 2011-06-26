@@ -2,6 +2,7 @@ package everfeeds
 
 class Account {
 
+  String title
   String username
   String password
   boolean enabled
@@ -9,11 +10,14 @@ class Account {
   boolean accountLocked
   boolean passwordExpired
 
-  static hasMany = [accesses: Access]
+  String token
+  Date tokenExpires
 
   static constraints = {
     username blank: false, unique: true
     password blank: false
+    token nullable: true, unique: true
+    tokenExpires nullable: true
   }
 
   static mapping = {
@@ -34,6 +38,6 @@ class Account {
   }
 
   String toString() {
-    username
+    title
   }
 }

@@ -1,12 +1,11 @@
 package everfeeds
 
-import everfeeds.envelops.EntryEnvelop
 import grails.plugins.springsecurity.Secured
 
 class PushController {
 
   @Secured(['ROLE_ACCOUNT'])
-  def access = {
+  def access = {  /*
     Access access = Access.findByIdAndAccount(params.long("access"), authenticatedUser)
     if (!access) {
       response.sendError HttpURLConnection.HTTP_UNAUTHORIZED, "not authorized enough"
@@ -27,7 +26,7 @@ class PushController {
     } catch (e) {
       log.error "Push failed", e
       response.sendError(HttpURLConnection.HTTP_BAD_REQUEST, e.message)
-    }
+    }    */
   }
 
   @Secured(['ROLE_ACCOUNT'])

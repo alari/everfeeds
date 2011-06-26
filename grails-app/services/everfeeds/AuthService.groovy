@@ -1,44 +1,48 @@
 package everfeeds
 
-import org.springframework.web.context.request.RequestContextHolder
+import everfeeds.auth.OAuthAuth
+import everfeeds.thrift.util.Type
+import everfeeds.auth.GmailAuth
+import everfeeds.auth.EvernoteAuth
+import everfeeds.auth.FacebookAuth
+import everfeeds.auth.GreaderAuth
+import everfeeds.auth.LinkedInAuth
+import everfeeds.auth.TwitterAuth
+import everfeeds.auth.VkontakteAuth
+import javax.servlet.http.HttpSession
+import everfeeds.auth.AccessInfo
 
 class AuthService {
-
-    def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
-
     static transactional = true
 
-    def getSession() {
-        return RequestContextHolder.currentRequestAttributes().getSession()
+    String getAuthUrl(String accessType, HttpSession session) {
+      OAuthAuth auth = getOAuthAuth(accessType)
+      String url = auth.getAuthUrl()
+      session.setAttribute(accessType, auth)
+      url
     }
 
-    String getAuthUrl(String accessType) {
-        Manager.getAuth(accessType)?.getAuthUrl(session)
-    }
+  AccessInfo processCallback(String accessType, String verifierStr, HttpSession session) {
+    OAuthAuth auth = (OAuthAuth)session.getAttribute(accessType)
+    if(!auth) throw new Exception("Authentication session was broken")
 
-    Access processCallback(String accessType, String verifierStr) {
-        getAccess Manager.getAuth(accessType)?.authCallback(verifierStr, session)
-    }
+    AccessInfo accessInfo = auth.authCallback(verifierStr)
+    if(!accessInfo || !accessInfo.identity) throw new Exception("Authentication failed")
 
-    Access getAccess(Map params) {
-        if (!params?.type || !params?.id) {
-            throw new IllegalArgumentException("Cannot get access without type/id")
-        }
+    session.removeAttribute(accessType)
 
-        Access access = Access.findByIdentityAndType(params.id, params.type) ?: new Access(
-                identity: params.id,
-                title: params.title,
-                type: params.type
-        )
-        if (params.token) {
-            access.token = params.token
-            if (params.secret) access.secret = params.secret
-            if (params.shard) access.shard = params.shard
-            access.expired = false
-        }
-        if(!access.validate()) {
-          log.error access.errors
-        }
-        access.save()
+    accessInfo
+  }
+
+  private OAuthAuth getOAuthAuth(String type){
+    switch(Type.getByName(type)){
+      case Type.GMAIL: return new GmailAuth()
+      case Type.EVERNOTE: return new EvernoteAuth()
+      case Type.FACEBOOK: return new FacebookAuth()
+      case Type.GREADER: return new GreaderAuth()
+      case Type.LINKEDIN: return new LinkedInAuth()
+      case Type.TWITTER: return new TwitterAuth()
+      case Type.VKONTAKTE: return new VkontakteAuth()
     }
+  }
 }

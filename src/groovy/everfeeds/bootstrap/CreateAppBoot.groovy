@@ -4,7 +4,7 @@ import everfeeds.internal.thrift.InternalAPIHolder
 import everfeeds.internal.thrift.Application
 import everfeeds.thrift.util.Scope
 import everfeeds.SpringUtil
-import everfeeds.ApiService
+import everfeeds.ThriftApiService
 
 /**
  * @author Dmitry Kurinskiy
@@ -21,7 +21,7 @@ class CreateAppBoot {
       app.description = "Main Everfeeds.com Application"
       app = InternalAPIHolder.client.saveApp(app)
     }
-    ((ApiService)SpringUtil.getBean("apiService")).app = app
-    System.out.println "Application ID: ${app.id}"
+    ((ThriftApiService)SpringUtil.getBean("thriftApiService")).app = app
+    System.out.println "Everfeeds Thrift Application ID: ${app.id}"
   }
 }

@@ -1,12 +1,11 @@
 package everfeeds
 
-import everfeeds.envelops.FilterEnvelop
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 class FilterController {
   @Secured(['ROLE_ACCOUNT'])
-  def save = {
+  def save = {     /*
     Access access = Access.findByIdAndAccount(params.long("access"), authenticatedUser)
 
     FilterEnvelop filter = new FilterEnvelop()
@@ -15,13 +14,13 @@ class FilterController {
     filter.title = params.title ?: "New Filter"
 
     Filter newFilter = filter.store()
-
+        */
     render([url: createLink(controller: "filter", action: "entries", id: newFilter.id), title: newFilter.title] as JSON)
   }
 
   @Secured(['ROLE_ACCOUNT'])
   def entries = {
-
+           /*
     Filter filter = Filter.findByAccountIdAndId(authenticatedUser.id, params.id)
 
     if (!filter?.id) {
@@ -48,6 +47,6 @@ class FilterController {
 
     if (entries.size()) {
       render template: "/root/loadMore", model: [page: page]
-    }
+    }     */
   }
 }

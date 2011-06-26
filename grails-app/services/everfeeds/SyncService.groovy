@@ -1,5 +1,7 @@
 package everfeeds
 
+import everfeeds.thrift.domain.Access
+
 class SyncService {
     static transactional = true
 

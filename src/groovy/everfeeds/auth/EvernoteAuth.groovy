@@ -2,32 +2,36 @@ package everfeeds.auth
 
 import com.evernote.edam.type.User
 import com.evernote.edam.userstore.UserStore
-import everfeeds.auth.OAuthAuth
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
 import org.scribe.model.Token
+import everfeeds.thrift.util.Type
 
 /**
  * Created by alari @ 02.04.11 13:18
  */
 class EvernoteAuth extends OAuthAuth {
-  public Map authCallback(String verifierStr, Object session) {
-    authCallbackHelper(verifierStr, session) {Token accessToken ->
-      // Getting UserStore
-      THttpClient userStoreTrans = new THttpClient("https://" + config.host + "/edam/user");
-      userStoreTrans.setCustomHeader("User-Agent", config.userAgent);
-      TBinaryProtocol userStoreProt = new TBinaryProtocol(userStoreTrans);
-      UserStore.Client userStore = new UserStore.Client(userStoreProt, userStoreProt);
+  EvernoteAuth() {
+    key "everfeeds"
+    secret "dd0ba24f027198c6"
+    provider org.scribe.builder.api.EvernoteApi
+    type Type.EVERNOTE
+  }
 
-      // Finding access by username
-      User user = userStore.getUser(accessToken.token)
-      if (!user) return null
+  static final String USER_AGENT = "everfeeds.com"
+  static final String HOST = "www.evernote.com"
 
-      [
-          id: user.username,
-          title: user.username,
-          shard: user.shardId
-      ]
-    }
+  protected AccessInfo getAccessInfo(Token accessToken) {
+    // Getting UserStore
+    THttpClient userStoreTrans = new THttpClient("https://" + HOST + "/edam/user");
+    userStoreTrans.setCustomHeader("User-Agent", USER_AGENT);
+    TBinaryProtocol userStoreProt = new TBinaryProtocol(userStoreTrans);
+    UserStore.Client userStore = new UserStore.Client(userStoreProt, userStoreProt);
+
+    // Finding access by username
+    User user = userStore.getUser(accessToken.token)
+    if (!user) return null
+
+    new AccessInfo(identity: user.username, params: [shard: user.shardId])
   }
 }

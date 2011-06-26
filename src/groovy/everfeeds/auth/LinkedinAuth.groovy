@@ -1,25 +1,24 @@
 package everfeeds.auth
 
-import everfeeds.OAuthHelper
-import everfeeds.auth.OAuthAuth
 import org.scribe.model.Token
+import everfeeds.thrift.util.Type
 
 /**
  * Created by alari @ 02.04.11 13:15
  */
-class LinkedinAuth extends OAuthAuth {
-  public Map authCallback(String verifierStr, Object session) {
-    authCallbackHelper(verifierStr, session) {Token accessToken ->
-      def screen_name = OAuthHelper.callXmlApi(
-          config.oauth,
-          "http://api.linkedin.com/v1/people/~:(id)",
-          accessToken.token, accessToken.secret)?.id
+class LinkedInAuth extends OAuthAuth {
+  static final String CREDENTIALS_URL = "http://api.linkedin.com/v1/people/~:(id)"
 
-      if (!screen_name) return null
+  LinkedInAuth() {
+    key "LYuiN2KtQJVJcHOggAZsMT20HzezFqMFvHlAVsaUju5y7gjhc6Y3BJpFLg86QNBX"
+    secret "p93hwB8RY5g7BaEwXc4qZbZhZ7Zqsxl0Rv4TRV9zcW4dBeNuTCfFv5rwjyACUL1U"
+    provider org.scribe.builder.api.LinkedInApi
+    type Type.LINKEDIN
+  }
 
-      [
-          id: screen_name
-      ]
-    }
+  protected AccessInfo getAccessInfo(Token accessToken) {
+    final authInfo = callApiXml(CREDENTIALS_URL, accessToken)
+
+    authInfo?.id ? new AccessInfo(identity: authInfo.id) : null
   }
 }
