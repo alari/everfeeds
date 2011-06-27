@@ -13,7 +13,7 @@ class GmailAuth extends OAuthAuth {
     key "everfeeds.com"
     secret "mucd4gqA1yLtrY6eMzZo3IYe"
     provider org.scribe.builder.api.GoogleApi
-    scope "https://www.googleapis.com/auth/userinfo#email https://mail.google.com/mail/feed/atom/ https://apps-apis.google.com/a/feeds/email_settings/2.0/"
+    scope "https://www.googleapis.com/auth/userinfo#email https://mail.google.com/mail/feed/atom/"
     type Type.GMAIL
   }
 

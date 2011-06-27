@@ -1,25 +1,22 @@
 package everfeeds
 
 import grails.plugins.springsecurity.Secured
+import everfeeds.thrift.domain.Access
 
 class RootController {
   def syncService
+  def thriftApiService
   def i18n
 
   def index = {
-    if (loggedIn) {  log.debug "we are logged in!"
-      /*List<Access> expiredAccesses = Access.findAllByAccountAndExpired(authenticatedUser, true)
+    if (loggedIn) {
+      List<Access> accesses = thriftApiService.api.getAccesses(authenticatedUser.token)
+      List<Access> expiredAccesses = accesses.findAll{it.expired}
 
-      def tabsAccesses = authenticatedUser.accesses.findAll{it.accessor.isPushable() || it.accessor.isPullable()}
-      def pushAccesses = authenticatedUser.accesses.findAll{it.accessor.isPushable() && it.accessor.kinds.contains("status")}
-
-      //List<Filter> filters = Filter.findAllByAccountId(authenticatedUser.id)*/
-      render view: "authIndex", model: [/*
+      render view: "authIndex", model: [
           account: authenticatedUser,
           expiredAccesses: expiredAccesses,
-          pushAccesses: pushAccesses,
-          tabsAccesses:tabsAccesses,
-          filters: filters*/]
+          tabsAccesses:accesses]
       return
     }
     log.debug "we are not logged in"

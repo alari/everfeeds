@@ -19,6 +19,6 @@ class TwitterAuth extends OAuthAuth {
   protected AccessInfo getAccessInfo(Token accessToken) {
     final authInfo = callApiJson(CREDENTIALS_URL, accessToken)
 
-    authInfo?.id ? new AccessInfo(identity: authInfo?.id, title: authInfo?.screen_name) : null
+    authInfo?.id ? new AccessInfo(identity: authInfo?.id, title: authInfo.screen_name, screenName: authInfo.screen_name) : null
   }
 }

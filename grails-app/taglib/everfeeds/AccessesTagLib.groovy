@@ -1,5 +1,8 @@
 package everfeeds
 
+import everfeeds.thrift.domain.Access
+import everfeeds.thrift.util.Type
+
 class AccessesTagLib {
   def i18n
 
@@ -17,7 +20,7 @@ class AccessesTagLib {
   }
 
   def accessPic = {attrs->
-//    Access access = attrs.access
-    out << /<img src="${resource(dir: "images/social", file: access.type + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"\/>/
+    Access access = attrs.access
+    out << /<img src="${resource(dir: "images/social", file: Type.getByThrift(access.type).toString() + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"\/>/
   }
 }

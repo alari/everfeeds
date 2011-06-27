@@ -15,8 +15,6 @@ class ThriftApiService {
 
   static transactional = true
 
-  private EverfeedsAPI.Client api
-  private InternalAPI.Client kernelApi
   private Application app
 
   EverfeedsAPI.Client getApi() {
@@ -51,7 +49,7 @@ class ThriftApiService {
 
   everfeeds.Account createToken(everfeeds.Account account) {
     Token tkn = internalApi.createToken(app.id, account.username, Scope.values()*.toString())
-    account.token = tkn.id
+    account.token = tkn.key
     account.tokenExpires = new Date(tkn.expires)
     account
   }

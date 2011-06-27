@@ -52,14 +52,21 @@ class AccessController {
   }
 
   private Account getAccountByThrift(everfeeds.thrift.domain.Account account) {  log.debug(account.id+"|"+account.title)
-   Account.findByUsername(account.id) ?: new Account(
-       title: account.title,
+    Account a = Account.findByUsername(account.id)
+    if(a) return a
+
+    a = new Account(
+       title: account.title ?: "Account",
         username: account.id,
         password: springSecurityService.encodePassword(account.id + new Random().nextInt().toString()),
         enabled: true,
         accountExpired: false,
         accountLocked: false,
         passwordExpired: false
-    ).save(flush: true).addAuthority("ROLE_ACCOUNT", true)
+    )
+    if(!a.validate()) {
+      log.error a.errors
+    }
+    a.save(flush: true).addAuthority("ROLE_ACCOUNT", true)
   }
 }

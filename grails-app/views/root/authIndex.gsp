@@ -16,17 +16,12 @@
                     <g:accessPic access="${access}"/>
                     ${access.title.encodeAsHTML()}</g:link></li>
         </g:each>
-      <g:each in="${filters}" var="filter">
-        <li>
-                <g:link action="entries" controller="filter" id="${filter.id}">
-                    ${filter.title.encodeAsHTML()}</g:link></li>
-      </g:each>
     </ul>
 
     <div id="tab-root">
       <div>
         <g:formRemote name="absolutePush" url="[controller:'push',action:'absolute']">
-          <g:each in="${pushAccesses}" var="access">
+          <g:each in="${tabsAccesses}" var="access">
             <g:accessPic access="${access}"/> ${access} <br/>
           </g:each>
         </g:formRemote>
@@ -44,8 +39,8 @@
             </td><td>
               <b>Accesses you connect:</b>
               <ul>
-                <g:each in="${account.accesses}" var="access">
-                  <li><g:auth type="${access.type}"><img src="${resource(dir: "images/social", file: access.type + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
+                <g:each in="${tabsAccesses}" var="access">
+                  <li><g:auth type="${access.type}"><img src="${resource(dir: "images/social", file: access.type.toString() + ".jpg")}" width="14" height="14" hspace="0" vspace="0" border="0" alt="${access.title.encodeAsHTML()}"/>
                     ${access.title.encodeAsHTML()}</g:auth></li>
                 </g:each>
               </ul>
