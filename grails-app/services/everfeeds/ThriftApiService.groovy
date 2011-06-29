@@ -5,7 +5,7 @@ import everfeeds.internal.thrift.InternalAPI
 import everfeeds.thrift.util.APIHolder
 import everfeeds.internal.thrift.InternalAPIHolder
 import everfeeds.internal.thrift.Application
-import everfeeds.auth.AccessInfo
+
 import everfeeds.thrift.domain.Access
 import everfeeds.thrift.domain.Account
 import everfeeds.thrift.util.Scope

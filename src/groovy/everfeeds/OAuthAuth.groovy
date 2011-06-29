@@ -1,4 +1,4 @@
-package everfeeds.auth
+package everfeeds
 
 import everfeeds.thrift.util.Type
 import grails.converters.deep.JSON
@@ -8,6 +8,7 @@ import org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib
 import org.scribe.builder.ServiceBuilder
 import org.scribe.oauth.OAuthService
 import org.scribe.model.*
+import everfeeds.AccessInfo
 
 /**
  * Created by alari @ 02.04.11 13:01

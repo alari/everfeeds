@@ -2,10 +2,14 @@ package everfeeds.auth
 
 import org.scribe.model.Token
 import everfeeds.thrift.util.Type
+import everfeeds.AccessInfo
+import everfeeds.OAuthAuth
+import everfeeds.annotation.Accessor
 
 /**
  * Created by alari @ 02.04.11 13:15
  */
+@Accessor(Type.TWITTER)
 class TwitterAuth extends OAuthAuth {
   static final String CREDENTIALS_URL = "http://api.twitter.com/1/account/verify_credentials.json"
 

@@ -29,7 +29,7 @@ grails.project.dependency.resolution = {
     }
     dependencies {
       build "com.everfeeds:thrift-internal:1.0-SNAPSHOT"
-      build "org.scribe:scribe:1.2.0"
+      build "org.scribe:scribe:1.2.1"
       build "com.evernote:en-thrift:1.19.0.3"
       build "org.jsoup:jsoup:1.6.0"
       build "net.sourceforge.htmlcleaner:htmlcleaner:2.2"

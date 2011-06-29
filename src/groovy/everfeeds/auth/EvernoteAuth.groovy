@@ -6,10 +6,14 @@ import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.THttpClient
 import org.scribe.model.Token
 import everfeeds.thrift.util.Type
+import everfeeds.AccessInfo
+import everfeeds.OAuthAuth
+import everfeeds.annotation.Accessor
 
 /**
  * Created by alari @ 02.04.11 13:18
  */
+@Accessor(Type.EVERNOTE)
 class EvernoteAuth extends OAuthAuth {
   EvernoteAuth() {
     key "everfeeds"

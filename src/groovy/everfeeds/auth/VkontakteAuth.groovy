@@ -2,12 +2,16 @@ package everfeeds.auth
 
 import org.scribe.model.Token
 import everfeeds.thrift.util.Type
+import everfeeds.AccessInfo
+import everfeeds.OAuthAuth
+import everfeeds.annotation.Accessor
 
 /**
  * @author Boris G. Tsirkin
  * @author Dmitry Kurinskiy
  * @since 20.04.2011
  */
+@Accessor(Type.VKONTAKTE)
 class VkontakteAuth extends OAuthAuth {
   static final String GETUSERINFO_URL = "https://api.vkontakte.ru/method/getUserInfo"
   static final String GETPROFILES_URL = "https://api.vkontakte.ru/method/getProfiles"

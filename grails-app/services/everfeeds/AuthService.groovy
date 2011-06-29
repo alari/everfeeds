@@ -1,6 +1,5 @@
 package everfeeds
 
-import everfeeds.auth.OAuthAuth
 import everfeeds.thrift.util.Type
 import everfeeds.auth.GmailAuth
 import everfeeds.auth.EvernoteAuth
@@ -10,7 +9,6 @@ import everfeeds.auth.LinkedInAuth
 import everfeeds.auth.TwitterAuth
 import everfeeds.auth.VkontakteAuth
 import javax.servlet.http.HttpSession
-import everfeeds.auth.AccessInfo
 
 class AuthService {
     static transactional = true

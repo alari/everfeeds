@@ -2,10 +2,14 @@ package everfeeds.auth
 
 import org.scribe.model.Token
 import everfeeds.thrift.util.Type
+import everfeeds.AccessInfo
+import everfeeds.OAuthAuth
+import everfeeds.annotation.Accessor
 
 /**
  * Created by alari @ 02.04.11 13:15
  */
+@Accessor(Type.GMAIL)
 class GmailAuth extends OAuthAuth {
   static final String EMAIL_URL = "https://www.googleapis.com/userinfo/email"
 

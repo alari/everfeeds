@@ -1,4 +1,4 @@
-package everfeeds.auth
+package everfeeds
 
 import everfeeds.thrift.util.Type
 

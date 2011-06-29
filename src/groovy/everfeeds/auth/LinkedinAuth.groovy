@@ -2,10 +2,14 @@ package everfeeds.auth
 
 import org.scribe.model.Token
 import everfeeds.thrift.util.Type
+import everfeeds.AccessInfo
+import everfeeds.OAuthAuth
+import everfeeds.annotation.Accessor
 
 /**
  * Created by alari @ 02.04.11 13:15
  */
+@Accessor(Type.LINKEDIN)
 class LinkedInAuth extends OAuthAuth {
   static final String CREDENTIALS_URL = "http://api.linkedin.com/v1/people/~:(id)"
 

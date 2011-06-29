@@ -7,16 +7,12 @@ class AccessesTagLib {
   def i18n
 
   def showAccesses = {
-/*    String inner
-    Manager.getConfigs().each {type, params ->
-      if (params?.auth == false) {
-        return
-      }
-      inner = i18n."${type}.title"(null, "html")
-      // FIXME: do not hardcode filetype
-      inner = "<img src=\"${resource(dir: 'images/social', file: type + ".jpg")}\" width='40' height='40' alt='${inner}'/> ${inner}"
-      out << "<p>" + link(controller: "access", action: type, inner) + "</p>"
-    }    */
+    String inner
+    Auth.getTypes().each{
+      inner = i18n."${it}.title"(null, "html")
+      inner = "<img src=\"${resource(dir: 'images/social', file: it.toString() + ".jpg")}\" width='40' height='40' alt='${inner}'/> ${inner}"
+      out << "<p>" + link(controller: "access", action: it.toString(), inner) + "</p>"
+    }
   }
 
   def accessPic = {attrs->

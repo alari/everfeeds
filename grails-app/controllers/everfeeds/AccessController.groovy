@@ -3,7 +3,6 @@ package everfeeds
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
-import everfeeds.auth.AccessInfo
 
 class AccessController {
 
